@@ -6,7 +6,6 @@
     简易调用即可为 QQ 频道机器人快速开发与实现
 <br>
 <br>
-<br>
 
 ![MYBOT_TD](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-09.png)
 ### 🔖 完整 SDK 调用注释
@@ -28,14 +27,12 @@
   - 框架核心功能以异步实现，为处理大量数据的机器人提供了高性能效率
 <br>
 <br>
-<br>
 
 ![MYBOT_YL](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-10.png)
 
     若框架前景良好计划在未来的更新中逐步摆脱依赖
     
     1. 🚨 Newtonsoft.Json 13.0.1版本 - 解析Json
-<br>
 <br>
 <br>
 
@@ -45,7 +42,6 @@
     2. 💻 .NET 6 SDK
 <br>
 <br>
-<br>
 
 ## 使用必读
   - 为了项目的良性发展，请在使用前阅读并知晓所需条目
@@ -53,7 +49,6 @@
     `用户条例` [使用条例](http://www.github.com)
 
     `商用须知` [商用须知](http://www.github.com)
-<br>
 <br>
 <br>
 
