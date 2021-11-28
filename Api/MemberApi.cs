@@ -40,8 +40,8 @@ public class MemberApi
     /// <summary>
     /// 获取某个成员信息
     /// </summary>
-    /// <returns></returns>
-    public async Task<Member> GetInfo(string guild_id, string user_id)
+    /// <returns>成员信息/returns>
+    public async Task<Member> GetInfoAsync(string guild_id, string user_id)
     {
         RawGetMemberInfoApi rawGetMemberInfoApi;
 

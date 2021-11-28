@@ -33,7 +33,7 @@ public class WebSocketApi
     /// 获取 WSS 通用接入点
     /// </summary>
     /// <returns>通用接入点</returns>
-    public async Task<string> GetUrl()
+    public async Task<string> GetUrlAsync()
     {
         RawGetWebSocketUrlApi rawGetWebSocketUrlApi;
 
@@ -46,7 +46,7 @@ public class WebSocketApi
     /// 获取带分片 WSS 接入点
     /// </summary>
     /// <returns>元组 (分片接入点基础信息，分片会话限制信息)</returns>
-    public async Task<(ShardWssInfo, ShardSessionStartLimit)> GetShardUrl()
+    public async Task<(ShardWssInfo, ShardSessionStartLimit)> GetShardUrlAsync()
     {
         RawGetWebSocketShardUrl rawGetWebSocketShardUrl;
 

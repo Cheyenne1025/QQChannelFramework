@@ -42,6 +42,7 @@ public class BigImageTemplateHelper
     {
         _dic = new Dictionary<string, object>()
             {
+            {"msg_id", string.Empty},
                 {"ark",new Dictionary<string,object>()
                 {
                     {"template_id",37 },
@@ -89,6 +90,18 @@ public class BigImageTemplateHelper
     public BigImageTemplateHelper SetPrompt(string prompt)
     {
         _template["ark"]["kv"][0]["value"] = prompt;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 携带回复的消息ID
+    /// </summary>
+    /// <param name="messageId"></param>
+    /// <returns></returns>
+    public BigImageTemplateHelper WithReplyMessageId(string messageId)
+    {
+        _template["msg_id"] = messageId;
 
         return this;
     }

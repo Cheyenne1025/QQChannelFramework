@@ -4,7 +4,7 @@ using QQChannelFramework.Models;
 namespace ChannelModels.Returns;
 
 /// <summary>
-/// 获取频道身份组列表模型
+/// 获取的频道身份组列表模型
 /// </summary>
 public class GetChannelRolesResult
 {

@@ -38,7 +38,7 @@ public class UserApi
     /// 获取当前用户信息
     /// </summary>
     /// <returns>当前用户信息</returns>
-    public async Task<User> GetCurrentUser()
+    public async Task<User> GetCurrentUserAsync()
     {
         RawGetCurrentUserApi rawGetCurrentUserApi;
 
@@ -63,7 +63,7 @@ public class UserApi
     /// <param name="after">频道guild_id 读此id之后的数据 (之前之后只能选一个)</param>
     /// <param name="limit">每次拉取多少条数据 默认100 最大100</param>
     /// <returns>元组 (用户加入的频道列表,数量)</returns>
-    public async Task<(List<Guild>, int)> GetJoinedChannels(string before = "", string after = "", int limit = 100)
+    public async Task<(List<Guild>, int)> GetJoinedChannelsAsync(string before = "", string after = "", int limit = 100)
     {
         if (before is not "" && after is not "")
         {

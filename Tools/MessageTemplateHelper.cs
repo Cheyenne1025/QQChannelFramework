@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Tools;
+﻿namespace QQChannelFramework.Tools.TemplateHelper;
 
 /// <summary>
 /// 消息模版帮助类

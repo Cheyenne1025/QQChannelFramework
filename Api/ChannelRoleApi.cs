@@ -157,7 +157,7 @@ public class ChannelRoleApi
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
     /// <returns>是否删除成功</returns>
-    public async Task<bool> Delete(string guild_id, string role_id)
+    public async Task<bool> DeleteAsync(string guild_id, string role_id)
     {
         RawDeleteChannelRoleApi rawDeleteChannelRoleApi;
 
@@ -173,7 +173,7 @@ public class ChannelRoleApi
     }
 
     /// <summary>
-    /// 增加频道身份组成员 [待测试]
+    /// 增加频道身份组成员
     /// <para>注: 如果要从身份组是 「子频道管理员」增加成员, 需要传递childChannelId参数，指定添加到哪个子频道</para>
     /// </summary>
     /// <param name="guild_id">频道Guild</param>
@@ -181,7 +181,7 @@ public class ChannelRoleApi
     /// <param name="role_id">身份组ID</param>
     /// <param name="childChannelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> AddMember(string guild_id, string user_id, string role_id, string childChannelId = "")
+    public async Task<bool> AddMemberAsync(string guild_id, string user_id, string role_id, string childChannelId = "")
     {
         if (role_id is "5" && childChannelId is "")
         {
@@ -217,7 +217,7 @@ public class ChannelRoleApi
     }
 
     /// <summary>
-    /// 删除频道身份组成员 [待测试]
+    /// 删除频道身份组成员
     /// <para>注: 如果要从身份组是 「子频道管理员」删除成员, 需要传递childChannelId参数，指定添加到哪个子频道</para>
     /// </summary>
     /// <param name="guild_id">频道Guild</param>
@@ -225,7 +225,7 @@ public class ChannelRoleApi
     /// <param name="role_id">身份组ID</param>
     /// <param name="childChannelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> DeleteMember(string guild_id, string user_id, string role_id, string childChannelId = "")
+    public async Task<bool> DeleteMemberAsync(string guild_id, string user_id, string role_id, string childChannelId = "")
     {
         if (role_id is "5" && childChannelId is "")
         {

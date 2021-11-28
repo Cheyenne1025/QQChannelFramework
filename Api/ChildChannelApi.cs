@@ -41,7 +41,7 @@ public class ChildChannelApi
     /// </summary>
     /// <param name="childChannel_id">子频道ID</param>
     /// <returns>子频道信息</returns>
-    public async Task<ChildChannel> GetInfo(string childChannel_id)
+    public async Task<ChildChannel> GetInfoAsync(string childChannel_id)
     {
         RawGetChildChannelApi rawGetChildChannelApi;
 
@@ -62,7 +62,7 @@ public class ChildChannelApi
     /// </summary>
     /// <param name="guild_id">主频道Guild</param>
     /// <returns>元组 (子频道列表,数量)</returns>
-    public async Task<(List<ChildChannel>, int)> GetChildChannels(string guild_id)
+    public async Task<(List<ChildChannel>, int)> GetChildChannelsAsync(string guild_id)
     {
         RawGetChildChannelsApi rawGetChildChannelsApi;
 

@@ -45,6 +45,7 @@ public class TextAndThumbnailTemplateHelper
     {
         _dic = new Dictionary<string, object>()
             {
+            {"msg_id", string.Empty},
                 {"ark",new Dictionary<string,object>()
                 {
                     {"template_id",24 },
@@ -102,6 +103,18 @@ public class TextAndThumbnailTemplateHelper
     public TextAndThumbnailTemplateHelper SetDescribe(string message)
     {
         _template["ark"]["kv"][0]["value"] = message;
+
+        return this;
+    }
+
+    /// <summary>
+    /// 携带回复的消息ID
+    /// </summary>
+    /// <param name="messageId"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper WithReplyMessageId(string messageId)
+    {
+        _template["msg_id"] = messageId;
 
         return this;
     }
