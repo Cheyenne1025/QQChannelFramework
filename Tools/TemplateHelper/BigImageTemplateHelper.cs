@@ -3,44 +3,44 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace QQChannelFramework.Tools.TemplateHelper
+namespace QQChannelFramework.Tools.TemplateHelper;
+
+sealed partial class MessageTemplateHelper
 {
-    sealed partial class MessageTemplateHelper
-    {
-        BigImageTemplateHelper _bigImageTemplateHelper;
-
-        /// <summary>
-        /// 获取大图消息模版构建器实例
-        /// </summary>
-        /// <returns></returns>
-        public BigImageTemplateHelper GetBigImageTemplateHelper()
-        {
-            _bigImageTemplateHelper = new();
-
-            return _bigImageTemplateHelper;
-        }
-    }
+    BigImageTemplateHelper _bigImageTemplateHelper;
 
     /// <summary>
-    /// 大图消息模版构建类
+    /// 获取大图消息模版构建器实例
     /// </summary>
-    public class BigImageTemplateHelper
+    /// <returns></returns>
+    public BigImageTemplateHelper GetBigImageTemplateHelper()
     {
-        const string PromptType = "#PROMPT#";
-        const string TitleType = "#METATITLE#";
-        const string SubTitleType = "#METASUBTITLE#";
-        const string ImageType = "#METACOVER#";
-        const string JumpType = "#METAURL#";
+        _bigImageTemplateHelper = new();
 
-        Dictionary<string, object> _dic;
+        return _bigImageTemplateHelper;
+    }
+}
 
-        JObject _template;
+/// <summary>
+/// 大图消息模版构建类
+/// </summary>
+public class BigImageTemplateHelper
+{
+    const string PromptType = "#PROMPT#";
+    const string TitleType = "#METATITLE#";
+    const string SubTitleType = "#METASUBTITLE#";
+    const string ImageType = "#METACOVER#";
+    const string JumpType = "#METAURL#";
 
-        List<Dictionary<string, object>> _kvs;
+    Dictionary<string, object> _dic;
 
-        public BigImageTemplateHelper()
-        {
-            _dic = new Dictionary<string, object>()
+    JObject _template;
+
+    List<Dictionary<string, object>> _kvs;
+
+    public BigImageTemplateHelper()
+    {
+        _dic = new Dictionary<string, object>()
             {
                 {"ark",new Dictionary<string,object>()
                 {
@@ -78,77 +78,75 @@ namespace QQChannelFramework.Tools.TemplateHelper
                 }
             };
 
-            _template = JObject.Parse(JsonConvert.SerializeObject(_dic));
-        }
+        _template = JObject.Parse(JsonConvert.SerializeObject(_dic));
+    }
 
-        /// <summary>
-        /// 设置提示消息
-        /// </summary>
-        /// <param name="prompt"></param>
-        /// <returns></returns>
-        public BigImageTemplateHelper SetPrompt(string prompt)
-        {
-            _template["ark"]["kv"][0]["value"] = prompt;
+    /// <summary>
+    /// 设置提示消息
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <returns></returns>
+    public BigImageTemplateHelper SetPrompt(string prompt)
+    {
+        _template["ark"]["kv"][0]["value"] = prompt;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置主标题
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public BigImageTemplateHelper SetTitle(string title)
-        {
-            _template["ark"]["kv"][1]["value"] = title;
+    /// <summary>
+    /// 设置主标题
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns></returns>
+    public BigImageTemplateHelper SetTitle(string title)
+    {
+        _template["ark"]["kv"][1]["value"] = title;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置子标题
-        /// </summary>
-        /// <param name="subTitle"></param>
-        /// <returns></returns>
-        public BigImageTemplateHelper SetSubTitle(string subTitle)
-        {
-            _template["ark"]["kv"][2]["value"] = subTitle;
+    /// <summary>
+    /// 设置子标题
+    /// </summary>
+    /// <param name="subTitle"></param>
+    /// <returns></returns>
+    public BigImageTemplateHelper SetSubTitle(string subTitle)
+    {
+        _template["ark"]["kv"][2]["value"] = subTitle;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置图片
-        /// </summary>
-        /// <param name="url">图片链接</param>
-        /// <returns></returns>
-        public BigImageTemplateHelper SetImage(string url)
-        {
-            _template["ark"]["kv"][3]["value"] = url;
+    /// <summary>
+    /// 设置图片
+    /// </summary>
+    /// <param name="url">图片链接</param>
+    /// <returns></returns>
+    public BigImageTemplateHelper SetImage(string url)
+    {
+        _template["ark"]["kv"][3]["value"] = url;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置跳转链接
-        /// </summary>
-        /// <param name="link"></param>
-        /// <returns></returns>
-        public BigImageTemplateHelper SetLink(string link)
-        {
-            _template["ark"]["kv"][4]["value"] = link;
+    /// <summary>
+    /// 设置跳转链接
+    /// </summary>
+    /// <param name="link"></param>
+    /// <returns></returns>
+    public BigImageTemplateHelper SetLink(string link)
+    {
+        _template["ark"]["kv"][4]["value"] = link;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 构建模版
-        /// </summary>
-        /// <returns></returns>
-        public JObject BuildTemplate()
-        {
-            return _template;
-        }
+    /// <summary>
+    /// 构建模版
+    /// </summary>
+    /// <returns></returns>
+    public JObject BuildTemplate()
+    {
+        return _template;
     }
 }
-

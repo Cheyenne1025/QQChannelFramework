@@ -69,7 +69,11 @@ namespace QQChannelFramework.Models.Types
         /// <summary>
         /// 当收到@机器人的消息时
         /// </summary>
-        AT_MESSAGE_CREATE
+        AT_MESSAGE_CREATE,
+        /// <summary>
+        /// 重连事件补发完毕
+        /// </summary>
+        RESUMED
     }
 }
 

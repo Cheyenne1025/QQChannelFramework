@@ -1,6 +1,5 @@
 ﻿using System;
 using QQChannelFramework.Api.Base;
-using QQChannelFramework.Datas;
 
 namespace QQChannelFramework.Api
 {

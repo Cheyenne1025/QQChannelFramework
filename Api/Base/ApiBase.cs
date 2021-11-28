@@ -4,7 +4,6 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Types;
-using QQChannelFramework.Datas;
 using System.Linq;
 using QQChannelFramework.OfficialExceptions;
 using System.Collections.Generic;

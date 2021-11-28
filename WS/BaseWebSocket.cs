@@ -7,144 +7,142 @@ using Newtonsoft.Json.Linq;
 using QQChannelFramework.Models.ParamModels;
 using QQChannelFramework.Models.Types;
 
-namespace QQChannelFramework.WS
+namespace QQChannelFramework.WS;
+
+public delegate void NormalDelegate();
+public delegate void NoticeDelegate(string message);
+public delegate void ReceiveDelegate(JToken receiveData);
+
+public class BaseWebSocket
 {
-    public delegate void NormalDelegate();
-    public delegate void NoticeDelegate(string message);
-    public delegate void ReceiveDelegate(JToken receiveData);
+    /// <summary>
+    /// 连接成功事件
+    /// </summary>
+    public event NormalDelegate OnConnected;
+    /// <summary>
+    /// 连接异常事件
+    /// </summary>
+    public event NoticeDelegate OnError;
+    /// <summary>
+    /// 收到消息事件
+    /// </summary>
+    public event ReceiveDelegate OnReceived;
+    /// <summary>
+    /// 链接关闭事件
+    /// </summary>
+    public event NormalDelegate OnClose;
+    /// <summary>
+    /// 数据发送成功事件
+    /// </summary>
+    public event NormalDelegate OnSend;
 
-    public class BaseWebSocket
+    private Uri connectUrl;
+    protected ClientWebSocket webSocket;
+
+    ArraySegment<byte> bytesReceived;
+
+    public BaseWebSocket(string url)
     {
-        /// <summary>
-        /// 连接成功事件
-        /// </summary>
-        protected event NormalDelegate OnConnected;
-        /// <summary>
-        /// 连接异常事件
-        /// </summary>
-        protected event NoticeDelegate OnError;
-        /// <summary>
-        /// 收到消息事件
-        /// </summary>
-        protected event ReceiveDelegate OnReceived;
-        /// <summary>
-        /// 链接关闭事件
-        /// </summary>
-        protected event NormalDelegate OnClose;
-        /// <summary>
-        /// 数据发送成功事件
-        /// </summary>
-        protected event NormalDelegate OnSend;
+        connectUrl = new Uri(url);
+        webSocket = new ClientWebSocket();
+        bytesReceived = new ArraySegment<byte>(new byte[1024]);
+    }
 
-        private Uri connectUrl;
-        protected ClientWebSocket webSocket;
+    private void InitArraySegment()
+    {
+        bytesReceived = new ArraySegment<byte>(new byte[1024]);
+    }
 
-        ArraySegment<byte> bytesReceived;
-
-        public BaseWebSocket(string url)
+    /// <summary>
+    /// 开始连接
+    /// </summary>
+    /// <exception cref="Exception"></exception>
+    public void Connect()
+    {
+        if (webSocket.State != WebSocketState.Open)
         {
-            connectUrl = new Uri(url);
-            webSocket = new ClientWebSocket();
-            bytesReceived = new ArraySegment<byte>(new byte[1024]);
-        }
-
-        private void InitArraySegment()
-        {
-            bytesReceived = new ArraySegment<byte>(new byte[1024]);
-        }
-
-        /// <summary>
-        /// 开始连接
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void Connect()
-        {
-            if(webSocket.State != WebSocketState.Open)
-            {
-                try
-                {
-                    webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
-
-                    OnConnected?.Invoke();
-
-                    BeginReceive();
-                }
-                catch (Exception ex)
-                {
-                    OnError?.Invoke(ex.Message);
-                }
-            }
-            else
-            {
-                throw new Exception("ws处于连接状态,请先将其关闭");
-            }
-        }
-
-        private async void BeginReceive()
-        {
-            InitArraySegment();
             try
             {
-                var result = await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
+                webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
 
-                if(result.Count > 0)
-                {
-                    var data = Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count);
+                OnConnected?.Invoke();
 
-                    OnReceived?.Invoke(JToken.Parse(data));
-                }
-            }
-            catch (Exception ex)
-            {
-                OnError?.Invoke(ex.Message);
-            }
-            finally
-            {
-                if(webSocket.State == WebSocketState.Open)
-                {
-                    BeginReceive();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 发送数据
-        /// </summary>
-        /// <param name="jsonData"></param>
-        /// <exception cref="Exception"></exception>
-        public async void SendAsync(string jsonData)
-        {
-            if(webSocket.State is not WebSocketState.Open)
-            {
-                throw new Exception("未连接，无法发送数据");
-            }
-
-            try
-            {
-                ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(jsonData));
-
-                await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
-
-                OnSend?.Invoke();
+                BeginReceive();
             }
             catch (Exception ex)
             {
                 OnError?.Invoke(ex.Message);
             }
         }
-
-        /// <summary>
-        /// 关闭连接
-        /// </summary>
-        public async void CloseAsync()
+        else
         {
-            if(webSocket is not null)
-            {
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            throw new Exception("ws处于连接状态,请先将其关闭");
+        }
+    }
 
-                OnClose?.Invoke();
+    private async void BeginReceive()
+    {
+        InitArraySegment();
+        try
+        {
+            var result = await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
+
+            if (result.Count > 0)
+            {
+                var data = Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count);
+
+                OnReceived?.Invoke(JToken.Parse(data));
+            }
+        }
+        catch (Exception ex)
+        {
+            OnError?.Invoke(ex.Message);
+        }
+        finally
+        {
+            if (webSocket.State == WebSocketState.Open)
+            {
+                BeginReceive();
             }
         }
     }
-}
 
+    /// <summary>
+    /// 发送数据
+    /// </summary>
+    /// <param name="jsonData"></param>
+    /// <exception cref="Exception"></exception>
+    public async void SendAsync(string jsonData)
+    {
+        if (webSocket.State is not WebSocketState.Open)
+        {
+            throw new Exception("未连接，无法发送数据");
+        }
+
+        try
+        {
+            ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(jsonData));
+
+            await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
+
+            OnSend?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            OnError?.Invoke(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// 关闭连接
+    /// </summary>
+    public async void CloseAsync()
+    {
+        if (webSocket is not null)
+        {
+            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+
+            OnClose?.Invoke();
+        }
+    }
+}

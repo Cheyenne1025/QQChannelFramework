@@ -3,47 +3,47 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace QQChannelFramework.Tools.TemplateHelper
+namespace QQChannelFramework.Tools.TemplateHelper;
+
+sealed partial class MessageTemplateHelper
 {
-    sealed partial class MessageTemplateHelper
-    {
-        TextAndThumbnailTemplateHelper _textAndThumbnailTemplateHelper;
-
-        /// <summary>
-        /// 获取文本+略缩图消息模版构建器实例
-        /// </summary>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper GetTextAndThumbnailTemplateHelper()
-        {
-            _textAndThumbnailTemplateHelper = new();
-
-            return _textAndThumbnailTemplateHelper;
-        }
-    }
+    TextAndThumbnailTemplateHelper _textAndThumbnailTemplateHelper;
 
     /// <summary>
-    /// 文本+略缩图消息模版构建类
+    /// 获取文本+略缩图消息模版构建器实例
     /// </summary>
-    public class TextAndThumbnailTemplateHelper
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper GetTextAndThumbnailTemplateHelper()
     {
-        const string DescribeType = "#DESC#";
-        const string PromptType = "#PROMPT#";
-        const string ListType = "#LIST#";
-        const string TitleType = "#TITLE#";
-        const string MetaDescribeType = "#METADESC#";
-        const string ImageType = "#IMG#";
-        const string JumpType = "#LINK#";
-        const string SubTitleType = "#SUBTITLE#";
+        _textAndThumbnailTemplateHelper = new();
 
-        Dictionary<string, object> _dic;
+        return _textAndThumbnailTemplateHelper;
+    }
+}
 
-        JObject _template;
+/// <summary>
+/// 文本+略缩图消息模版构建类
+/// </summary>
+public class TextAndThumbnailTemplateHelper
+{
+    const string DescribeType = "#DESC#";
+    const string PromptType = "#PROMPT#";
+    const string ListType = "#LIST#";
+    const string TitleType = "#TITLE#";
+    const string MetaDescribeType = "#METADESC#";
+    const string ImageType = "#IMG#";
+    const string JumpType = "#LINK#";
+    const string SubTitleType = "#SUBTITLE#";
 
-        List<Dictionary<string, object>> _kvs;
+    Dictionary<string, object> _dic;
 
-        public TextAndThumbnailTemplateHelper()
-        {
-            _dic = new Dictionary<string, object>()
+    JObject _template;
+
+    List<Dictionary<string, object>> _kvs;
+
+    public TextAndThumbnailTemplateHelper()
+    {
+        _dic = new Dictionary<string, object>()
             {
                 {"ark",new Dictionary<string,object>()
                 {
@@ -91,101 +91,99 @@ namespace QQChannelFramework.Tools.TemplateHelper
                 }
             };
 
-            _template = JObject.Parse(JsonConvert.SerializeObject(_dic));
-        }
+        _template = JObject.Parse(JsonConvert.SerializeObject(_dic));
+    }
 
-        /// <summary>
-        /// 设置描述
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetDescribe(string message)
-        {
-            _template["ark"]["kv"][0]["value"] = message;
+    /// <summary>
+    /// 设置描述
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetDescribe(string message)
+    {
+        _template["ark"]["kv"][0]["value"] = message;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置提示消息
-        /// </summary>
-        /// <param name="prompt"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetPrompt(string prompt)
-        {
-            _template["ark"]["kv"][1]["value"] = prompt;
+    /// <summary>
+    /// 设置提示消息
+    /// </summary>
+    /// <param name="prompt"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetPrompt(string prompt)
+    {
+        _template["ark"]["kv"][1]["value"] = prompt;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置主标题
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetTitle(string title)
-        {
-            _template["ark"]["kv"][2]["value"] = title;
+    /// <summary>
+    /// 设置主标题
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetTitle(string title)
+    {
+        _template["ark"]["kv"][2]["value"] = title;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置详情描述
-        /// </summary>
-        /// <param name="metaDescribe"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetMetaDescribe(string metaDescribe)
-        {
-            _template["ark"]["kv"][3]["value"] = metaDescribe;
+    /// <summary>
+    /// 设置详情描述
+    /// </summary>
+    /// <param name="metaDescribe"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetMetaDescribe(string metaDescribe)
+    {
+        _template["ark"]["kv"][3]["value"] = metaDescribe;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置略缩图
-        /// </summary>
-        /// <param name="imgUrl">图片URL</param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetImg(string imgUrl)
-        {
-            _template["ark"]["kv"][4]["value"] = imgUrl;
+    /// <summary>
+    /// 设置略缩图
+    /// </summary>
+    /// <param name="imgUrl">图片URL</param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetImg(string imgUrl)
+    {
+        _template["ark"]["kv"][4]["value"] = imgUrl;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置跳转链接
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetLink(string url)
-        {
-            _template["ark"]["kv"][5]["value"] = url;
+    /// <summary>
+    /// 设置跳转链接
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetLink(string url)
+    {
+        _template["ark"]["kv"][5]["value"] = url;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 设置子标题
-        /// </summary>
-        /// <param name="subTitle"></param>
-        /// <returns></returns>
-        public TextAndThumbnailTemplateHelper SetSubTitle(string subTitle)
-        {
-            _template["ark"]["kv"][6]["value"] = subTitle;
+    /// <summary>
+    /// 设置子标题
+    /// </summary>
+    /// <param name="subTitle"></param>
+    /// <returns></returns>
+    public TextAndThumbnailTemplateHelper SetSubTitle(string subTitle)
+    {
+        _template["ark"]["kv"][6]["value"] = subTitle;
 
-            return this;
-        }
+        return this;
+    }
 
-        /// <summary>
-        /// 构建模版
-        /// </summary>
-        /// <returns></returns>
-        public JObject BuildTemplate()
-        {
-            return _template;
-        }
+    /// <summary>
+    /// 构建模版
+    /// </summary>
+    /// <returns></returns>
+    public JObject BuildTemplate()
+    {
+        return _template;
     }
 }
-

@@ -1,0 +1,48 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="OfficialExceptions/SessionNotExist.cs">
+    <Files>
+      <File FileName="OfficialExceptions/SessionNotExist.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="QQChannelFramework" expanded="True">
+            <Node name="QQChannelFramework" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
+              <Node name="Api" expanded="True">
+                <Node name="Base" expanded="True" />
+              </Node>
+              <Node name="Datas" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Types" expanded="True" />
+                <Node name="WsModels" expanded="True" />
+              </Node>
+              <Node name="OfficialExceptions" expanded="True">
+                <Node name="SessionNotExist.cs" selected="True" />
+              </Node>
+              <Node name="Tools" expanded="True">
+                <Node name="TemplateHelper" expanded="True" />
+              </Node>
+              <Node name="WS" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>QQChannelFrameworkTest/QQChannelFrameworkTest.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <AuthorInfo Name="Chianne1025" Email="catme1@qq.com" Copyright="上海汐岛网络科技有限公司" Company="Chianne1025" Trademark="" />
+</Properties>
