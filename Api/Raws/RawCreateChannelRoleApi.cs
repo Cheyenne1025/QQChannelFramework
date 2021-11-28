@@ -1,20 +1,17 @@
-﻿using System;
-using QQChannelFramework.Api.Types;
+﻿using QQChannelFramework.Api.Types;
 
-namespace QQChannelFramework.Api.Raws
+namespace QQChannelFramework.Api.Raws;
+
+/// <summary>
+/// 源Api信息 - 创建频道身份组
+/// </summary>
+public struct RawCreateChannelRoleApi : Base.IRawApiInfo
 {
-    /// <summary>
-    /// 源Api信息 - 创建频道身份组
-    /// </summary>
-    public struct RawCreateChannelRoleApi : Base.IRawApiInfo
-    {
-        public string Version => "1.0";
+    public string Version => "1.0";
 
-        public bool NeedParam => true;
+    public bool NeedParam => true;
 
-        public string Url => "/guilds/{guild_id}/roles";
+    public string Url => "/guilds/{guild_id}/roles";
 
-        public MethodType Method => MethodType.POST;
-    }
+    public MethodType Method => MethodType.POST;
 }
-

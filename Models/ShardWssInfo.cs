@@ -1,20 +1,17 @@
-﻿using System;
-namespace QQChannelFramework.Models
+﻿namespace QQChannelFramework.Models;
+
+/// <summary>
+/// 分片WSS接入点基础信息
+/// </summary>
+public class ShardWssInfo
 {
     /// <summary>
-    /// 分片WSS接入点基础信息
+    /// WebSocket 的连接地址
     /// </summary>
-    public class ShardWssInfo
-    {
-        /// <summary>
-        /// WebSocket 的连接地址
-        /// </summary>
-        public string Url { get; set; }
+    public string Url { get; set; }
 
-        /// <summary>
-        /// 建议的 shard 数
-        /// </summary>
-        public int Shards { get; set; }
-    }
+    /// <summary>
+    /// 建议的 shard 数
+    /// </summary>
+    public int Shards { get; set; }
 }
-

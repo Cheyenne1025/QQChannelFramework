@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChannelModels.Types;
 using Newtonsoft.Json.Linq;
@@ -8,90 +7,88 @@ using QQChannelFramework.Api.Raws;
 using QQChannelFramework.Api.Types;
 using QQChannelFramework.Models;
 
-namespace QQChannelFramework.Api
+namespace QQChannelFramework.Api;
+
+sealed partial class QQChannelApi
 {
-    sealed partial class QQChannelApi
+    private static ChildChannelApi _childChannelApi;
+
+    public ChildChannelApi GetChildChannelApi()
     {
-        private static ChildChannelApi _childChannelApi;
-
-        public ChildChannelApi GetChildChannelApi()
+        if (_childChannelApi is null)
         {
-            if (_childChannelApi is null)
-            {
-                _childChannelApi = new(apiBase);
-            }
-
-            return _childChannelApi;
+            _childChannelApi = new(apiBase);
         }
+
+        return _childChannelApi;
+    }
+}
+
+/// <summary>
+/// 子频道Api
+/// </summary>
+public class ChildChannelApi
+{
+    readonly ApiBase _apiBase;
+
+    public ChildChannelApi(ApiBase apiBase)
+    {
+        _apiBase = apiBase;
     }
 
     /// <summary>
-    /// 子频道Api
+    /// 获取子频道信息
     /// </summary>
-    public class ChildChannelApi
+    /// <param name="childChannel_id">子频道ID</param>
+    /// <returns>子频道信息</returns>
+    public async Task<ChildChannel> GetInfo(string childChannel_id)
     {
-        readonly ApiBase _apiBase;
+        RawGetChildChannelApi rawGetChildChannelApi;
 
-        public ChildChannelApi(ApiBase apiBase)
-        {
-            _apiBase = apiBase;
-        }
-
-        /// <summary>
-        /// 获取子频道信息
-        /// </summary>
-        /// <param name="childChannel_id">子频道ID</param>
-        /// <returns>子频道信息</returns>
-        public async Task<ChildChannel> GetInfo(string childChannel_id)
-        {
-            RawGetChildChannelApi rawGetChildChannelApi;
-
-            var processedInfo = ApiFactory.Process(rawGetChildChannelApi, new Dictionary<ParamType, string>()
+        var processedInfo = ApiFactory.Process(rawGetChildChannelApi, new Dictionary<ParamType, string>()
             {
                 {ParamType.channel_id,childChannel_id }
             });
 
-            var requestData = await _apiBase.RequestAsync(processedInfo);
+        var requestData = await _apiBase.RequestAsync(processedInfo);
 
-            Console.WriteLine(requestData);
+        Console.WriteLine(requestData);
 
-            return null;
-        }
+        return null;
+    }
 
-        /// <summary>
-        /// 获取频道下的子频道列表
-        /// </summary>
-        /// <param name="guild_id">主频道Guild</param>
-        /// <returns>元组 (子频道列表,数量)</returns>
-        public async Task<(List<ChildChannel>,int)> GetChildChannels(string guild_id)
-        {
-            RawGetChildChannelsApi rawGetChildChannelsApi;
+    /// <summary>
+    /// 获取频道下的子频道列表
+    /// </summary>
+    /// <param name="guild_id">主频道Guild</param>
+    /// <returns>元组 (子频道列表,数量)</returns>
+    public async Task<(List<ChildChannel>, int)> GetChildChannels(string guild_id)
+    {
+        RawGetChildChannelsApi rawGetChildChannelsApi;
 
-            var processedInfo = ApiFactory.Process(rawGetChildChannelsApi,new Dictionary<ParamType, string>()
+        var processedInfo = ApiFactory.Process(rawGetChildChannelsApi, new Dictionary<ParamType, string>()
             {
                 {ParamType.guild_id,guild_id }
             });
 
-            JArray requestDatas = JArray.Parse((await _apiBase.RequestAsync(processedInfo)).ToString());
+        JArray requestDatas = JArray.Parse((await _apiBase.RequestAsync(processedInfo)).ToString());
 
-            List<ChildChannel> childChannels = new();
+        List<ChildChannel> childChannels = new();
 
-            foreach (var channelInfo in requestDatas)
+        foreach (var channelInfo in requestDatas)
+        {
+            childChannels.Add(new()
             {
-                childChannels.Add(new()
-                {
-                    Id = channelInfo["id"].ToString(),
-                    GuildId = channelInfo["guild_id"].ToString(),
-                    Name = channelInfo["name"].ToString(),
-                    Type = Enum.Parse<ChildChannelType>(channelInfo["type"].ToString()),
-                    Position = int.Parse(channelInfo["position"].ToString()),
-                    ParentId = channelInfo["parent_id"].ToString(),
-                    OwnerId = channelInfo["owner_id"].ToString()
-                });
-            }
-
-            return (childChannels, childChannels.Count);
+                Id = channelInfo["id"].ToString(),
+                GuildId = channelInfo["guild_id"].ToString(),
+                Name = channelInfo["name"].ToString(),
+                Type = Enum.Parse<ChildChannelType>(channelInfo["type"].ToString()),
+                Position = int.Parse(channelInfo["position"].ToString()),
+                ParentId = channelInfo["parent_id"].ToString(),
+                OwnerId = channelInfo["owner_id"].ToString()
+            });
         }
+
+        return (childChannels, childChannels.Count);
     }
 }
-

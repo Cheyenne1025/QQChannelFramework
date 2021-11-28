@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace QQChannelFramework.Models;
+﻿namespace QQChannelFramework.Models;
 
 /// <summary>
 /// 分片Session限制信息

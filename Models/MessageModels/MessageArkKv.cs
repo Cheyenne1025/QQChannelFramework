@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace QQChannelFramework.Models.MessageModels
+namespace QQChannelFramework.Models.MessageModels;
+
+public class MessageArkKv
 {
-    public class MessageArkKv
-    {
-        public string Key { get; set; }
+    public string Key { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-        public List<MessageArkObj> Obj { get; set; }
-    }
+    public List<MessageArkObj> Obj { get; set; }
 }
-

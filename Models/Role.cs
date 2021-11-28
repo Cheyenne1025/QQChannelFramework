@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace QQChannelFramework.Models;
+﻿namespace QQChannelFramework.Models;
 
 /// <summary>
 /// 频道身份组对象

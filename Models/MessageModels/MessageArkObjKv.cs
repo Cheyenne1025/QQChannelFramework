@@ -1,11 +1,8 @@
-﻿using System;
-namespace QQChannelFramework.Models.MessageModels
+﻿namespace QQChannelFramework.Models.MessageModels;
+
+public class MessageArkObjKv
 {
-    public class MessageArkObjKv
-    {
-        public string Key { get; set; }
+    public string Key { get; set; }
 
-        public string Value { get; set; }
-    }
+    public string Value { get; set; }
 }
-
