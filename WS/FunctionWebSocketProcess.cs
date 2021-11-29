@@ -157,12 +157,12 @@ sealed partial class FunctionWebSocket
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
                             },
-                            roles = new()
+                            Roles = new()
                         };
 
                         foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
                         {
-                            newMemberModel.roles.Add(role.ToString());
+                            newMemberModel.Roles.Add(role.ToString());
                         }
 
                         NewMemberJoin?.Invoke(newMemberModel);
@@ -183,12 +183,12 @@ sealed partial class FunctionWebSocket
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
                             },
-                            roles = new()
+                            Roles = new()
                         };
 
                         foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
                         {
-                            updateMemberModel.roles.Add(role.ToString());
+                            updateMemberModel.Roles.Add(role.ToString());
                         }
 
                         MemberInfoChange?.Invoke(updateMemberModel);
@@ -209,12 +209,12 @@ sealed partial class FunctionWebSocket
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
                             },
-                            roles = new()
+                            Roles = new()
                         };
 
                         foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
                         {
-                            deleteMemberModel.roles.Add(role.ToString());
+                            deleteMemberModel.Roles.Add(role.ToString());
                         }
 
                         MemberExistGuild?.Invoke(deleteMemberModel);

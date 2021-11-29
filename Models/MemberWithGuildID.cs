@@ -20,7 +20,7 @@ public class MemberWithGuildID
     /// <summary>
     /// 用户在频道内的身份
     /// </summary>
-    public List<string> roles { get; set; }
+    public List<string> Roles { get; set; }
 
     /// <summary>
     /// 用户加入频道的时间
