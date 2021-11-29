@@ -1,9 +1,9 @@
 # QQ频道机器人开发框架 —— MyBot (C#)
-![MYBOT_Banner_1](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner.png)
+![MYBOT_Banner](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_13.png)
+<br>
+<br>
 
-![MYBOT_JJ](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-08.png)
-### 🧩 MyBot — QQChannelFramework
-    简易调用即可为 QQ 频道机器人快速开发与实现
+![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_14.png)
 <br>
 <br>
 
@@ -70,6 +70,3 @@
     `邮箱` [Email](mailto:mail@qq.com)
 
     `频道` [Name](http://www.github.com)
-<br>
-
-![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-07.png)
