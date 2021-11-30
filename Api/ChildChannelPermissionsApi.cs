@@ -41,7 +41,7 @@ namespace QQChannelFramework.Api
         /// <param name="channel_id">子频道ID</param>
         /// <param name="user_id">用户ID</param>
         /// <returns>权限对象</returns>
-        public async Task<ChannelPermissions> GetPermissions(string channel_id, string user_id)
+        public async Task<ChannelPermissions> GetPermissionsAsync(string channel_id, string user_id)
         {
             RawGetChildChannelPermissionsApi rawGetChildChannelPermissionsApi;
 
@@ -71,7 +71,7 @@ namespace QQChannelFramework.Api
         /// <param name="add">添加的权限</param>
         /// <param name="remove">移除的权限</param>
         /// <returns></returns>
-        public async Task<bool> UpdatePermissions(string channel_id, string user_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
+        public async Task<bool> UpdatePermissionsAsync(string channel_id, string user_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
         {
             RawUpdateChildChannelPermissionsApi rawUpdateChildChannelPermissionsApi;
 

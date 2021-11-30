@@ -1,30 +1,36 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="OfficialExceptions/SessionNotExist.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Expansions/Bot/ChannelBot.cs">
     <Files>
-      <File FileName="OfficialExceptions/SessionNotExist.cs" Line="1" Column="1" />
+      <File FileName="WS/BaseWebSocket.cs" Line="36" Column="19" />
+      <File FileName="WS/FunctionWebSocket.cs" Line="18" Column="12" />
+      <File FileName="WS/FunctionWebScoketEvents.cs" Line="76" Column="28" />
+      <File FileName="WS/FunctionWebSocketProcess.cs" Line="12" Column="18" />
+      <File FileName="Api/WebSocketApi.cs" Line="49" Column="79" />
+      <File FileName="Tools/MessageTemplateHelper.cs" Line="1" Column="51" />
+      <File FileName="Tools/TemplateHelper/LinkAndTextListTemplateHelper.cs" Line="128" Column="57" />
+      <File FileName="Tools/TemplateHelper/TextAndThumbnailTemplateHelper.cs" Line="151" Column="58" />
+      <File FileName="Tools/TemplateHelper/BigImageTemplateHelper.cs" Line="18" Column="26" />
+      <File FileName="Models/ChannelPermissions.cs" Line="20" Column="23" />
+      <File FileName="Api/Raws/RawGetChildChannelPermissionsApi.cs" Line="13" Column="39" />
+      <File FileName="Api/Raws/RawGetChildChannelApi.cs" Line="1" Column="1" />
+      <File FileName="Api/Raws/RawGetWebSocketUrlApi.cs" Line="8" Column="55" />
+      <File FileName="Api/Raws/RawUpdateChildChannelPermissionsApi.cs" Line="19" Column="2" />
+      <File FileName="Api/ChildChannelPermissionsApi.cs" Line="65" Column="1" />
+      <File FileName="Api/ChildChannelApi.cs" Line="32" Column="19" />
+      <File FileName="Api/Types/ChannelPermissionType.cs" Line="20" Column="16" />
+      <File FileName="Api/Types/ParamType.cs" Line="1" Column="1" />
+      <File FileName="WS/FunctionWebSocketRegisters.cs" Line="6" Column="1" />
+      <File FileName="Expansions/Bot/ChannelBot.cs" Line="12" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="QQChannelFramework" expanded="True">
             <Node name="QQChannelFramework" expanded="True">
-              <Node name="Dependencies" expanded="True">
-                <Node name="PackageDependencies" expanded="True" />
+              <Node name="Expansions" expanded="True">
+                <Node name="Bot" expanded="True" />
               </Node>
-              <Node name="Api" expanded="True">
-                <Node name="Base" expanded="True" />
-              </Node>
-              <Node name="Datas" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="Types" expanded="True" />
-                <Node name="WsModels" expanded="True" />
-              </Node>
-              <Node name="OfficialExceptions" expanded="True">
-                <Node name="SessionNotExist.cs" selected="True" />
-              </Node>
-              <Node name="Tools" expanded="True">
-                <Node name="TemplateHelper" expanded="True" />
-              </Node>
+              <Node name="Tools" expanded="True" />
               <Node name="WS" expanded="True" />
             </Node>
           </Node>

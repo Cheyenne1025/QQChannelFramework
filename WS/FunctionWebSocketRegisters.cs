@@ -3,7 +3,7 @@ using QQChannelFramework.Models.Types;
 
 namespace QQChannelFramework.WS;
 
-sealed partial class FunctionWebSocket
+partial class FunctionWebSocket
 {
     /// <summary>
     /// 注册频道相关事件

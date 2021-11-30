@@ -5,7 +5,7 @@ using QQChannelFramework.Models.WsModels;
 
 namespace QQChannelFramework.WS;
 
-sealed partial class FunctionWebSocket
+partial class FunctionWebSocket
 {
     public delegate void GuildDelegate(WsGuild guild);
     public delegate void ChildChannelDelegate(WsChildChannel childChannel);

@@ -13,25 +13,25 @@ namespace QQChannelFramework.WS;
 /// <summary>
 /// 功能性WebSocket
 /// </summary>
-public sealed partial class FunctionWebSocket : BaseWebSocket
+public partial class FunctionWebSocket : BaseWebSocket
 {
     private Timer heartbeatTimer;
 
-    private OpenApiAccessInfo _openApiAccessInfo;
+    protected OpenApiAccessInfo _openApiAccessInfo;
 
-    private SessionInfo _sessionInfo;
+    protected SessionInfo _sessionInfo;
 
-    private IdentifyData _identifyData;
+    protected IdentifyData _identifyData;
 
-    private HashSet<Intents> _registeredEvents;
+    protected HashSet<Intents> _registeredEvents;
 
-    private string _nowS = string.Empty;
+    protected string _nowS = string.Empty;
 
-    private bool _heartbeating = false;
+    protected bool _heartbeating = false;
 
-    private bool _enableShard = false;
+    protected bool _enableShard = false;
 
-    public FunctionWebSocket(OpenApiAccessInfo openApiAccessInfo, string url) : base(url)
+    public FunctionWebSocket(OpenApiAccessInfo openApiAccessInfo)
     {
         _sessionInfo = new();
         _identifyData = new();
@@ -62,33 +62,5 @@ public sealed partial class FunctionWebSocket : BaseWebSocket
 
             HeartbeatBreak?.Invoke();
         }
-    }
-
-    /// <summary>
-    /// 执行重连 (如果处于连接状态将会主动断开后连接)
-    /// </summary>
-    public void Resume()
-    {
-        if(webSocket.State != System.Net.WebSockets.WebSocketState.Open)
-        {
-            Connect();
-            OnConnected += ResumeAction;
-        }
-    }
-
-    private void ResumeAction()
-    {
-        Load load = new();
-        load.op = (int)OpCode.Resume;
-        load.d = new Dictionary<string, object>()
-        {
-            {"token",_openApiAccessInfo.BotToken},
-            {"session_id",_sessionInfo.SessionId },
-            {"seq",1337 }
-        };
-
-        SendAsync(JsonConvert.SerializeObject(load));
-
-        OnConnected -= ResumeAction;
     }
 }

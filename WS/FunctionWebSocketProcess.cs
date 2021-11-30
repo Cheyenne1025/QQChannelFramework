@@ -7,7 +7,7 @@ using QQChannelFramework.Models.WsModels;
 
 namespace QQChannelFramework.WS;
 
-sealed partial class FunctionWebSocket
+partial class FunctionWebSocket
 {
     /// <summary>
     /// 处理数据

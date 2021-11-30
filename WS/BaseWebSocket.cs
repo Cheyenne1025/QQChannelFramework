@@ -11,6 +11,7 @@ namespace QQChannelFramework.WS;
 
 public delegate void NormalDelegate();
 public delegate void NoticeDelegate(string message);
+public delegate void ErrorDelegate(Exception ex);
 public delegate void ReceiveDelegate(JToken receiveData);
 
 public class BaseWebSocket
@@ -22,11 +23,11 @@ public class BaseWebSocket
     /// <summary>
     /// 连接异常事件
     /// </summary>
-    public event NoticeDelegate OnError;
+    public event ErrorDelegate OnError;
     /// <summary>
     /// 收到消息事件
     /// </summary>
-    public event ReceiveDelegate OnReceived;
+    protected event ReceiveDelegate OnReceived;
     /// <summary>
     /// 链接关闭事件
     /// </summary>
@@ -41,10 +42,10 @@ public class BaseWebSocket
 
     ArraySegment<byte> bytesReceived;
 
-    public BaseWebSocket(string url)
+    public BaseWebSocket()
     {
-        connectUrl = new Uri(url);
         webSocket = new ClientWebSocket();
+        
         bytesReceived = new ArraySegment<byte>(new byte[1024]);
     }
 
@@ -57,8 +58,10 @@ public class BaseWebSocket
     /// 开始连接
     /// </summary>
     /// <exception cref="Exception"></exception>
-    public void Connect()
+    protected void Connect(string url)
     {
+        connectUrl = new Uri(url);
+
         if (webSocket.State != WebSocketState.Open)
         {
             try
@@ -71,7 +74,7 @@ public class BaseWebSocket
             }
             catch (Exception ex)
             {
-                OnError?.Invoke(ex.Message);
+                OnError?.Invoke(ex);
             }
         }
         else
@@ -96,7 +99,7 @@ public class BaseWebSocket
         }
         catch (Exception ex)
         {
-            OnError?.Invoke(ex.Message);
+            OnError?.Invoke(ex);
         }
         finally
         {
@@ -129,7 +132,7 @@ public class BaseWebSocket
         }
         catch (Exception ex)
         {
-            OnError?.Invoke(ex.Message);
+            OnError?.Invoke(ex);
         }
     }
 

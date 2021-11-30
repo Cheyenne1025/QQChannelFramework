@@ -12,7 +12,7 @@ namespace QQChannelFramework.Models
         public string ChannelId { get; set; }
 
         /// <summary>
-        /// 用户 id
+        /// 用户 ID
         /// </summary>
         public string UserId { get; set; }
 
