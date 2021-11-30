@@ -1,8 +1,5 @@
 # QQ频道机器人开发框架 —— MyBot (C#)
 ![MYBOT_Banner](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_13_1.png)
-<br>
-<br>
-
 ![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_14.png)
 <br>
 <br>
@@ -31,8 +28,10 @@
 ![MYBOT_YL](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-10.png)
 
     若框架前景良好计划在未来的更新中逐步摆脱依赖
-    
+
     1. 🚨 Newtonsoft.Json 13.0.1版本 - 解析Json
+
+
 <br>
 <br>
 
