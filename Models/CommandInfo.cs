@@ -24,6 +24,16 @@ namespace QQChannelFramework.Models
         public string MessageId { get; set; }
 
         /// <summary>
+        /// 指令主频道ID
+        /// </summary>
+        public string GuildId { get; set; }
+
+        /// <summary>
+        /// 指令来源子频道ID
+        /// </summary>
+        public string ChannelId { get; set; }
+
+        /// <summary>
         /// 发送人信息
         /// </summary>
         public User Sender { get; set; }

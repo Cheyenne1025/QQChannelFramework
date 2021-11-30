@@ -39,6 +39,8 @@ public sealed partial class ChannelBot : FunctionWebSocket
             commandInfo.Param.RemoveAt(0);
             commandInfo.MessageId = message.Id;
             commandInfo.Sender = message.Author;
+            commandInfo.GuildId = message.GuildId;
+            commandInfo.ChannelId = message.ChildChannelId;
 
             InvokeCommand(commandInfo);
         };
@@ -61,6 +63,14 @@ public sealed partial class ChannelBot : FunctionWebSocket
         _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync();
 
         Connect(_url);
+    }
+
+    /// <summary>
+    /// 机器人下线
+    /// </summary>
+    public void OfflineAsync()
+    {
+        CloseAsync();
     }
 
     /// <summary>
