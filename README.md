@@ -14,8 +14,26 @@
     
 ### 🧠 .NET 6 编写
   - 框架完全使用 .NET 6 进行编写，为框架提供了极强的性能
-### ⚡ 迅捷开发
-  - 我们在框架内提前为使用者们准备好了有效提高机器人开发效率的代码，开箱即用
+### ⚡ ChannelBot 迅捷开发
+  - 我们在框架内提前为使用者们准备好了有效提高机器人开发效率的代码，ChannelBot 开箱即用
+
+```
+1.更快的Bot接入
+将全部注意力集中到对Bot的业务开发上面，相信是很多开发者的主要需求，使用ChannelBot可以实现更快速的Bot开发，不用在意底层逻辑
+
+2.事件驱动
+在ChannelBot里，事件经过处理后，在开发者编写代码时，业务逻辑会极其清晰，使得代码可读性更高，易于维护
+
+3.动态指令
+使用RegisterCommand即可注册一个异步/同步指令，并允许在机器人运行时动态的增加和卸载指令，这一切由你决定
+
+4.强大的异步处理
+指令是机器人的主要交互手段，为此，异步中的ChannelBot可以同时处理更多的指令
+
+5.持续壮大
+ChannelBot将会基于用户需求，持续提供简单并强大的功能
+```
+
 ### 🦾 极低依赖
   - 确保性能和长久维护，框架仅使用了 1 个依赖
 ### 🎲 跨平台
@@ -26,19 +44,19 @@
 <br>
 
 ![MYBOT_YL](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-10.png)
-
-    若框架前景良好计划在未来的更新中逐步摆脱依赖
-
-    1. 🚨 Newtonsoft.Json 13.0.1版本 - 解析Json
-
+```
+若框架前景良好计划在未来的更新中逐步摆脱依赖
+🚨 Newtonsoft.Json 13.0.1版本 - 解析Json
+```
 
 <br>
 <br>
 
 ![MYBOT_HJ](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-11.png)
-
-    1. 💻 Visual Studio 2022 - 仅 2022 版本才可使用 .NET6
-    2. 💻 .NET 6 SDK
+```
+1. 💻 Visual Studio 2022 - 仅 2022 版本才可使用 .NET6
+2. 💻 .NET 6 SDK
+```
 <br>
 <br>
 
