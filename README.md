@@ -1,6 +1,6 @@
 # QQ频道机器人开发框架 —— MyBot (C#)
-![MYBOT_Banner](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_13_1.png)
-![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_14.png)
+![MYBOT_Banner](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_13_2.png)
+![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_14_2.png)
 <br>
 <br>
 
