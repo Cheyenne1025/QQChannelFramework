@@ -39,12 +39,25 @@ sealed partial class ChannelBot
     /// <exception cref="Exception"></exception>
     public ChannelBot UnloadCommand(string command)
     {
-        if(_commands.ContainsKey(command) is false)
+        bool result1, result2;
+
+        result1 = _commands.ContainsKey(command);
+        result2 = _stepCommands.ContainsKey(command);
+
+        if (result1 is false && result2 is false)
         {
             throw new Exception($"指令 {command} 不存在");
         }
 
-        _commands.Remove(command);
+        if(result1)
+        {
+            _commands.Remove(command);
+        }
+
+        if(result2)
+        {
+            _stepCommands.Remove(command);
+        }
 
         return this;
     }
@@ -118,9 +131,9 @@ sealed partial class ChannelBot
     /// <summary>
     /// 更换步骤指令的处理函数 (替换后3秒生效)
     /// </summary>
-    /// <param name="command"></param>
-    /// <param name="step"></param>
-    /// <param name="newCommandAction"></param>
+    /// <param name="command">指令</param>
+    /// <param name="step">替换第几步</param>
+    /// <param name="newCommandAction">新处理函数</param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
     public async Task<ChannelBot> ChangeStepCommandActionAsync(string command, int step, Action<CommandInfo, CommandState> newCommandAction)
@@ -132,14 +145,14 @@ sealed partial class ChannelBot
 
         var (actions, _) = _stepCommands[command];
 
-        if (step >= actions.Count)
+        if (step - 1 >= actions.Count)
         {
-            throw new Exception($"步骤指令 {command} 中，处理函数不存在 第 {step + 1} 步骤");
+            throw new Exception($"步骤指令 {command} 中，处理函数不存在 第 {step} 步骤");
         }
 
         await Task.Delay(3000);
 
-        actions[step] = newCommandAction;
+        actions[step - 1] = newCommandAction;
 
         return this;
     }
