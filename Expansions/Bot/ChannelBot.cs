@@ -49,6 +49,7 @@ public sealed partial class ChannelBot : FunctionWebSocket
         {
             if(ex is System.Net.WebSockets.WebSocketException)
             {
+                Console.WriteLine("正在重连..");
                 Resume();
             }
         };
@@ -78,15 +79,14 @@ public sealed partial class ChannelBot : FunctionWebSocket
     /// </summary>
     public void Resume()
     {
-        if (webSocket.State != System.Net.WebSockets.WebSocketState.Open)
-        {
-            Connect(_url);
-            OnConnected += ResumeAction;
-        }
+        CloseAsync();
+        Connect(_url);
+        OnConnected += ResumeAction;
     }
 
     private void ResumeAction()
     {
+        Console.WriteLine("正在发送重连数据");
         Load load = new();
         load.op = (int)OpCode.Resume;
         load.d = new Dictionary<string, object>()
