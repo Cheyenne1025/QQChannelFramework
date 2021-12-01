@@ -10,7 +10,7 @@
 ### 📚 完整学习文档
   - 为了降低学习门槛，我们为框架准备了完整的开发文档供开发者查阅，你所需的所有信息皆在文档内
 
-    `2021/11/29` [MyBot 开发文档 v1.0](http://www.github.com)
+    `2021/12/01` [MyBot 开发文档 v1.0](https://www.yuque.com/chianne1025/mybot)
     
 ### 🧠 .NET 6 编写
   - 框架完全使用 .NET 6 进行编写，为框架提供了极强的性能
@@ -45,9 +45,9 @@
 ## 使用必读
   - 为了项目的良性发展，请在使用前阅读并知晓所需条目
 
-    `用户条例` [使用条例](http://www.github.com)
+    `用户条例` [使用条例](https://www.yuque.com/chianne1025/mybot/el90ll#sAoaP )
 
-    `商用须知` [商用须知](http://www.github.com)
+    `商用须知` [商用须知](https://www.yuque.com/chianne1025/mybot/natelg#l9UtT)
 <br>
 <br>
 
@@ -61,11 +61,9 @@
 ### 💰 赞助我们
   - 为我们提供更直接的动力
 
-    `xx平台` [xx赞助](http://www.github.com)
+    `爱发电` [点击赞助](https://afdian.net/@mybot)
 
 ### 📧 Issue 我们
   - 为项目提供建议与意见，我们会认真对待
 
-    `邮箱` [Email](mailto:mail@qq.com)
-
-    `频道` [Name](http://www.github.com)
+    `QQ群` 598909769
