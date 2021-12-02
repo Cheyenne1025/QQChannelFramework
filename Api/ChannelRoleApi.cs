@@ -185,7 +185,7 @@ public class ChannelRoleApi
     {
         if (role_id is "5" && childChannelId is "")
         {
-            throw new Exception("将成员添加到 「子频道管理员」身份组时需要传入第4个子频道ID参数");
+            throw new Exceptions.ParamErrorException("将成员添加到 「子频道管理员」身份组时需要传入第4个子频道ID参数");
         }
 
         RawAddMemberToRoleApi rawAddMemberToRoleApi;
@@ -230,7 +230,7 @@ public class ChannelRoleApi
     {
         if (role_id is "5" && childChannelId is "")
         {
-            throw new Exception("将成员从 「子频道管理员」身份组删除时需要传入第4个子频道ID参数");
+            throw new Exceptions.ParamErrorException("将成员从 「子频道管理员」身份组删除时需要传入第4个子频道ID参数");
         }
 
         RawDeleteMemberFromRoleApi rawDeleteMemberFromRoleApi;

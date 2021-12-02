@@ -56,7 +56,7 @@ public class ApiBase
 
         if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null || _openApiAccessInfo.BotToken is null)
         {
-            throw new Exception("OpenApi信息未填写完整");
+            throw new Exceptions.MissingAccessInfoException();
         }
     }
 
@@ -111,7 +111,7 @@ public class ApiBase
     {
         if (rawInfo.NeedParam && _content is null)
         {
-            throw new Exception("该API需要传递参数，请参阅开发文档中该API需求的参数，并使用WithData()方法传递");
+            throw new Exceptions.MissingDataException();
         }
 
         string _requestUrl = _requestMode == RequestMode.Release ? _releaseUrl : _sandBoxUrl;
@@ -230,15 +230,15 @@ public class ApiBase
         {
             case System.Net.HttpStatusCode.Unauthorized:
 
-                throw new Exception("鉴权信息有误");
+                throw new Exceptions.AccessInfoErrorException();
 
             case System.Net.HttpStatusCode.TooManyRequests:
 
-                throw new Exception("请求频率过高");
+                throw new Exceptions.RequestRateTooHighException() ;
 
             case System.Net.HttpStatusCode.NotFound:
 
-                throw new Exception("API不存在，请检查开发文档，确保API可用");
+                throw new Exceptions.ApiNotExistException();
         }
     }
 
@@ -252,7 +252,7 @@ public class ApiBase
 
         if (code >= 1000000 && code <= 2999999)
         {
-            throw new Exception("发送消息错误");
+            throw new Exceptions.SendMessageErrorException();
         }
 
         if (_officialExceptions.ContainsKey(code))

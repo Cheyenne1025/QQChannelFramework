@@ -90,7 +90,7 @@ partial class FunctionWebSocket
     {
         if(_private is false)
         {
-            throw new Exception("要想注册该事件，请先使用 UsePrivateBot() 指定为私域机器人");
+            throw new Exceptions.BotNotIsPrivateException();
         }
 
         _registeredEvents.Add(Intents.UserMessage);

@@ -1,0 +1,11 @@
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/bin/Release/net6.0/QQChannelFramework.deps.json
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/bin/Release/net6.0/QQChannelFramework.dll
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/bin/Release/net6.0/ref/QQChannelFramework.dll
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/bin/Release/net6.0/QQChannelFramework.pdb
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.GeneratedMSBuildEditorConfig.editorconfig
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.AssemblyInfoInputs.cache
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.AssemblyInfo.cs
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.csproj.CoreCompileInputs.cache
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.dll
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/ref/QQChannelFramework.dll
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.pdb

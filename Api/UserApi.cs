@@ -67,7 +67,7 @@ public class UserApi
     {
         if (before is not "" && after is not "")
         {
-            throw new Exception("仅能读取此id之前或之后的数据 (before 或 after)");
+            throw new Exceptions.ParamErrorException("仅能读取此id之前或之后的数据 (before 或 after)");
         }
 
         if (limit < 1 || limit > 100)

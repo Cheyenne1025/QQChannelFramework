@@ -28,6 +28,7 @@
     <None Remove="Tools\TemplateHelper\" />
     <None Remove="Expansions\" />
     <None Remove="Expansions\Bot\" />
+    <None Remove="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
@@ -46,6 +47,7 @@
     <Folder Include="Tools\TemplateHelper\" />
     <Folder Include="Expansions\" />
     <Folder Include="Expansions\Bot\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

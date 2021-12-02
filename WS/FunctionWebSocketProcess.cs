@@ -40,7 +40,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.RESUMED:
 
-
+                        Resumed?.Invoke();
 
                         break;
 

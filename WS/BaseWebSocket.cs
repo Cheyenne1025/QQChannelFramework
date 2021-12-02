@@ -79,7 +79,7 @@ public class BaseWebSocket
         }
         else
         {
-            throw new Exception("ws处于连接状态,请先将其关闭");
+            throw new Exceptions.WebSocketLinkingException();
         }
     }
 
@@ -119,7 +119,7 @@ public class BaseWebSocket
     {
         if (webSocket.State is not WebSocketState.Open)
         {
-            throw new Exception("未连接，无法发送数据");
+            throw new Exceptions.WebSocketNotConnectedException();
         }
 
         try
