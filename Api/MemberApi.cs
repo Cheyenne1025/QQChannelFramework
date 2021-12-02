@@ -51,7 +51,7 @@ public class MemberApi
                 {ParamType.user_id,user_id }
             });
 
-        var requestData = await _apiBase.RequestAsync(precessedInfo);
+        var requestData = await _apiBase.RequestAsync(precessedInfo).ConfigureAwait(false);
 
         Member member = new()
         {

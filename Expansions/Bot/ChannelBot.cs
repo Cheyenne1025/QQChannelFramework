@@ -61,7 +61,7 @@ public sealed partial class ChannelBot : FunctionWebSocket
     public async void OnlineAsync()
     {
         QQChannelApi qQChannelApi = new(_openApiAccessInfo);
-        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync();
+        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
 
         Connect(_url);
     }

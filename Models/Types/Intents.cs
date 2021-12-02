@@ -42,5 +42,9 @@ public enum Intents : int
     /// @机器人事件
     /// <para>当收到@机器人的消息时</para>
     /// </summary>
-    AtMessage = 1 << 30
+    AtMessage = 1 << 30,
+    /// <summary>
+    /// 用户发送消息 (私域机器人可用)
+    /// </summary>
+    UserMessage = 1 << 9
 }

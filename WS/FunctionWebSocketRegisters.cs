@@ -80,5 +80,22 @@ partial class FunctionWebSocket
 
         return this;
     }
+
+    /// <summary>
+    /// 注册用户发送消息时间 (私域机器人可用)
+    ///  para>当收到用户发送的消息时 (免@机器人)</para>
+    /// </summary>
+    /// <returns></returns>
+    public FunctionWebSocket RegisterUserMessage()
+    {
+        if(_private is false)
+        {
+            throw new Exception("要想注册该事件，请先使用 UsePrivateBot() 指定为私域机器人");
+        }
+
+        _registeredEvents.Add(Intents.UserMessage);
+
+        return this;
+    }
 }
 

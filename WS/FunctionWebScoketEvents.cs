@@ -66,6 +66,11 @@ partial class FunctionWebSocket
     /// <para>用户发送消息，并且@当前机器人</para>
     /// </summary>
     public event MessageDelegate ReceivedAtMessage;
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>用户发送消息时 (仅私域机器人可用)</para>
+    /// </summary>
+    public event MessageDelegate ReceivedUserMessage;
 
     /// <summary>
     /// <para>触发时机: </para>

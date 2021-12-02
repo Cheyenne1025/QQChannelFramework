@@ -72,5 +72,9 @@ public enum GuildEvents
     /// <summary>
     /// 重连事件补发完毕
     /// </summary>
-    RESUMED
+    RESUMED,
+    /// <summary>
+    /// 用户发送消息
+    /// </summary>
+    MESSAGE_CREATE,
 }

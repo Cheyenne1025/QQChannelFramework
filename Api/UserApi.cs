@@ -42,7 +42,7 @@ public class UserApi
     {
         RawGetCurrentUserApi rawGetCurrentUserApi;
 
-        var requestData = await _apiBase.RequestAsync(rawGetCurrentUserApi);
+        var requestData = await _apiBase.RequestAsync(rawGetCurrentUserApi).ConfigureAwait(false);
 
         User user = new User()
         {
@@ -84,7 +84,8 @@ public class UserApi
                     {"after",after },
                     {"limit",limit }
             })
-            .RequestAsync(rawGetCurrentChannelsJoinedApi);
+            .RequestAsync(rawGetCurrentChannelsJoinedApi)
+            .ConfigureAwait(false);
 
         var channelArray = JArray.Parse(requestData.ToString());
 

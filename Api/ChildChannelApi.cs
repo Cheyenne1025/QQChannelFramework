@@ -50,7 +50,7 @@ public class ChildChannelApi
                 {ParamType.channel_id,childChannel_id }
             });
 
-        var requestData = await _apiBase.RequestAsync(processedInfo);
+        var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
         Console.WriteLine(requestData);
 
@@ -71,7 +71,7 @@ public class ChildChannelApi
                 {ParamType.guild_id,guild_id }
             });
 
-        JArray requestDatas = JArray.Parse((await _apiBase.RequestAsync(processedInfo)).ToString());
+        JArray requestDatas = JArray.Parse((await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false)).ToString());
 
         List<ChildChannel> childChannels = new();
 

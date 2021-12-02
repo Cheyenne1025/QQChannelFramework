@@ -31,6 +31,8 @@ public partial class FunctionWebSocket : BaseWebSocket
 
     protected bool _enableShard = false;
 
+    private bool _private = false;
+
     public FunctionWebSocket(OpenApiAccessInfo openApiAccessInfo)
     {
         _sessionInfo = new();
@@ -44,6 +46,14 @@ public partial class FunctionWebSocket : BaseWebSocket
 
         _identifyData.token = $"Bot {_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}";
         _identifyData.shard = new int[2] { 0, 1 };
+    }
+
+    /// <summary>
+    /// 指定为私域机器人
+    /// </summary>
+    public void UsePrivateBot()
+    {
+        _private = true;
     }
 
     private void HeartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)

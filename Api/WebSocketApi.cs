@@ -37,7 +37,7 @@ public class WebSocketApi
     {
         RawGetWebSocketUrlApi rawGetWebSocketUrlApi;
 
-        var requestData = await _apiBase.RequestAsync(rawGetWebSocketUrlApi);
+        var requestData = await _apiBase.RequestAsync(rawGetWebSocketUrlApi).ConfigureAwait(false);
 
         return requestData["url"].ToString();
     }
@@ -50,7 +50,7 @@ public class WebSocketApi
     {
         RawGetWebSocketShardUrl rawGetWebSocketShardUrl;
 
-        var requestData = await _apiBase.RequestAsync(rawGetWebSocketShardUrl);
+        var requestData = await _apiBase.RequestAsync(rawGetWebSocketShardUrl).ConfigureAwait(false);
 
         ShardWssInfo shardWssInfo = new()
         {

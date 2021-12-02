@@ -52,7 +52,7 @@ public class MessageApi
 
         var textMessage = new { content = content, msg_id = msg_id };
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo);
+        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = new()
         {
@@ -87,7 +87,7 @@ public class MessageApi
                 {ParamType.channel_id,childChannelId }
             });
 
-        var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo);
+        var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = new()
         {
@@ -124,7 +124,7 @@ public class MessageApi
 
         var imageMessage = new { image = imageUrl, msg_id = msg_id };
 
-        var requestData = await _apiBase.WithData(imageMessage).RequestAsync(processedInfo);
+        var requestData = await _apiBase.WithData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = new()
         {
@@ -162,7 +162,7 @@ public class MessageApi
 
         var imageAndTextMessage = new { image = imageUrl, content = content, msg_id = msg_id };
 
-        var requestData = await _apiBase.WithData(imageAndTextMessage).RequestAsync(processedInfo);
+        var requestData = await _apiBase.WithData(imageAndTextMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = new()
         {
@@ -198,10 +198,23 @@ public class MessageApi
                 {ParamType.message_id,message_id }
             });
 
-        var requestData = await _apiBase.RequestAsync(processedInfo);
+        var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Console.WriteLine($"获取的消息 -> {requestData}");
+        Message message = new()
+        {
+            Id = requestData["message"]["id"].ToString(),
+            ChildChannelId = requestData["message"]["channel_id"].ToString(),
+            GuildId = requestData["message"]["guild_id"].ToString(),
+            Time = DateTime.Parse(requestData["message"]["timestamp"].ToString()),
+            Content = requestData["message"]["content"].ToString(),
+            Author = new()
+            {
+                Id = requestData["message"]["author"]["id"].ToString(),
+                IsBot = bool.Parse(requestData["message"]["author"]["bot"].ToString()),
+                UserName = requestData["message"]["author"]["username"].ToString(),
+            },
+        };
 
-        return null;
+        return message;
     }
 }

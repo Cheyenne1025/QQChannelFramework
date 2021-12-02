@@ -51,7 +51,7 @@ namespace QQChannelFramework.Api
                 {ParamType.user_id,user_id }
             });
 
-            var requestData = await _apiBase.RequestAsync(processedInfo);
+            var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
             ChannelPermissions channelPermissions = new()
             {
@@ -87,7 +87,7 @@ namespace QQChannelFramework.Api
                     {"add",add is not ChannelPermissionType.None ? Convert.ToString((int)add,2):"" },
                     {"remove",remove is not ChannelPermissionType.None ?  Convert.ToString((int)remove,2):""}
                 })
-                .RequestAsync(processedInfo);
+                .RequestAsync(processedInfo).ConfigureAwait(false);
 
             return requestData is null;
         }

@@ -143,7 +143,7 @@ public class BaseWebSocket
     {
         if (webSocket is not null)
         {
-            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None).ConfigureAwait(false);
 
             OnClose?.Invoke();
         }

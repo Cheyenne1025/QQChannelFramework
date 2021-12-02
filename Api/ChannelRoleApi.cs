@@ -51,7 +51,7 @@ public class ChannelRoleApi
                 {ParamType.guild_id,guild_id }
             });
 
-        var requestData = await _apiBase.RequestAsync(prcocessedInfo);
+        var requestData = await _apiBase.RequestAsync(prcocessedInfo).ConfigureAwait(false);
 
         List<Role> roles = new List<Role>();
 
@@ -106,7 +106,7 @@ public class ChannelRoleApi
                         {"hoist",info.Hoist ? 1:0 }
                     }
                     }
-        }).RequestAsync(prcessedInfo);
+        }).RequestAsync(prcessedInfo).ConfigureAwait(false);
 
         return requestData["role_id"].ToString();
     }
@@ -146,7 +146,7 @@ public class ChannelRoleApi
                         {"hoist",info.Hoist ? 1:0 }
                     }
                     }
-        }).RequestAsync(processedInfo);
+        }).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return (requestData["guild_id"].ToString(), requestData["role_id"].ToString());
     }
@@ -167,7 +167,7 @@ public class ChannelRoleApi
                 {ParamType.role_id,role_id }
             });
 
-        var requestData = await _apiBase.RequestAsync(processedInfo);
+        var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData is null;
     }
@@ -206,11 +206,12 @@ public class ChannelRoleApi
 
             requestData = await _apiBase
                 .WithData(rawChildChannel)
-                .RequestAsync(processedInfo);
+                .RequestAsync(processedInfo)
+                .ConfigureAwait(false);
         }
         else
         {
-            requestData = await _apiBase.RequestAsync(processedInfo);
+            requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
         }
 
         return requestData is null;
@@ -250,11 +251,12 @@ public class ChannelRoleApi
 
             requestData = await _apiBase
                 .WithData(rawChildChannel)
-                .RequestAsync(processedInfo);
+                .RequestAsync(processedInfo)
+                .ConfigureAwait(false);
         }
         else
         {
-            requestData = await _apiBase.RequestAsync(processedInfo);
+            requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
         }
 
         return requestData is null;

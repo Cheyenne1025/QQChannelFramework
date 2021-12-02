@@ -250,8 +250,6 @@ public class ApiBase
     {
         var code = int.Parse(resultData["code"].ToString());
 
-        Console.WriteLine($"错误代码 -> {code}");
-
         if (code >= 1000000 && code <= 2999999)
         {
             throw new Exception("发送消息错误");

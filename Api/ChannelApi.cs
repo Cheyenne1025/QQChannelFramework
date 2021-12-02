@@ -46,7 +46,7 @@ public class ChannelApi
                 {Types.ParamType.guild_id, guild_id }
             });
 
-        var info = await _apiBase.RequestAsync(processedApiInfo);
+        var info = await _apiBase.RequestAsync(processedApiInfo).ConfigureAwait(false);
 
         Guild guild = new()
         {
