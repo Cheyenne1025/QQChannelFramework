@@ -52,7 +52,16 @@ public class ChildChannelApi
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Console.WriteLine(requestData);
+        ChildChannel childChannel = new()
+        {
+            Id = requestData["id"].ToString(),
+            GuildId = requestData["guild_id"].ToString(),
+            Name = requestData["name"].ToString(),
+            Type = Enum.Parse<ChildChannelType>(requestData["type"].ToString()),
+            Position = int.Parse(requestData["position"].ToString()),
+            ParentId = requestData["parent_id"].ToString(),
+            OwnerId = requestData["owner_id"].ToString()
+        };
 
         return null;
     }

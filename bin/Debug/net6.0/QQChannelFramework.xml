@@ -1781,6 +1781,16 @@
             指定为私域机器人
             </summary>
         </member>
+        <member name="M:QQChannelFramework.WS.FunctionWebSocket.EnableUserMessageTriggerCommand">
+            <summary>
+            启用无须@ 触发指令功能 (私域机器人可用)
+            </summary>
+        </member>
+        <member name="M:QQChannelFramework.WS.FunctionWebSocket.CloseUserMessageTriggerCommand">
+            <summary>
+            关闭无须@ 触发指令功能 (私域机器人可用)
+            </summary>
+        </member>
         <member name="M:QQChannelFramework.WS.FunctionWebSocket.Process(Newtonsoft.Json.Linq.JToken)">
             <summary>
             处理数据
@@ -1836,7 +1846,7 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:QQChannelFramework.WS.FunctionWebSocket.RegisterUserMessage" -->
+        <!-- Badly formed XML comment ignored for member "M:QQChannelFramework.WS.FunctionWebSocket.RegisterUserMessageEvent" -->
         <member name="T:OpenApiAccessInfo">
             <summary>
             OpenApi接入信息

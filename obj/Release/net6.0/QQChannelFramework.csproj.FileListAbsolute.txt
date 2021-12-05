@@ -9,3 +9,4 @@
 /Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.dll
 /Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/ref/QQChannelFramework.dll
 /Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.pdb
+/Users/buildcat1025/Desktop/Codes/QQ频道/QQChannelFramework/obj/Release/net6.0/QQChannelFramework.csproj.AssemblyReference.cache
