@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using QQChannelFramework.Api;
 using QQChannelFramework.Models;
@@ -71,7 +72,7 @@ public sealed partial class ChannelBot : FunctionWebSocket
     /// <summary>
     /// 机器人上线
     /// </summary>
-    public async void OnlineAsync()
+    public async ValueTask OnlineAsync()
     {
         QQChannelApi qQChannelApi = new(_openApiAccessInfo);
         _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
@@ -113,5 +114,4 @@ public sealed partial class ChannelBot : FunctionWebSocket
 
         OnConnected -= ResumeAction;
     }
-
 }
