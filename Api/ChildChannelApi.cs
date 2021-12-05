@@ -63,7 +63,7 @@ public class ChildChannelApi
             OwnerId = requestData["owner_id"].ToString()
         };
 
-        return null;
+        return childChannel;
     }
 
     /// <summary>
