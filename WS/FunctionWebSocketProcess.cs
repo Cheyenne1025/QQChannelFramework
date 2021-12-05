@@ -294,17 +294,6 @@ partial class FunctionWebSocket
                             messageModel2.Member.Roles.Add(role.ToString());
                         }
 
-                        foreach (var userInfo in JArray.Parse(data["d"]["mentions"].ToString()))
-                        {
-                            messageModel2.Mentions.Add(new Models.User()
-                            {
-                                Avatar = userInfo["avatar"].ToString(),
-                                IsBot = bool.Parse(userInfo["bot"].ToString()),
-                                Id = userInfo["id"].ToString(),
-                                UserName = userInfo["username"].ToString()
-                            });
-                        }
-
                         ReceivedUserMessage?.Invoke(messageModel2);
 
                         break;

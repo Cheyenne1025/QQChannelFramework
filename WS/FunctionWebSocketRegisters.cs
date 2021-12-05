@@ -86,7 +86,7 @@ partial class FunctionWebSocket
     ///  para>当收到用户发送的消息时 (免@机器人)</para>
     /// </summary>
     /// <returns></returns>
-    public FunctionWebSocket RegisterUserMessage()
+    public FunctionWebSocket RegisterUserMessageEvent()
     {
         if(_private is false)
         {

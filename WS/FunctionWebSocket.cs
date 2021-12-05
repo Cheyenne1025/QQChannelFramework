@@ -4,6 +4,7 @@ using System.Timers;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Exceptions;
 using QQChannelFramework.Models.ParamModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
@@ -33,6 +34,8 @@ public partial class FunctionWebSocket : BaseWebSocket
 
     private bool _private = false;
 
+    protected bool _enableUserMessageTriggerCommand;
+
     public FunctionWebSocket(OpenApiAccessInfo openApiAccessInfo)
     {
         _sessionInfo = new();
@@ -54,6 +57,27 @@ public partial class FunctionWebSocket : BaseWebSocket
     public void UsePrivateBot()
     {
         _private = true;
+    }
+
+    /// <summary>
+    /// 启用无须@ 触发指令功能 (私域机器人可用)
+    /// </summary>
+    public void EnableUserMessageTriggerCommand()
+    {
+        if(_private is false)
+        {
+            throw new BotNotIsPrivateException();
+        }
+
+        _enableUserMessageTriggerCommand = true;
+    }
+
+    /// <summary>
+    /// 关闭无须@ 触发指令功能 (私域机器人可用)
+    /// </summary>
+    public void CloseUserMessageTriggerCommand()
+    {
+        _enableUserMessageTriggerCommand = false;
     }
 
     private void HeartbeatTimer_Elapsed(object sender, ElapsedEventArgs e)

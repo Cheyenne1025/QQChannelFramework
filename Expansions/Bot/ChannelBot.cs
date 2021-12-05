@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using QQChannelFramework.Api;
 using QQChannelFramework.Models;
+using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
 using QQChannelFramework.WS;
@@ -19,11 +20,11 @@ public sealed partial class ChannelBot : FunctionWebSocket
 
     public ChannelBot(OpenApiAccessInfo openApiAccessInfo) : base(openApiAccessInfo)
     {
-        ReceivedAtMessage += (message) =>
+        CommandInfo _parseCommand(Message message)
         {
             var realContent = message.Content.Trim();
 
-            if(message.Mentions.Count > 0)
+            if (message.Mentions.Count > 0)
             {
                 foreach (var user in message.Mentions)
                 {
@@ -42,14 +43,26 @@ public sealed partial class ChannelBot : FunctionWebSocket
             commandInfo.GuildId = message.GuildId;
             commandInfo.ChannelId = message.ChildChannelId;
 
-            InvokeCommand(commandInfo);
+            return commandInfo;
+        }
+
+        ReceivedAtMessage += (message) =>
+        {
+            InvokeCommand(_parseCommand(message));
+        };
+
+        ReceivedUserMessage += (message) =>
+        {
+            if(_enableUserMessageTriggerCommand)
+            {
+                InvokeCommand(_parseCommand(message));
+            }
         };
 
         OnError += (ex) =>
         {
             if(ex is System.Net.WebSockets.WebSocketException)
             {
-                Console.WriteLine("正在重连..");
                 Resume();
             }
         };

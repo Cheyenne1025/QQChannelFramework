@@ -50,14 +50,14 @@ public class Message
     /// <summary>
     /// 附件
     /// </summary>
-    public MessageAttachment Attachments { get; set; }
+    public MessageAttachment? Attachments { get; set; }
 
-    public MessageEmbed Embeds { get; set; }
+    public MessageEmbed? Embeds { get; set; }
 
     /// <summary>
     /// 消息中@的人
     /// </summary>
-    public List<User> Mentions { get; set; }
+    public List<User>? Mentions { get; set; }
 
     /// <summary>
     /// 消息创建者的Member信息
@@ -67,5 +67,5 @@ public class Message
     /// <summary>
     /// ark消息
     /// </summary>
-    public MessageArk Ark { get; set; }
+    public MessageArk? Ark { get; set; }
 }
