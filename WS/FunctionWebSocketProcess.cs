@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -308,6 +309,8 @@ partial class FunctionWebSocket
                 heartbeatTimer.Interval = int.Parse(data["d"]["heartbeat_interval"].ToString());
                 heartbeatTimer.Start();
 
+                _identifyData.intents = 0;
+
                 foreach (var type in _registeredEvents)
                 {
                     _identifyData.intents += (int)type;
@@ -334,6 +337,20 @@ partial class FunctionWebSocket
                 _heartbeating = true;
 
                 HeartbeatSendSuccess?.Invoke();
+
+                break;
+
+            case OpCode.Reconnect:
+
+                Reconnecting?.Invoke();
+
+                ReConnect();
+
+                break;
+
+            case OpCode.Heartbeat:
+
+                // 官方还未启用
 
                 break;
         }

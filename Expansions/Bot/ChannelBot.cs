@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using QQChannelFramework.Api;
@@ -59,14 +60,6 @@ public sealed partial class ChannelBot : FunctionWebSocket
                 InvokeCommand(_parseCommand(message));
             }
         };
-
-        OnError += (ex) =>
-        {
-            if(ex is System.Net.WebSockets.WebSocketException)
-            {
-                Resume();
-            }
-        };
     }
 
     /// <summary>
@@ -86,32 +79,5 @@ public sealed partial class ChannelBot : FunctionWebSocket
     public void OfflineAsync()
     {
         CloseAsync();
-    }
-
-    /// <summary>
-    /// 执行重连 (如果处于连接状态将会主动断开后连接)
-    /// </summary>
-    public void Resume()
-    {
-        CloseAsync();
-        Connect(_url);
-        OnConnected += ResumeAction;
-    }
-
-    private void ResumeAction()
-    {
-        Console.WriteLine("正在发送重连数据");
-        Load load = new();
-        load.op = (int)OpCode.Resume;
-        load.d = new Dictionary<string, object>()
-        {
-            {"token",_openApiAccessInfo.BotToken},
-            {"session_id",_sessionInfo.SessionId },
-            {"seq",1337 }
-        };
-
-        SendAsync(JsonConvert.SerializeObject(load));
-
-        OnConnected -= ResumeAction;
     }
 }

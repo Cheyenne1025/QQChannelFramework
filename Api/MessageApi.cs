@@ -78,7 +78,7 @@ public class MessageApi
     /// <param name="childChannelId"></param>
     /// <param name="arkTemplate"></param>
     /// <returns></returns>
-    public async Task<Message> SendTemplateMessageAsync(string childChannelId, JObject arkTemplate, string msg_id = "")
+    public async Task<Message> SendTemplateMessageAsync(string childChannelId, JObject arkTemplate)
     {
         RawSendMessageApi rawSendMessageApi;
 

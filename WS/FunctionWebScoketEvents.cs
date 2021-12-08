@@ -99,7 +99,13 @@ partial class FunctionWebSocket
     public event NormalDelegate AuthenticationSuccess;
     /// <summary>
     /// <para>触发时机: </para>
+    /// <para>正在重连</para>
+    /// </summary>
+    public event NormalDelegate Reconnecting;
+    /// <summary>
+    /// <para>触发时机: </para>
     /// <para>重连事件补发完毕时</para>
     /// </summary>
+    [Obsolete("该事件暂时停用",true)]
     public event NormalDelegate Resumed;
 }

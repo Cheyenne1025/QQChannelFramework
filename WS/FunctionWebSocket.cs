@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 using ChannelModels.Types;
 using Newtonsoft.Json;
@@ -33,6 +34,8 @@ public partial class FunctionWebSocket : BaseWebSocket
     protected bool _enableShard = false;
 
     private bool _private = false;
+
+    private bool _resumeIsBind;
 
     protected bool _enableUserMessageTriggerCommand;
 

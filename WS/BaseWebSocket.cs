@@ -21,6 +21,10 @@ public class BaseWebSocket
     /// </summary>
     public event NormalDelegate OnConnected;
     /// <summary>
+    /// 连接断开事件
+    /// </summary>
+    public event NormalDelegate ConnectBreak;
+    /// <summary>
     /// 连接异常事件
     /// </summary>
     public event ErrorDelegate OnError;
@@ -37,6 +41,7 @@ public class BaseWebSocket
     /// </summary>
     public event NormalDelegate OnSend;
 
+    protected string _url;
     private Uri connectUrl;
     protected ClientWebSocket webSocket;
 
@@ -60,26 +65,20 @@ public class BaseWebSocket
     /// <exception cref="Exception"></exception>
     protected void Connect(string url)
     {
+        _url = url;
         connectUrl = new Uri(url);
 
-        if (webSocket.State != WebSocketState.Open)
+        try
         {
-            try
-            {
-                webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
+            webSocket = new ClientWebSocket();
+            webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
 
-                OnConnected?.Invoke();
-
-                BeginReceive();
-            }
-            catch (Exception ex)
-            {
-                OnError?.Invoke(ex);
-            }
+            OnConnected?.Invoke();
+            BeginReceive();
         }
-        else
+        catch (Exception ex)
         {
-            throw new Exceptions.WebSocketLinkingException();
+            OnError?.Invoke(ex);
         }
     }
 
@@ -94,7 +93,10 @@ public class BaseWebSocket
             {
                 var data = Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count);
 
-                OnReceived?.Invoke(JToken.Parse(data));
+                if(data.Length > 0)
+                {
+                    OnReceived?.Invoke(JToken.Parse(data));
+                }
             }
         }
         catch (Exception ex)
@@ -111,6 +113,16 @@ public class BaseWebSocket
     }
 
     /// <summary>
+    /// 重新连接 (主动断开连接后重新连接)
+    /// </summary>
+    protected async void ReConnect()
+    {
+        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, String.Empty, CancellationToken.None);
+
+        Connect(_url);
+    }
+
+    /// <summary>
     /// 发送数据
     /// </summary>
     /// <param name="jsonData"></param>
@@ -119,15 +131,15 @@ public class BaseWebSocket
     {
         if (webSocket.State is not WebSocketState.Open)
         {
-            throw new Exceptions.WebSocketNotConnectedException();
+            ConnectBreak?.Invoke();
+
+            return;
         }
 
         try
         {
             ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(jsonData));
-
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
-
             OnSend?.Invoke();
         }
         catch (Exception ex)
