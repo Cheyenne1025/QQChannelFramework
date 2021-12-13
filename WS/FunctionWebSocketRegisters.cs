@@ -1,4 +1,5 @@
 ﻿using System;
+using QQChannelFramework.Datas;
 using QQChannelFramework.Models.Types;
 
 namespace QQChannelFramework.WS;
@@ -88,7 +89,7 @@ partial class FunctionWebSocket
     /// <returns></returns>
     public FunctionWebSocket RegisterUserMessageEvent()
     {
-        if(_private is false)
+        if(CommonState.PrivateBot is false)
         {
             throw new Exceptions.BotNotIsPrivateException();
         }

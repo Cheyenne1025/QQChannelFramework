@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Models;
 using QQChannelFramework.Models.ParamModels;
 using QQChannelFramework.Models.Types;
 
@@ -13,6 +14,7 @@ public delegate void NormalDelegate();
 public delegate void NoticeDelegate(string message);
 public delegate void ErrorDelegate(Exception ex);
 public delegate void ReceiveDelegate(JToken receiveData);
+public delegate void CommandTriggerDelegate(CommandInfo commandInfo);
 
 public class BaseWebSocket
 {
@@ -110,16 +112,6 @@ public class BaseWebSocket
                 BeginReceive();
             }
         }
-    }
-
-    /// <summary>
-    /// 重新连接 (主动断开连接后重新连接)
-    /// </summary>
-    protected async void ReConnect()
-    {
-        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, String.Empty, CancellationToken.None);
-
-        Connect(_url);
     }
 
     /// <summary>

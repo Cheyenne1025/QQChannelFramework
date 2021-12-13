@@ -5,6 +5,7 @@ using System.Timers;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Datas;
 using QQChannelFramework.Exceptions;
 using QQChannelFramework.Models.ParamModels;
 using QQChannelFramework.Models.Types;
@@ -33,8 +34,6 @@ public partial class FunctionWebSocket : BaseWebSocket
 
     protected bool _enableShard = false;
 
-    private bool _private = false;
-
     private bool _resumeIsBind;
 
     protected bool _enableUserMessageTriggerCommand;
@@ -59,7 +58,7 @@ public partial class FunctionWebSocket : BaseWebSocket
     /// </summary>
     public void UsePrivateBot()
     {
-        _private = true;
+        CommonState.PrivateBot = true;
     }
 
     /// <summary>
@@ -67,7 +66,7 @@ public partial class FunctionWebSocket : BaseWebSocket
     /// </summary>
     public void EnableUserMessageTriggerCommand()
     {
-        if(_private is false)
+        if(CommonState.PrivateBot is false)
         {
             throw new BotNotIsPrivateException();
         }

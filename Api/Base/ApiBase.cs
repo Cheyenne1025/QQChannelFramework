@@ -24,6 +24,8 @@ public class ApiBase
 
     private static HttpClient _client;
 
+    private object _rawContent;
+
     private HttpContent _content;
 
     public ApiBase(OpenApiAccessInfo openApiAccessInfo)
@@ -79,6 +81,7 @@ public class ApiBase
     /// <returns></returns>
     public ApiBase WithData(object obj)
     {
+        _rawContent = obj;
         _content = new StringContent(JsonConvert.SerializeObject(obj));
         _content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
@@ -124,6 +127,15 @@ public class ApiBase
         {
             case MethodType.GET:
 
+                if(_rawContent is not null)
+                {
+                    _requestUrl = $"{_requestUrl}?";
+                    foreach (var item in (Dictionary<string, object>)_rawContent)
+                    {
+                        _requestUrl += $"{item.Key}={item.Value}&";
+                    }
+                }
+
                 responseMessage = _client.GetAsync(_requestUrl).Result;
 
                 break;
@@ -153,6 +165,8 @@ public class ApiBase
                 break;
         }
 
+        //Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
+
         // 检查Http状态码
         InspectionHttpCode(responseMessage);
 
@@ -166,6 +180,7 @@ public class ApiBase
 
         var jsonObject = JToken.Parse(responseData);
 
+        _rawContent = null;
         _content = null;
 
         if (jsonObject.ToString().StartsWith('['))
@@ -258,6 +273,10 @@ public class ApiBase
         if (_officialExceptions.ContainsKey(code))
         {
             throw new Exception(_officialExceptions[code]);
+        }
+        else
+        {
+            throw new Exception($"错误代码: {code}, 错误信息: {resultData["message"]}");
         }
     }
 }

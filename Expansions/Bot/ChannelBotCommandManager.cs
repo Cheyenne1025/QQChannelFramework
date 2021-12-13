@@ -157,14 +157,17 @@ sealed partial class ChannelBot
         return this;
     }
 
-    private void InvokeCommand(CommandInfo commandInfo)
+    private void InvokeCommand(CommandInfo commandInfo,out bool trigger)
     {
         if(_commands.ContainsKey(commandInfo.Key) is true)
         {
+            trigger = true;
             _commands[commandInfo.Key](commandInfo);
         }
         else if(_stepCommands.ContainsKey(commandInfo.Key) is true)
         {
+            trigger = true;
+
             var (actions, states) = _stepCommands[commandInfo.Key];
 
             if(states.ContainsKey(commandInfo.Sender.Id))
@@ -188,6 +191,10 @@ sealed partial class ChannelBot
 
                 actions[0](commandInfo, state);
             }
+        }
+        else
+        {
+            trigger = false;
         }
     }
 }

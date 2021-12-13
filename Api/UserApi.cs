@@ -44,13 +44,15 @@ public class UserApi
 
         var requestData = await _apiBase.RequestAsync(rawGetCurrentUserApi).ConfigureAwait(false);
 
+        var jObj = (JObject)requestData;
+
         User user = new User()
         {
             Id = requestData["id"].ToString(),
             UserName = requestData["username"].ToString(),
             Avatar = requestData["avatar"].ToString(),
-            UnionOpenid = requestData["union_openid"].ToString(),
-            UnionUserAccount = requestData["union_user_account"].ToString()
+            UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["union_openid"].ToString() : "",
+            UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["union_user_account"].ToString() : ""
         };
 
         return user;

@@ -50,14 +50,28 @@ public sealed partial class ChannelBot : FunctionWebSocket
 
         ReceivedAtMessage += (message) =>
         {
-            InvokeCommand(_parseCommand(message));
+            var commandInfo = _parseCommand(message);
+
+            InvokeCommand(commandInfo, out bool trigger);
+
+            if (trigger)
+            {
+                CommandTrigger?.Invoke(commandInfo);
+            }
         };
 
         ReceivedUserMessage += (message) =>
         {
-            if(_enableUserMessageTriggerCommand)
+            if (_enableUserMessageTriggerCommand)
             {
-                InvokeCommand(_parseCommand(message));
+                var commandInfo = _parseCommand(message);
+
+                InvokeCommand(_parseCommand(message), out bool trigger);
+
+                if (trigger)
+                {
+                    CommandTrigger?.Invoke(commandInfo);
+                }
             }
         };
     }

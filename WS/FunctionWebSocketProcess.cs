@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -344,7 +345,11 @@ partial class FunctionWebSocket
 
                 Reconnecting?.Invoke();
 
-                ReConnect();
+                CloseAsync();
+
+                Thread.Sleep(1000);
+
+                Connect(_url);
 
                 break;
 

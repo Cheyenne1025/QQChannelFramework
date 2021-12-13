@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using QQChannelFramework.Api.Types;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Datas;
 
 namespace QQChannelFramework.Api;
 
@@ -53,6 +54,8 @@ public class MemberApi
 
         var requestData = await _apiBase.RequestAsync(precessedInfo).ConfigureAwait(false);
 
+        var jObj = (JObject)requestData["user"];
+
         Member member = new()
         {
             User = new()
@@ -61,21 +64,124 @@ public class MemberApi
                 UserName = requestData["user"]["username"].ToString(),
                 Avatar = requestData["user"]["avatar"].ToString(),
                 IsBot = bool.Parse(requestData["user"]["bot"].ToString()),
-                UnionOpenid = requestData["user"]["union_openid"].ToString(),
-                UnionUserAccount = requestData["user"]["union_user_account"].ToString()
+                UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["user"]["union_openid"].ToString() : "",
+                UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["user"]["union_user_account"].ToString() : "",
             },
             Nick = requestData["nick"].ToString(),
             Roles = new(),
             JoinedAt = DateTime.Parse(requestData["joined_at"].ToString())
         };
 
-        var roles = requestData["roles"].ToList();
 
-        foreach (var roleId in roles)
+        if (jObj.ContainsKey("roles"))
         {
-            member.Roles.Add(roleId.ToString());
+            var roles = requestData["roles"].ToList();
+
+            foreach (var roleId in roles)
+            {
+                member.Roles.Add(roleId.ToString());
+            }
         }
 
         return member;
+    }
+
+    /// <summary>
+    /// 获取频道内所有成员信息 (私域可用)
+    /// </summary>
+    /// <param name="guild_id">主频道GuildID</param>
+    /// <param name="after">上一次回包中最大的用户ID， 如果是第一次请求填0，默认为0</param>
+    /// <param name="limit">分页大小，1-1000，默认是1</param>
+    /// <returns>元组 (成员集合，成员数量)</returns>
+    /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
+    public async Task<(List<Member>,int)> GetMembers(string guild_id,string after = "0", UInt32 limit = 1)
+    {
+        if(CommonState.PrivateBot is false)
+        {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        if(limit > 1000)
+        {
+            limit = 1000;
+        }
+
+        RawGetChannelMembersApi rawGetChannelMembersApi;
+
+        var processedInfo = ApiFactory.Process(rawGetChannelMembersApi, new Dictionary<ParamType, string>()
+        {
+            {ParamType.guild_id,guild_id }
+        });
+
+        var requestData = await _apiBase
+            .WithData(new Dictionary<string,object>()
+            {
+                {"after", after},
+                {"limit",limit }
+            })
+            .RequestAsync(processedInfo);
+
+        JArray jArray = JArray.Parse(requestData.ToString());
+
+        List<Member> members = new();
+
+        foreach (var info in jArray)
+        {
+            var jObj = (JObject)info["user"];
+
+            Member member = new()
+            {
+                User = new()
+                {
+                    Id = info["user"]["id"].ToString(),
+                    UserName = info["user"]["username"].ToString(),
+                    Avatar = info["user"]["avatar"].ToString(),
+                    IsBot = bool.Parse(info["user"]["bot"].ToString()),
+                    UnionOpenid = jObj.ContainsKey("union_openid") ? info["user"]["union_openid"].ToString() : "",
+                    UnionUserAccount = jObj.ContainsKey("union_user_account") ? info["user"]["union_user_account"].ToString() : "",
+                },
+                Nick = info["nick"].ToString(),
+                Roles = new(),
+                JoinedAt = DateTime.Parse(info["joined_at"].ToString())
+            };
+
+            if (jObj.ContainsKey("roles"))
+            {
+                foreach (var role in (JArray)info["roles"])
+                {
+                    member.Roles.Add(role.ToString());
+                }
+            }
+
+            members.Add(member);
+        }
+
+        return (members, members.Count);
+    }
+
+    /// <summary>
+    /// 删除指定频道成员 (私域可用)
+    /// </summary>
+    /// <param name="guild_id"></param>
+    /// <param name="user_id"></param>
+    /// <returns></returns>
+    public async Task<bool> DeleteMemberAsync(string guild_id,string user_id)
+    {
+        if (CommonState.PrivateBot is false)
+        {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        RawDeleteChannelMemberApi rawDeleteChannelMemberApi;
+
+        var processedInfo = ApiFactory.Process(rawDeleteChannelMemberApi, new Dictionary<ParamType, string>()
+        {
+            {ParamType.guild_id,guild_id },
+            {ParamType.user_id,user_id }
+        });
+
+        var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
+
+        return requestData is null;
     }
 }
