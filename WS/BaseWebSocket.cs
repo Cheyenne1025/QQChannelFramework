@@ -65,14 +65,14 @@ public class BaseWebSocket {
     /// 开始连接
     /// </summary>
     /// <exception cref="Exception"></exception>
-    protected void Connect(string url) {
+    protected async ValueTask ConnectAsync(string url) {
         _url = url;
         connectUrl = new Uri(url);
 
         try { 
             webSocket = new ClientWebSocket();
-            webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
-
+            await webSocket.ConnectAsync(connectUrl, CancellationToken.None); 
+            
             OnConnected?.Invoke();
             BeginReceive();
         } catch (Exception ex) {
@@ -106,8 +106,7 @@ public class BaseWebSocket {
         } finally {
             if (webSocket.State == WebSocketState.Open) {
                 BeginReceive();
-            } else {
-                Console.WriteLine($"Illegal Websocket state at receive {webSocket.State}");
+            } else { 
                 ConnectBreak?.Invoke(); 
             }
         }
