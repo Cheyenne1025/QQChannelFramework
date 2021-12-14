@@ -9,26 +9,22 @@ using QQChannelFramework.Models.WsModels;
 
 namespace QQChannelFramework.WS;
 
-partial class FunctionWebSocket
-{
+partial class FunctionWebSocket {
     /// <summary>
     /// 处理数据
     /// </summary>
     /// <param name="data"></param>
-    private void Process(JToken data)
-    {
-        var opCode = (OpCode)int.Parse(data["op"].ToString());
+    private void Process(JToken data) {
+        var opCode = (OpCode) int.Parse(data["op"].ToString());
 
-        switch (opCode)
-        {
+        switch (opCode) {
             case OpCode.Dispatch:
 
                 var t = data["t"].ToString();
 
                 _nowS = data["s"].ToString();
 
-                switch (Enum.Parse<GuildEvents>(t))
-                {
+                switch (Enum.Parse<GuildEvents>(t)) {
                     case GuildEvents.READY:
 
                         _sessionInfo.Version = data["d"]["version"].ToString();
@@ -42,14 +38,13 @@ partial class FunctionWebSocket
 
                     case GuildEvents.RESUMED:
 
-                        Resumed?.Invoke();
+                        //Resumed?.Invoke();
 
                         break;
 
                     case GuildEvents.GUILD_CREATE:
 
-                        BotAreAddedToTheGuild?.Invoke(new WsGuild()
-                        {
+                        BotAreAddedToTheGuild?.Invoke(new WsGuild() {
                             Id = data["d"]["id"].ToString(),
                             Description = data["d"]["description"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -66,8 +61,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.GUILD_UPDATE:
 
-                        GuildInfoChange?.Invoke(new WsGuild()
-                        {
+                        GuildInfoChange?.Invoke(new WsGuild() {
                             Id = data["d"]["id"].ToString(),
                             Description = data["d"]["description"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -84,8 +78,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.GUILD_DELETE:
 
-                        BotBeRemoved?.Invoke(new WsGuild()
-                        {
+                        BotBeRemoved?.Invoke(new WsGuild() {
                             Id = data["d"]["id"].ToString(),
                             Description = data["d"]["description"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -102,8 +95,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.CHANNEL_CREATE:
 
-                        ChildChannelCreated?.Invoke(new WsChildChannel()
-                        {
+                        ChildChannelCreated?.Invoke(new WsChildChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -117,8 +109,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.CHANNEL_UPDATE:
 
-                        ChildChannelInfoChange?.Invoke(new WsChildChannel()
-                        {
+                        ChildChannelInfoChange?.Invoke(new WsChildChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -132,8 +123,7 @@ partial class FunctionWebSocket
 
                     case GuildEvents.CHANNEL_DELETE:
 
-                        ChildChannelBeRemoved?.Invoke(new WsChildChannel()
-                        {
+                        ChildChannelBeRemoved?.Invoke(new WsChildChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -147,14 +137,12 @@ partial class FunctionWebSocket
 
                     case GuildEvents.GUILD_MEMBER_ADD:
 
-                        var newMemberModel = new Models.MemberWithGuildID()
-                        {
+                        var newMemberModel = new Models.MemberWithGuildID() {
                             GuildId = data["d"]["guild_id"].ToString(),
                             JoinedAt = null,
                             Nick = data["d"]["nick"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new()
-                            {
+                            User = new() {
                                 IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
@@ -162,8 +150,7 @@ partial class FunctionWebSocket
                             Roles = new()
                         };
 
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
-                        {
+                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
                             newMemberModel.Roles.Add(role.ToString());
                         }
 
@@ -173,14 +160,12 @@ partial class FunctionWebSocket
 
                     case GuildEvents.GUILD_MEMBER_UPDATE:
 
-                        var updateMemberModel = new Models.MemberWithGuildID()
-                        {
+                        var updateMemberModel = new Models.MemberWithGuildID() {
                             GuildId = data["d"]["guild_id"].ToString(),
                             JoinedAt = null,
                             Nick = data["d"]["nick"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new()
-                            {
+                            User = new() {
                                 IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
@@ -188,8 +173,7 @@ partial class FunctionWebSocket
                             Roles = new()
                         };
 
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
-                        {
+                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
                             updateMemberModel.Roles.Add(role.ToString());
                         }
 
@@ -199,14 +183,12 @@ partial class FunctionWebSocket
 
                     case GuildEvents.GUILD_MEMBER_REMOVE:
 
-                        var deleteMemberModel = new Models.MemberWithGuildID()
-                        {
+                        var deleteMemberModel = new Models.MemberWithGuildID() {
                             GuildId = data["d"]["guild_id"].ToString(),
                             JoinedAt = null,
                             Nick = data["d"]["nick"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new()
-                            {
+                            User = new() {
                                 IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
                                 Id = data["d"]["user"]["id"].ToString(),
                                 UserName = data["d"]["user"]["username"].ToString()
@@ -214,8 +196,7 @@ partial class FunctionWebSocket
                             Roles = new()
                         };
 
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString()))
-                        {
+                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
                             deleteMemberModel.Roles.Add(role.ToString());
                         }
 
@@ -225,21 +206,18 @@ partial class FunctionWebSocket
 
                     case GuildEvents.AT_MESSAGE_CREATE:
 
-                        var messageModel = new Models.MessageModels.Message()
-                        {
+                        var messageModel = new Models.MessageModels.Message() {
                             Id = data["d"]["id"].ToString(),
                             ChildChannelId = data["d"]["channel_id"].ToString(),
                             Content = data["d"]["content"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
-                            Author = new()
-                            {
+                            Author = new() {
                                 Avatar = data["d"]["author"]["avatar"].ToString(),
                                 IsBot = bool.Parse(data["d"]["author"]["bot"].ToString()),
                                 Id = data["d"]["author"]["id"].ToString(),
                                 UserName = data["d"]["author"]["username"].ToString()
                             },
-                            Member = new()
-                            {
+                            Member = new() {
                                 JoinedAt = DateTime.Parse(data["d"]["member"]["joined_at"].ToString()),
                                 Roles = new()
                             },
@@ -247,43 +225,37 @@ partial class FunctionWebSocket
                             Mentions = new()
                         };
 
-                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString()))
-                        {
+                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString())) {
                             messageModel.Member.Roles.Add(role.ToString());
                         }
 
-                        foreach (var userInfo in JArray.Parse(data["d"]["mentions"].ToString()))
-                        {
-                            messageModel.Mentions.Add(new Models.User()
-                            {
+                        foreach (var userInfo in JArray.Parse(data["d"]["mentions"].ToString())) {
+                            messageModel.Mentions.Add(new Models.User() {
                                 Avatar = userInfo["avatar"].ToString(),
                                 IsBot = bool.Parse(userInfo["bot"].ToString()),
                                 Id = userInfo["id"].ToString(),
                                 UserName = userInfo["username"].ToString()
                             });
-                        }
-
+                        } 
+                        
                         ReceivedAtMessage?.Invoke(messageModel);
 
                         break;
 
                     case GuildEvents.MESSAGE_CREATE:
 
-                        var messageModel2 = new Models.MessageModels.Message()
-                        {
+                        var messageModel2 = new Models.MessageModels.Message() {
                             Id = data["d"]["id"].ToString(),
                             ChildChannelId = data["d"]["channel_id"].ToString(),
                             Content = data["d"]["content"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
-                            Author = new()
-                            {
+                            Author = new() {
                                 Avatar = data["d"]["author"]["avatar"].ToString(),
                                 IsBot = bool.Parse(data["d"]["author"]["bot"].ToString()),
                                 Id = data["d"]["author"]["id"].ToString(),
                                 UserName = data["d"]["author"]["username"].ToString()
                             },
-                            Member = new()
-                            {
+                            Member = new() {
                                 JoinedAt = DateTime.Parse(data["d"]["member"]["joined_at"].ToString()),
                                 Roles = new()
                             },
@@ -291,10 +263,9 @@ partial class FunctionWebSocket
                             Mentions = new()
                         };
 
-                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString()))
-                        {
+                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString())) {
                             messageModel2.Member.Roles.Add(role.ToString());
-                        }
+                        } 
 
                         ReceivedUserMessage?.Invoke(messageModel2);
 
@@ -312,13 +283,12 @@ partial class FunctionWebSocket
 
                 _identifyData.intents = 0;
 
-                foreach (var type in _registeredEvents)
-                {
-                    _identifyData.intents += (int)type;
+                foreach (var type in _registeredEvents) {
+                    _identifyData.intents += (int) type;
                 }
 
                 Load load = new();
-                load.op = (int)OpCode.Identify;
+                load.op = (int) OpCode.Identify;
                 load.d = _identifyData;
 
                 SendAsync(JsonConvert.SerializeObject(load));
