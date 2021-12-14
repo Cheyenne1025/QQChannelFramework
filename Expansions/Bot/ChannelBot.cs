@@ -26,7 +26,8 @@ public sealed partial class ChannelBot : FunctionWebSocket
         {
             var realContent = message.Content.Trim();
 
-            if (message.Mentions.Count > 0)
+            // Check null and check count
+            if (message.Mentions is {Count: > 0})
             {
                 foreach (var user in message.Mentions)
                 {

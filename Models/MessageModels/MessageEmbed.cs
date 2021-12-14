@@ -1,34 +1,33 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace QQChannelFramework.Models.MessageModels;
 
 /// <summary>
 /// 消息内嵌
 /// </summary>
-public class MessageEmbed
-{
+public class MessageEmbed {
     /// <summary>
     /// 标题
-    /// </summary>
-    public string Title { get; set; }
-
-    /// <summary>
-    /// 描述
-    /// </summary>
-    public string Description { get; set; }
+    /// </summary> 
+    [JsonProperty("title")]
+    public string Title { get; set; } 
 
     /// <summary>
     /// 消息弹窗内容
     /// </summary>
-    public string Prompt { get; set; }
+    [JsonProperty("prompt")]
+    public string Prompt { get; set; } 
 
     /// <summary>
-    /// 消息创建时间
+    /// 缩略图
     /// </summary>
-    public DateTime Time { get; set; }
-
+    [JsonProperty("thumbnail")]
+    public MessageEmbedThumbnail Thumbnail { get; set; }
+    
     /// <summary>
     /// Fields
     /// </summary>
+    [JsonProperty("fields")]
     public List<MessageEmbedField> Fields { get; set; }
 }
