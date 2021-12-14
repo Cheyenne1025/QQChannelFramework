@@ -69,8 +69,7 @@ public class BaseWebSocket {
         _url = url;
         connectUrl = new Uri(url);
 
-        try {
-            webSocket?.Dispose();
+        try { 
             webSocket = new ClientWebSocket();
             webSocket.ConnectAsync(connectUrl, CancellationToken.None).Wait();
 
@@ -137,7 +136,7 @@ public class BaseWebSocket {
     /// <summary>
     /// 关闭连接
     /// </summary>
-    public async void CloseAsync() {
+    public async ValueTask CloseAsync() {
         if (webSocket is not null) {
             await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None)
                 .ConfigureAwait(false);
