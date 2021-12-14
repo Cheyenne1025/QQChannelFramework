@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
@@ -54,20 +55,7 @@ public class MessageApi
 
         var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = new()
-        {
-            Id = requestData["id"].ToString(),
-            ChildChannelId = requestData["channel_id"].ToString(),
-            GuildId = requestData["guild_id"].ToString(),
-            Time = DateTime.Parse(requestData["timestamp"].ToString()),
-            MentionEveryone = bool.Parse(requestData["mention_everyone"].ToString()),
-            Content = requestData["content"].ToString(),
-            Author = new()
-            {
-                Id = requestData["author"]["id"].ToString(),
-                IsBot = bool.Parse(requestData["author"]["bot"].ToString())
-            }
-        };
+        Message message = requestData.ToObject<Message>();
 
         return message;
     }
@@ -89,20 +77,7 @@ public class MessageApi
 
         var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = new()
-        {
-            Id = requestData["id"].ToString(),
-            ChildChannelId = requestData["channel_id"].ToString(),
-            GuildId = requestData["guild_id"].ToString(),
-            Time = DateTime.Parse(requestData["timestamp"].ToString()),
-            MentionEveryone = bool.Parse(requestData["mention_everyone"].ToString()),
-            Content = requestData["content"].ToString(),
-            Author = new()
-            {
-                Id = requestData["author"]["id"].ToString(),
-                IsBot = bool.Parse(requestData["author"]["bot"].ToString())
-            }
-        };
+        Message message = requestData.ToObject<Message>();
 
         return message;
     }
@@ -126,20 +101,7 @@ public class MessageApi
 
         var requestData = await _apiBase.WithData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = new()
-        {
-            Id = requestData["id"].ToString(),
-            ChildChannelId = requestData["channel_id"].ToString(),
-            GuildId = requestData["guild_id"].ToString(),
-            Time = DateTime.Parse(requestData["timestamp"].ToString()),
-            MentionEveryone = bool.Parse(requestData["mention_everyone"].ToString()),
-            Content = requestData["content"].ToString(),
-            Author = new()
-            {
-                Id = requestData["author"]["id"].ToString(),
-                IsBot = bool.Parse(requestData["author"]["bot"].ToString())
-            }
-        };
+        Message message = requestData.ToObject<Message>();
 
         return message;
     }
@@ -164,20 +126,7 @@ public class MessageApi
 
         var requestData = await _apiBase.WithData(imageAndTextMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = new()
-        {
-            Id = requestData["id"].ToString(),
-            ChildChannelId = requestData["channel_id"].ToString(),
-            GuildId = requestData["guild_id"].ToString(),
-            Time = DateTime.Parse(requestData["timestamp"].ToString()),
-            MentionEveryone = bool.Parse(requestData["mention_everyone"].ToString()),
-            Content = requestData["content"].ToString(),
-            Author = new()
-            {
-                Id = requestData["author"]["id"].ToString(),
-                IsBot = bool.Parse(requestData["author"]["bot"].ToString())
-            }
-        };
+        Message message = requestData.ToObject<Message>();
 
         return message;
     }
@@ -200,20 +149,7 @@ public class MessageApi
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = new()
-        {
-            Id = requestData["message"]["id"].ToString(),
-            ChildChannelId = requestData["message"]["channel_id"].ToString(),
-            GuildId = requestData["message"]["guild_id"].ToString(),
-            Time = DateTime.Parse(requestData["message"]["timestamp"].ToString()),
-            Content = requestData["message"]["content"].ToString(),
-            Author = new()
-            {
-                Id = requestData["message"]["author"]["id"].ToString(),
-                IsBot = bool.Parse(requestData["message"]["author"]["bot"].ToString()),
-                UserName = requestData["message"]["author"]["username"].ToString(),
-            },
-        };
+        Message message = requestData.ToObject<Message>();
 
         return message;
     }

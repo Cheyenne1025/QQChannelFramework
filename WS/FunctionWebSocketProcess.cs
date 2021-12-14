@@ -206,67 +206,14 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.AT_MESSAGE_CREATE:
 
-                        var messageModel = new Models.MessageModels.Message() {
-                            Id = data["d"]["id"].ToString(),
-                            ChildChannelId = data["d"]["channel_id"].ToString(),
-                            Content = data["d"]["content"].ToString(),
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            Author = new() {
-                                Avatar = data["d"]["author"]["avatar"].ToString(),
-                                IsBot = bool.Parse(data["d"]["author"]["bot"].ToString()),
-                                Id = data["d"]["author"]["id"].ToString(),
-                                UserName = data["d"]["author"]["username"].ToString()
-                            },
-                            Member = new() {
-                                JoinedAt = DateTime.Parse(data["d"]["member"]["joined_at"].ToString()),
-                                Roles = new()
-                            },
-                            Time = DateTime.Parse(data["d"]["timestamp"].ToString()),
-                            Mentions = new()
-                        };
-
-                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString())) {
-                            messageModel.Member.Roles.Add(role.ToString());
-                        }
-
-                        foreach (var userInfo in JArray.Parse(data["d"]["mentions"].ToString())) {
-                            messageModel.Mentions.Add(new Models.User() {
-                                Avatar = userInfo["avatar"].ToString(),
-                                IsBot = bool.Parse(userInfo["bot"].ToString()),
-                                Id = userInfo["id"].ToString(),
-                                UserName = userInfo["username"].ToString()
-                            });
-                        } 
-                        
+                        var messageModel = data["d"].ToObject<Models.MessageModels.Message>();
                         ReceivedAtMessage?.Invoke(messageModel);
 
                         break;
 
                     case GuildEvents.MESSAGE_CREATE:
 
-                        var messageModel2 = new Models.MessageModels.Message() {
-                            Id = data["d"]["id"].ToString(),
-                            ChildChannelId = data["d"]["channel_id"].ToString(),
-                            Content = data["d"]["content"].ToString(),
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            Author = new() {
-                                Avatar = data["d"]["author"]["avatar"].ToString(),
-                                IsBot = bool.Parse(data["d"]["author"]["bot"].ToString()),
-                                Id = data["d"]["author"]["id"].ToString(),
-                                UserName = data["d"]["author"]["username"].ToString()
-                            },
-                            Member = new() {
-                                JoinedAt = DateTime.Parse(data["d"]["member"]["joined_at"].ToString()),
-                                Roles = new()
-                            },
-                            Time = DateTime.Parse(data["d"]["timestamp"].ToString()),
-                            Mentions = new()
-                        };
-
-                        foreach (var role in JArray.Parse(data["d"]["member"]["roles"].ToString())) {
-                            messageModel2.Member.Roles.Add(role.ToString());
-                        } 
-
+                        var messageModel2 = data["d"].ToObject<Models.MessageModels.Message>();
                         ReceivedUserMessage?.Invoke(messageModel2);
 
                         break;

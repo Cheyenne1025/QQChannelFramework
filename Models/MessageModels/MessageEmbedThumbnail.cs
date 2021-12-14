@@ -3,11 +3,12 @@
 namespace QQChannelFramework.Models.MessageModels;
 
 /// <summary>
-/// 消息附件
+/// 消息内嵌缩略图
 /// </summary>
-public class MessageAttachment {
+public class MessageEmbedThumbnail
+{
     /// <summary>
-    /// 附件地址
+    /// 地址
     /// </summary>
     [JsonProperty("url")]
     public string Url { get; set; }
