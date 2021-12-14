@@ -30,11 +30,18 @@ public sealed partial class ChannelBot : FunctionWebSocket
             if (message.Mentions is {Count: > 0})
             {
                 foreach (var user in message.Mentions)
-                {
+                { 
+                    //在末尾处At没有空格
                     realContent = realContent.Replace($"<@!{user.Id}> ", string.Empty);
+                    realContent = realContent.Replace($"<@!{user.Id}>", string.Empty);
                 }
             }
 
+            if (message.MentionEveryone) {
+                realContent = realContent.Replace($"@everyone ", string.Empty);
+                realContent = realContent.Replace($"@everyone", string.Empty);
+            } 
+            
             var rawData = realContent.Split(" ");
 
             CommandInfo commandInfo = new();
@@ -85,14 +92,14 @@ public sealed partial class ChannelBot : FunctionWebSocket
         QQChannelApi qQChannelApi = new(_openApiAccessInfo);
         _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
 
-        Connect(_url);
+        await ConnectAsync(_url);
     }
 
     /// <summary>
     /// 机器人下线
     /// </summary>
-    public void OfflineAsync()
+    public async ValueTask OfflineAsync()
     {
-        CloseAsync();
+        await CloseAsync();
     }
 }

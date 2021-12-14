@@ -14,7 +14,7 @@ partial class FunctionWebSocket {
     /// 处理数据
     /// </summary>
     /// <param name="data"></param>
-    private void Process(JToken data) {
+    private async void Process(JToken data) {
         var opCode = (OpCode) int.Parse(data["op"].ToString());
 
         switch (opCode) {
@@ -246,7 +246,7 @@ partial class FunctionWebSocket {
 
                 AuthenticationError?.Invoke();
 
-                CloseAsync();
+                await CloseAsync();
 
                 break;
 
@@ -262,11 +262,8 @@ partial class FunctionWebSocket {
 
                 Reconnecting?.Invoke();
 
-                CloseAsync();
-
-                Thread.Sleep(1000);
-
-                Connect(_url);
+                await CloseAsync(); 
+                await ConnectAsync(_url);
 
                 break;
 
