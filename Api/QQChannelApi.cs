@@ -12,7 +12,9 @@ public sealed partial class QQChannelApi
 
     public QQChannelApi(OpenApiAccessInfo openApiAccessInfo)
     {
-        apiBase = new ApiBase(openApiAccessInfo);
+        if (apiBase is null) {
+            apiBase = new ApiBase(openApiAccessInfo);
+        } 
     }
 
     /// <summary>
