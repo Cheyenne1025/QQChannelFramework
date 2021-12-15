@@ -58,7 +58,7 @@ public class Message {
     /// <summary>
     /// 附件
     /// </summary>
-    [JsonProperty("attachments")]
+    [JsonProperty("attachments")] 
     public List<MessageAttachment> Attachments { get; set; }
 
     [JsonProperty("embeds")] 
