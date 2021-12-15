@@ -7,6 +7,7 @@ using System.Linq;
 using QQChannelFramework.OfficialExceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QQChannelFramework.Exceptions;
 
 namespace QQChannelFramework.Api.Base;
 
@@ -272,7 +273,7 @@ public class ApiBase
 
         if (_officialExceptions.ContainsKey(code))
         {
-            throw new Exception(_officialExceptions[code]);
+            throw new ErrorResultException(code, _officialExceptions[code]);
         }
         else
         {

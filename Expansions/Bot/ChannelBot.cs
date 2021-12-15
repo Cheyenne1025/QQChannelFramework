@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using QQChannelFramework.Api;
+using QQChannelFramework.Api; 
 using QQChannelFramework.Models;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
@@ -89,9 +89,8 @@ public sealed partial class ChannelBot : FunctionWebSocket
     /// </summary>
     public async ValueTask OnlineAsync()
     {
-        QQChannelApi qQChannelApi = new(_openApiAccessInfo);
-        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
-
+        QQChannelApi qQChannelApi = new(_openApiAccessInfo); 
+        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false); 
         await ConnectAsync(_url);
     }
 
