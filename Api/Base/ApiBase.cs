@@ -18,7 +18,7 @@ public class ApiBase
 
     private readonly OpenApiAccessInfo _openApiAccessInfo;
 
-    private RequestMode _requestMode = RequestMode.Release;
+    internal RequestMode _requestMode = RequestMode.Release;
 
     private static Dictionary<int, string> _officialExceptions;
 
