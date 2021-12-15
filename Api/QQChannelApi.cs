@@ -1,4 +1,5 @@
 ﻿using QQChannelFramework.Api.Base;
+using QQChannelFramework.Api.Types;
 
 namespace QQChannelFramework.Api;
 
@@ -14,6 +15,11 @@ public sealed partial class QQChannelApi
         apiBase = new ApiBase(openApiAccessInfo);
     }
 
+    /// <summary>
+    /// 正式/沙箱模式
+    /// </summary>
+    public RequestMode RequestMode => apiBase._requestMode;
+    
     /// <summary>
     /// 使用正式模式 (默认)
     /// </summary>
