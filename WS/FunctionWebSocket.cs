@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
 using ChannelModels.Types;
@@ -52,7 +53,7 @@ public partial class FunctionWebSocket : BaseWebSocket
         _identifyData.token = $"Bot {_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}";
         _identifyData.shard = new int[] { };
     }
-
+    
     /// <summary>
     /// 指定为私域机器人
     /// </summary>

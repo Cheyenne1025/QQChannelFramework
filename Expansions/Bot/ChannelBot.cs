@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -82,6 +83,12 @@ public sealed partial class ChannelBot : FunctionWebSocket
                 }
             }
         };
+         
+        // Websocket断线重连
+        ConnectBreak += async () => {
+            Debug.WriteLine("MyBot Websocket 断线重连");
+            await Reconnect();
+        };
     }
 
     /// <summary>
@@ -92,8 +99,23 @@ public sealed partial class ChannelBot : FunctionWebSocket
         QQChannelApi qQChannelApi = new(_openApiAccessInfo); 
         _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false); 
         await ConnectAsync(_url);
+    } 
+    
+    private async Task Reconnect() {  
+        while (true) {
+            try {
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                await OnlineAsync().ConfigureAwait(false);
+                Debug.WriteLine("MyBot Websocket 重连完成");
+                
+                return;
+            } catch (Exception ex) {
+                Debug.WriteLine("MyBot Websocket 重连失败，3秒后重试"); 
+                Debug.WriteLine(ex);
+            }
+        }
     }
-
+    
     /// <summary>
     /// 机器人下线
     /// </summary>
