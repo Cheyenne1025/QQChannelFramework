@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.WebSockets;
 using System.Text;
@@ -12,13 +13,9 @@ using QQChannelFramework.Models.Types;
 namespace QQChannelFramework.WS;
 
 public delegate void NormalDelegate();
-
 public delegate void NoticeDelegate(string message);
-
 public delegate void ErrorDelegate(Exception ex);
-
 public delegate void ReceiveDelegate(JToken receiveData);
-
 public delegate void CommandTriggerDelegate(CommandInfo commandInfo);
 
 public class BaseWebSocket {
@@ -54,12 +51,11 @@ public class BaseWebSocket {
 
     protected string _url;
     private Uri connectUrl;
-    protected ClientWebSocket webSocket;
+    protected ClientWebSocket webSocket = null;
     private byte[] receiveBuf = new byte[4096];
-    
-    public BaseWebSocket() {
-        webSocket = new ClientWebSocket();
-    }
+
+    private CancellationTokenSource _websocketCancellationTokenSource = null;
+    private Task _receiveTask = null;
 
     /// <summary>
     /// 开始连接
@@ -69,17 +65,18 @@ public class BaseWebSocket {
         _url = url;
         connectUrl = new Uri(url);
 
-        // Dispose上一个Websocket
+        // 释放上一个Websocket
         try {
-            webSocket.Dispose();
-        } catch (Exception) {
-            //ignore
+            await CloseAsync();
+        } catch (Exception ex) {
+            Debug.WriteLine(ex);
         }
-        
-        try { 
+
+        try {
             webSocket = new ClientWebSocket();
-            await webSocket.ConnectAsync(connectUrl, CancellationToken.None); 
-            
+            _websocketCancellationTokenSource = new CancellationTokenSource();
+            await webSocket.ConnectAsync(connectUrl, _websocketCancellationTokenSource.Token).ConfigureAwait(false);
+
             OnConnected?.Invoke();
             BeginReceive();
         } catch (Exception ex) {
@@ -87,18 +84,20 @@ public class BaseWebSocket {
         }
     }
 
-    private void BeginReceive() { 
+    private void BeginReceive() {
 #pragma warning disable CS4014
-        Task.Run(ReceiveAsync).ConfigureAwait(false);
+        _receiveTask = Task.Run(ReceiveAsync, _websocketCancellationTokenSource.Token);
 #pragma warning restore CS4014
     }
-    
-    private async void ReceiveAsync() {
+
+    private async Task ReceiveAsync() {
+        var cancellationToken = _websocketCancellationTokenSource.Token;
         try {
             var ms = new MemoryStream();
 
-            while (true) {
-                var result = await webSocket.ReceiveAsync(receiveBuf, CancellationToken.None);
+            while (!cancellationToken.IsCancellationRequested) {
+                var result = await webSocket.ReceiveAsync(receiveBuf, cancellationToken)
+                    .ConfigureAwait(false);
 
                 if (result.Count > 0) {
                     ms.Write(receiveBuf, 0, result.Count);
@@ -108,19 +107,27 @@ public class BaseWebSocket {
                     break;
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             var bytes = ms.ToArray();
             var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 
+            cancellationToken.ThrowIfCancellationRequested();
             if (data.Length > 0) {
                 OnReceived?.Invoke(JToken.Parse(data));
             }
+        } catch (TaskCanceledException x) {
+            Debug.WriteLine(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
         } finally {
-            if (webSocket.State == WebSocketState.Open) {
-                BeginReceive();
-            } else { 
-                ConnectBreak?.Invoke(); 
+            // 被取消则不触发事件
+            if (!cancellationToken.IsCancellationRequested) {
+                if (webSocket.State == WebSocketState.Open) {
+                    BeginReceive();
+                } else {
+                    ConnectBreak?.Invoke();
+                }
             }
         }
     }
@@ -131,15 +138,24 @@ public class BaseWebSocket {
     /// <param name="jsonData"></param>
     /// <exception cref="Exception"></exception>
     public async void SendAsync(string jsonData) {
-        if (webSocket.State is not WebSocketState.Open) {
-            ConnectBreak?.Invoke(); 
+        if (webSocket == null || _websocketCancellationTokenSource == null) {
+            return;
+        }
+
+        if (!_websocketCancellationTokenSource.IsCancellationRequested &&
+            webSocket.State is not WebSocketState.Open) {
+            ConnectBreak?.Invoke();
             return;
         }
 
         try {
             var bytesToSend = Encoding.UTF8.GetBytes(jsonData);
-            await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
+            await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true,
+                    _websocketCancellationTokenSource.Token)
+                .ConfigureAwait(false);
             OnSend?.Invoke();
+        } catch (TaskCanceledException) {
+            // ignored
         } catch (Exception ex) {
             OnError?.Invoke(ex);
         }
@@ -150,8 +166,25 @@ public class BaseWebSocket {
     /// </summary>
     public async ValueTask CloseAsync() {
         if (webSocket is not null) {
-            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None)
-                .ConfigureAwait(false);
+            // 先取消Task，等待接收Task退出
+            _websocketCancellationTokenSource.Cancel();
+            _receiveTask.Wait();
+            
+            try {
+                // 然后再尝试关闭，以避免ReceiveAsync递归回调ConnectBreak
+                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None)
+                    .ConfigureAwait(false);
+            } catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+
+            _websocketCancellationTokenSource.Dispose();
+            _receiveTask.Dispose();
+            webSocket.Dispose();
+
+            webSocket = null;
+            _receiveTask = null;
+            _websocketCancellationTokenSource = null;
 
             OnClose?.Invoke();
         }
