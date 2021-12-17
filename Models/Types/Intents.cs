@@ -46,5 +46,24 @@ public enum Intents : int
     /// <summary>
     /// 用户发送消息 (私域机器人可用)
     /// </summary>
-    UserMessage = 1 << 9
+    UserMessage = 1 << 9,
+    /// <summary>
+    /// 消息表情态事件
+    /// <para>包含: </para>
+    /// <para>为消息添加表情表态</para>
+    /// <para>为消息删除表情表态</para>
+    /// </summary>
+    GuildMessageReactions = 1 << 10,
+    /// <summary>
+    /// 论坛事件
+    /// <para>包含: </para>
+    /// <para>当用户创建主题时</para>
+    /// <para>当用户更新主题时</para>
+    /// <para>当用户删除主题时</para>
+    /// <para>当用户创建帖子时</para>
+    /// <para>当用户删除帖子时</para>
+    /// <para>当用户回复评论时</para>
+    /// <para>当用户删除评论时</para>
+    /// </summary>
+    Forum = 1 << 28
 }

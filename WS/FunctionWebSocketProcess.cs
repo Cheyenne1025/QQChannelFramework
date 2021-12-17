@@ -206,15 +206,25 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.AT_MESSAGE_CREATE:
 
-                        var messageModel = data["d"].ToObject<Models.MessageModels.Message>();
-                        ReceivedAtMessage?.Invoke(messageModel);
+                        ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
                         break;
 
                     case GuildEvents.MESSAGE_CREATE:
 
-                        var messageModel2 = data["d"].ToObject<Models.MessageModels.Message>();
-                        ReceivedUserMessage?.Invoke(messageModel2);
+                        ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+
+                        break;
+
+                    case GuildEvents.MESSAGE_REACTION_ADD:
+
+                        MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
+
+                        break;
+
+                    case GuildEvents.MESSAGE_REACTION_REMOVE:
+
+                        MessageReactionIsRemoved?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
 
                         break;
                 }

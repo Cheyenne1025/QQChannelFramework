@@ -25,4 +25,8 @@ public enum ParamType
     /// 消息Id
     /// </summary>
     message_id,
+    /// <summary>
+    /// 日程Id
+    /// </summary>
+    schedule_id,
 }

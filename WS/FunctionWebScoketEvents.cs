@@ -11,6 +11,7 @@ partial class FunctionWebSocket
     public delegate void ChildChannelDelegate(WsChildChannel childChannel);
     public delegate void MemberDelegate(MemberWithGuildID memberWithGuildID);
     public delegate void MessageDelegate(Message message);
+    public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
 
     /// <summary>
     /// <para>触发时机: </para>
@@ -108,4 +109,15 @@ partial class FunctionWebSocket
     /// </summary>
     [Obsolete("该事件暂时停用",true)]
     public event NormalDelegate Resumed;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>消息被用户添加表情态</para>
+    /// </summary>
+    public event MessageReactionDelegate MessageReactionIsAdded;
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>消息表情态被用户取消(移除)</para>
+    /// </summary>
+    public event MessageReactionDelegate MessageReactionIsRemoved;
 }

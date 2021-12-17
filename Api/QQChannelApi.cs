@@ -37,7 +37,6 @@ public sealed partial class QQChannelApi
     /// 使用沙盒模式
     /// </summary>
     /// <returns></returns>
-    //[Obsolete("官方暂未开放使用", true)]
     public QQChannelApi UseSandBoxMode()
     {
         apiBase.UseSandBoxMode();

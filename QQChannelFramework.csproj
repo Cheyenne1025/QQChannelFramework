@@ -16,8 +16,6 @@
     <None Remove="Newtonsoft.Json" />
     <None Remove="Apis\Types\" />
     <None Remove="Apis\Raws\" />
-    <None Remove="OfficialExceptions\" />
-    <None Remove="OfficialExceptions\Base\" />
     <None Remove="ChannelModels" />
     <None Remove="Models\" />
     <None Remove="Models\ParamModels\" />
@@ -29,6 +27,7 @@
     <None Remove="Expansions\" />
     <None Remove="Expansions\Bot\" />
     <None Remove="Exceptions\" />
+    <None Remove="Tools\JsonConverters\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
@@ -36,8 +35,6 @@
     <Folder Include="Datas\" />
     <Folder Include="Api\Types\" />
     <Folder Include="Api\Raws\" />
-    <Folder Include="OfficialExceptions\" />
-    <Folder Include="OfficialExceptions\Base\" />
     <Folder Include="Models\" />
     <Folder Include="Models\ParamModels\" />
     <Folder Include="Models\RawObject\" />
@@ -48,6 +45,7 @@
     <Folder Include="Expansions\" />
     <Folder Include="Expansions\Bot\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Tools\JsonConverters\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

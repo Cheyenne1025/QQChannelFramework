@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Types;
 using System.Linq;
-using QQChannelFramework.OfficialExceptions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QQChannelFramework.Exceptions;
@@ -35,25 +34,6 @@ public class ApiBase
 
         if (_client is null)
         {
-            _officialExceptions = new Dictionary<int, string>();
-
-            #region 反射存在的官方异常
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            var types = assembly.GetTypes().Where(x => x.GetCustomAttribute(typeof(OfficialException)) is not null).ToList();
-
-            foreach (var type in types)
-            {
-                var attributInfo = (OfficialException)type.GetCustomAttribute(typeof(OfficialException));
-
-                if (_officialExceptions.ContainsKey(attributInfo.Code))
-                {
-                    continue;
-                }
-
-                _officialExceptions.Add(attributInfo.Code, attributInfo.Message);
-            }
-            #endregion
-
             _client = new HttpClient();
         }
 
@@ -268,16 +248,9 @@ public class ApiBase
 
         if (code >= 1000000 && code <= 2999999)
         {
-            throw new Exceptions.SendMessageErrorException();
+            throw new SendMessageErrorException();
         }
 
-        if (_officialExceptions.ContainsKey(code))
-        {
-            throw new ErrorResultException(code, _officialExceptions[code]);
-        }
-        else
-        {
-            throw new Exception($"错误代码: {code}, 错误信息: {resultData["message"]}");
-        }
+        throw new ErrorResultException(code, resultData["message"].ToString());
     }
 }

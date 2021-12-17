@@ -20,5 +20,5 @@ public enum AudioStatus
     /// <summary>
     /// 停止播放操作
     /// </summary>
-    Stop
+    Stop,
 }

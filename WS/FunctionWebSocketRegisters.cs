@@ -89,7 +89,7 @@ partial class FunctionWebSocket
     /// <returns></returns>
     public FunctionWebSocket RegisterUserMessageEvent()
     {
-        if(CommonState.PrivateBot is false)
+        if (CommonState.PrivateBot is false)
         {
             throw new Exceptions.BotNotIsPrivateException();
         }
@@ -98,5 +98,36 @@ partial class FunctionWebSocket
 
         return this;
     }
-}
 
+    /// <summary>
+    /// 注册消息表情态相关事件
+    /// <para>为消息添加表情表态</para>
+    /// <para>为消息删除表情表态</para>
+    /// </summary>
+    /// <returns></returns>
+    public FunctionWebSocket RegisterMessageReactionEvent()
+    {
+        _registeredEvents.Add(Intents.GuildMessageReactions);
+
+        return this;
+    }
+
+    /// <summary>
+    /// 注册论坛相关事件
+    /// <para>当用户创建主题时</para>
+    /// <para>当用户更新主题时</para>
+    /// <para>当用户删除主题时</para>
+    /// <para>当用户创建帖子时</para>
+    /// <para>当用户删除帖子时</para>
+    /// <para>当用户回复评论时</para>
+    /// <para>当用户回复评论时</para>
+    /// </summary>
+    /// <returns></returns>
+    [Obsolete("等待官方启用", true)]
+    public FunctionWebSocket RegisterForumEvent()
+    {
+        _registeredEvents.Add(Intents.Forum);
+
+        return this;
+    }
+}

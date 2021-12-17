@@ -50,7 +50,7 @@ public partial class FunctionWebSocket : BaseWebSocket
         heartbeatTimer.Elapsed += HeartbeatTimer_Elapsed;
 
         _identifyData.token = $"Bot {_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}";
-        _identifyData.shard = new int[2] { 0, 1 };
+        _identifyData.shard = new int[] { };
     }
 
     /// <summary>

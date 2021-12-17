@@ -77,4 +77,40 @@ public enum GuildEvents
     /// 用户发送消息
     /// </summary>
     MESSAGE_CREATE,
+    /// <summary>
+    /// 为消息添加表情表态
+    /// </summary>
+    MESSAGE_REACTION_ADD,
+    /// <summary>
+    /// 为消息删除表情表态
+    /// </summary>
+    MESSAGE_REACTION_REMOVE,
+    /// <summary>
+    /// 当用户创建主题时
+    /// </summary>
+    THREAD_CREATE,
+    /// <summary>
+    /// 当用户更新主题时
+    /// </summary>
+    THREAD_UPDATE,
+    /// <summary>
+    /// 当用户删除主题时
+    /// </summary>
+    THREAD_DELETE,
+    /// <summary>
+    /// 当用户创建帖子时
+    /// </summary>
+    POST_CREATE,
+    /// <summary>
+    /// 当用户删除帖子时
+    /// </summary>
+    POST_DELETE,
+    /// <summary>
+    /// 当用户回复评论时
+    /// </summary>
+    REPLY_CREATE,
+    /// <summary>
+    /// 当用户回复评论时
+    /// </summary>
+    REPLY_DELETE
 }

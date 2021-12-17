@@ -61,7 +61,7 @@ public class MessageApi
     }
 
     /// <summary>
-    /// 发送模版消息
+    /// 发送ark模版消息
     /// </summary>
     /// <param name="childChannelId"></param>
     /// <param name="arkTemplate"></param>
@@ -80,6 +80,30 @@ public class MessageApi
         Message message = requestData.ToObject<Message>();
 
         return message;
+    }
+
+
+    /// <summary>
+    /// 发送Embed模版消息
+    /// </summary>
+    /// <param name="childChannelId">子频道ID</param>
+    /// <param name="embedTemplate">embed模版数据</param>
+    /// <param name="msg_id">要回复的消息ID (为空视为主动推送)</param>
+    /// <returns></returns>
+    public async Task<Message> SendEmbedMessageAsync(string childChannelId,JObject embedTemplate,string msg_id = "")
+    {
+        RawSendMessageApi rawSendMessageApi;
+
+        var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>()
+            {
+                {ParamType.channel_id,childChannelId }
+            });
+
+        var embedMessage = new { msg_id = msg_id, embed = embedTemplate };
+
+        var requestData = await _apiBase.WithData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        return requestData.ToObject<Message>();
     }
 
     /// <summary>
