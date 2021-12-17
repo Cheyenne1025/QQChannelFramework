@@ -69,6 +69,13 @@ public class BaseWebSocket {
         _url = url;
         connectUrl = new Uri(url);
 
+        // Dispose previous websocket
+        try {
+            webSocket.Dispose();
+        } catch (Exception) {
+            //ignore
+        }
+        
         try { 
             webSocket = new ClientWebSocket();
             await webSocket.ConnectAsync(connectUrl, CancellationToken.None); 
