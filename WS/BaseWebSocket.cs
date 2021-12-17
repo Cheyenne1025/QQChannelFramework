@@ -80,7 +80,13 @@ public class BaseWebSocket {
         }
     }
 
-    private async void BeginReceive() {
+    private void BeginReceive() { 
+#pragma warning disable CS4014
+        Task.Run(ReceiveAsync).ConfigureAwait(false);
+#pragma warning restore CS4014
+    }
+    
+    private async void ReceiveAsync() {
         try {
             var ms = new MemoryStream();
 
