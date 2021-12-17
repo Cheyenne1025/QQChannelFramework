@@ -69,7 +69,7 @@ public class BaseWebSocket {
         _url = url;
         connectUrl = new Uri(url);
 
-        // Dispose previous websocket
+        // Dispose上一个Websocket
         try {
             webSocket.Dispose();
         } catch (Exception) {
