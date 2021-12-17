@@ -26,11 +26,13 @@ public class BaseWebSocket {
 
     /// <summary>
     /// 连接断开事件
+    /// MyBot内部实现了断线重连机制，不需要用户通过监听此事件进行主动断线重连
     /// </summary>
     public event NormalDelegate ConnectBreak;
 
     /// <summary>
     /// 连接异常事件
+    /// MyBot内部实现了断线重连机制，不需要用户通过监听此事件进行主动断线重连
     /// </summary>
     public event ErrorDelegate OnError;
 
@@ -40,7 +42,8 @@ public class BaseWebSocket {
     protected event ReceiveDelegate OnReceived;
 
     /// <summary>
-    /// 链接关闭事件
+    /// 连接关闭事件
+    /// MyBot内部实现了断线重连机制，不需要用户通过监听此事件进行主动断线重连
     /// </summary>
     public event NormalDelegate OnClose;
 
