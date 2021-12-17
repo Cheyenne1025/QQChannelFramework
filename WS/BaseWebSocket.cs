@@ -57,8 +57,7 @@ public class BaseWebSocket {
     protected ClientWebSocket webSocket = null;
     private byte[] receiveBuf = new byte[4096];
 
-    private CancellationTokenSource _websocketCancellationTokenSource = null;
-    private Task _receiveTask = null;
+    private CancellationTokenSource _websocketCancellationTokenSource = null; 
 
     /// <summary>
     /// 开始连接
@@ -89,7 +88,7 @@ public class BaseWebSocket {
 
     private void BeginReceive() {
 #pragma warning disable CS4014
-        _receiveTask = Task.Run(ReceiveAsync, _websocketCancellationTokenSource.Token);
+        Task.Run(ReceiveAsync, _websocketCancellationTokenSource.Token);
 #pragma warning restore CS4014
     }
 
@@ -128,7 +127,7 @@ public class BaseWebSocket {
             if (!cancellationToken.IsCancellationRequested) {
                 if (webSocket.State == WebSocketState.Open) {
                     BeginReceive();
-                } else {
+                } else { 
                     ConnectBreak?.Invoke();
                 }
             }
@@ -157,8 +156,8 @@ public class BaseWebSocket {
                     _websocketCancellationTokenSource.Token)
                 .ConfigureAwait(false);
             OnSend?.Invoke();
-        } catch (TaskCanceledException) {
-            // ignored
+        } catch (TaskCanceledException x) {
+            Debug.WriteLine(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
         }
@@ -168,26 +167,18 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
-        if (webSocket is not null) {
-            // 先取消Task，等待接收Task退出
-            _websocketCancellationTokenSource.Cancel();
-            _receiveTask.Wait();
-            
-            try {
-                // 然后再尝试关闭，以避免ReceiveAsync递归回调ConnectBreak
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None)
-                    .ConfigureAwait(false);
+        if (webSocket is not null) {   
+            try { 
+                // 取消Task
+                _websocketCancellationTokenSource.Cancel(); 
+                _websocketCancellationTokenSource.Dispose();
+                webSocket.Dispose();
             } catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
 
-            _websocketCancellationTokenSource.Dispose();
-            _receiveTask.Dispose();
-            webSocket.Dispose();
-
-            webSocket = null;
-            _receiveTask = null;
             _websocketCancellationTokenSource = null;
+            webSocket = null; 
 
             OnClose?.Invoke();
         }

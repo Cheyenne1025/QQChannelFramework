@@ -35,6 +35,7 @@ public class ApiBase
         if (_client is null)
         {
             _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(10);
         }
 
         if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null || _openApiAccessInfo.BotToken is null)
