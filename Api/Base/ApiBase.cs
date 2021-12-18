@@ -20,8 +20,6 @@ public class ApiBase
 
     internal RequestMode _requestMode = RequestMode.Release;
 
-    private static Dictionary<int, string> _officialExceptions;
-
     private static HttpClient _client;
 
     private object _rawContent;
@@ -147,7 +145,7 @@ public class ApiBase
                 break;
         }
 
-        //Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
+        Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
 
         // 检查Http状态码
         InspectionHttpCode(responseMessage);

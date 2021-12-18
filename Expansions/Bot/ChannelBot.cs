@@ -96,10 +96,24 @@ public sealed partial class ChannelBot : FunctionWebSocket
     /// </summary>
     public async ValueTask OnlineAsync()
     {
-        QQChannelApi qQChannelApi = new(_openApiAccessInfo); 
-        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false); 
+        QQChannelApi qQChannelApi = new(_openApiAccessInfo);
+
+        var _autoCut = false;
+
+        if(qQChannelApi.RequestMode == Api.Types.RequestMode.SandBox)
+        {
+            _autoCut = true;
+        }
+
+        _url = await qQChannelApi.UseReleaseMode().UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
+
         await ConnectAsync(_url);
-    } 
+
+        if(_autoCut)
+        {
+            qQChannelApi.UseSandBoxMode();
+        }
+    }
     
     private async Task Reconnect() {  
         while (true) {
