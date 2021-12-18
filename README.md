@@ -1,4 +1,6 @@
 # QQ频道机器人开发框架 —— MyBot (C#)
+[![NuGet](https://img.shields.io/nuget/v/MyBot.svg)](https://www.nuget.org/packages/MyBot) [![NuGet downloads](https://img.shields.io/nuget/dt/MyBot)](https://www.nuget.org/packages/MyBot)
+
 ![MYBOT_Banner](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_13_2.png)
 ![MYBOT_Team](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner_14_2.png)
 <br>
