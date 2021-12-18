@@ -2,12 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Description>QQ频道开发框架</Description>
+    <Description>基于 .NET 6 的QQ频道机器人开发框架</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>MyBot</PackageId>
+    <PackageVersion>1.0.6</PackageVersion>
+    <Title>MyBot</Title>
+    <Authors>Chianne1025, cnSchwarzer</Authors>
+    <Copyright>MyBot Team</Copyright>
+    <PackageProjectUrl>https://github.com/Chianne1025/QQChannelFramework</PackageProjectUrl> 
+    <RepositoryUrl>https://github.com/Chianne1025/QQChannelFramework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>QQ;Guild;Bot;QQGuildBot;GuildSDK;QQ频道;QQ频道SDK;QQ频道机器人SDK</PackageTags>
+    <Company>MyBot Team</Company>
+    <Product>MyBot</Product>
+    <PackageIcon>Logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.0.6</Version>
+    <Nullable>disable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\net6.0\QQChannelFramework.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Apis\" />
@@ -49,5 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
