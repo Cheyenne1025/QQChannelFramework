@@ -6,7 +6,7 @@
 开发文档: https://www.yuque.com/chianne1025/mybot</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>MyBot</PackageId>
-    <PackageVersion>1.0.6.1</PackageVersion>
+    <PackageVersion>1.0.7</PackageVersion>
     <Title>MyBot</Title>
     <Authors>Chianne1025, cnSchwarzer</Authors>
     <Copyright>MyBot Team</Copyright>
@@ -18,11 +18,11 @@
     <Product>MyBot</Product>
     <PackageIcon>Logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.0.6.1</Version>
+    <Version>1.0.7</Version>
     <Nullable>disable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>1.0.6.1</AssemblyVersion>
-    <FileVersion>1.0.6.1</FileVersion>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -50,11 +50,9 @@
     <None Remove="Tools\JsonConverters\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Api\" />
     <Folder Include="Api\Base\" />
     <Folder Include="Datas\" />
     <Folder Include="Api\Types\" />
-    <Folder Include="Api\Raws\" />
     <Folder Include="Models\" />
     <Folder Include="Models\ParamModels\" />
     <Folder Include="Models\RawObject\" />
