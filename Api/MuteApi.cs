@@ -79,14 +79,14 @@ public class MuteApi
 
         var processedInfo = ApiFactory.Process(rawMuteMemberApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.guild_id,guildId },
-            {ParamType.user_id,userId }
+            {ParamType.guild_id, guildId },
+            {ParamType.user_id, userId }
         });
 
         await _apiBase
             .WithData(new Dictionary<string, object>()
             {
-                {mute_end_timstamp == default ? "mute_seconds":"mute_end_timstamp", mute_end_timstamp == default ? mute_seconds : Tools.ConvertHelper.GetChinaTicks(mute_end_timstamp)}
+                {mute_end_timstamp == default ? "mute_seconds": "mute_end_timestamp", mute_end_timstamp == default ? mute_seconds : Tools.ConvertHelper.GetChinaTicks(mute_end_timstamp)}
             })
             .RequestAsync(processedInfo);
     }
