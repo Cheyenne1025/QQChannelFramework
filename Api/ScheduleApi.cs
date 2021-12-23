@@ -60,7 +60,7 @@ public class ScheduleApi
             requestData = await _apiBase
                 .WithData(new Dictionary<string, object>()
                 {
-                    {"since",Tools.ConvertHelper.GetChinaTicks(since) }
+                    {"since", new DateTimeOffset(since).ToUnixTimeMilliseconds() }
                 })
                 .RequestAsync(processedInfo);
         }
