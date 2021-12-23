@@ -145,7 +145,7 @@ public class ApiBase
                 break;
         }
 
-        Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
+        // Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
 
         // 检查Http状态码
         InspectionHttpCode(responseMessage);
