@@ -46,7 +46,7 @@ public class MuteApi
         await _apiBase
             .WithData(new Dictionary<string, object>()
             {
-                {mute_end_timstamp == default ? "mute_seconds":"mute_end_timstamp", mute_end_timstamp == default ? mute_seconds : new DateTimeOffset(mute_end_timstamp).ToUnixTimeSeconds()}
+                {mute_end_timstamp == default ? "mute_seconds":"mute_end_timstamp", mute_end_timstamp == default ? mute_seconds : new DateTimeOffset(mute_end_timstamp).ToUnixTimeSeconds().ToString()}
             })
             .RequestAsync(processedInfo);
     }
@@ -86,7 +86,7 @@ public class MuteApi
         await _apiBase
             .WithData(new Dictionary<string, object>()
             {
-                {mute_end_timstamp == default ? "mute_seconds": "mute_end_timestamp", mute_end_timstamp == default ? mute_seconds : new DateTimeOffset(mute_end_timstamp).ToUnixTimeSeconds()}
+                {mute_end_timstamp == default ? "mute_seconds": "mute_end_timestamp", mute_end_timstamp == default ? mute_seconds : new DateTimeOffset(mute_end_timstamp).ToUnixTimeSeconds().ToString()}
             })
             .RequestAsync(processedInfo);
     }
