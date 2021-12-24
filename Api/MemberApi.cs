@@ -206,6 +206,8 @@ public class MemberApi
             var batch = await GetMembers(guild_id, after, 1000);
             
             ret.AddRange(batch);
+
+            after = batch.Last().User.Id;
             
             if (batch.Count != 1000) 
                 break;
