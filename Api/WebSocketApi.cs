@@ -46,7 +46,7 @@ public class WebSocketApi
     /// 获取带分片 WSS 接入点
     /// </summary>
     /// <returns>元组 (分片接入点基础信息，分片会话限制信息)</returns>
-    public async Task<(ShardWssInfo, ShardSessionStartLimit)> GetShardUrlAsync()
+    public async Task<(ShardWssInfo ShardWssInfo, ShardSessionStartLimit ShardSessionStartLimit)> GetShardUrlAsync()
     {
         RawGetWebSocketShardUrl rawGetWebSocketShardUrl;
 

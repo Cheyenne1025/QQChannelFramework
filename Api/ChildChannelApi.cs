@@ -74,7 +74,7 @@ public class ChildChannelApi
     /// </summary>
     /// <param name="guild_id">主频道Guild</param>
     /// <returns>元组 (子频道列表,数量)</returns>
-    public async Task<(List<ChildChannel>, int)> GetChildChannelsAsync(string guild_id)
+    public async Task<List<ChildChannel>> GetChildChannelsAsync(string guild_id)
     {
         RawGetChildChannelsApi rawGetChildChannelsApi;
 
@@ -101,7 +101,7 @@ public class ChildChannelApi
             });
         }
 
-        return (childChannels, childChannels.Count);
+        return childChannels;
     }
 
     /// <summary>

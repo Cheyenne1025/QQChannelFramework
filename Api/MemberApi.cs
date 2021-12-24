@@ -94,14 +94,14 @@ public class MemberApi
     /// <param name="limit">分页大小，1-1000，默认是1</param>
     /// <returns>元组 (成员集合，成员数量)</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
-    public async Task<(List<Member>,int)> GetMembers(string guild_id,string after = "0", UInt32 limit = 1)
+    public async Task<List<Member>> GetMembers(string guild_id,string after = "0", UInt32 limit = 1)
     {
         if(CommonState.PrivateBot is false)
         {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        if(limit > 1000)
+        if (limit > 1000)
         {
             limit = 1000;
         }
@@ -110,7 +110,7 @@ public class MemberApi
 
         var processedInfo = ApiFactory.Process(rawGetChannelMembersApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.guild_id,guild_id }
+            {ParamType.guild_id,guild_id}
         });
 
         var requestData = await _apiBase
@@ -156,7 +156,7 @@ public class MemberApi
             members.Add(member);
         }
 
-        return (members, members.Count);
+        return members;
     }
 
     /// <summary>
@@ -183,5 +183,34 @@ public class MemberApi
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData is null;
+    }
+    
+        /// <summary>
+    /// 获取频道内所有成员信息 (私域可用)
+    /// </summary>
+    /// <param name="guild_id">主频道GuildID</param> 
+    /// <returns>元组 (成员集合，成员数量)</returns>
+    /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
+    public async Task<List<Member>> GetAllMembers(string guild_id)
+    {
+        if(CommonState.PrivateBot is false)
+        {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        List<Member> ret = new List<Member>();
+
+        string after = "0";
+
+        while (true) {
+            var batch = await GetMembers(guild_id, after, 1000);
+            
+            ret.AddRange(batch);
+            
+            if (batch.Count != 1000) 
+                break;
+        }
+        
+        return ret; 
     }
 }

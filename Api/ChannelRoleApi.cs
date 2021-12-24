@@ -42,7 +42,7 @@ public class ChannelRoleApi
     /// 获取所有频道身份组
     /// </summary>
     /// <returns>元组 (身份组列表,身份组当前数量,身份组上限)</returns>
-    public async Task<(List<Role>, int, int)> GetRolesAsync(string guild_id)
+    public async Task<(List<Role> Roles, int RoleNumLimit)> GetRolesAsync(string guild_id)
     {
         RawGetChannelRolesApi rawGetChannelRolesApi;
 
@@ -70,7 +70,7 @@ public class ChannelRoleApi
             });
         }
 
-        return (roles, roles.Count, int.Parse(requestData["role_num_limit"].ToString()));
+        return (roles, requestData["role_num_limit"].Value<int>());
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class ChannelRoleApi
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
     /// <returns>元组 (频道ID,身份组ID)</returns>
-    public async Task<(string, string)> UpdateInfoAsync(Filter filter, Info info, string guild_id, string role_id)
+    public async Task<(string GuildId, string RoleId)> UpdateInfoAsync(Filter filter, Info info, string guild_id, string role_id)
     {
         RawUpdateChannelRoleInfoApi rawUpdateChannelRoleInfoApi;
 

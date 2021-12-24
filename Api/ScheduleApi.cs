@@ -44,7 +44,7 @@ public class ScheduleApi
     /// <param name="childChannel">日程子频道Id</param>
     /// <param name="since">结束时间</param>
     /// <returns>元组 (日程集合，数量)</returns>
-    public async Task<(List<Schedule>,int)> GetSchedulesAsync(string childChannel, DateTime since)
+    public async Task<List<Schedule>> GetSchedulesAsync(string childChannel, DateTime since)
     {
         RawGetSchedulesApi rawGetSchedulesApi;
 
@@ -78,7 +78,7 @@ public class ScheduleApi
 
         if(requestData is null)
         {
-            return (schedules, 0);
+            return schedules;
         }
 
         var array = requestData as JArray;
@@ -88,7 +88,7 @@ public class ScheduleApi
             schedules.Add(info.ToObject<Schedule>());
         }
 
-        return (schedules, schedules.Count);
+        return schedules;
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class ScheduleApi
     /// </summary>
     /// <param name="childChannel">日程子频道Id</param>
     /// <returns>元组 (日程集合，数量)</returns>
-    public async Task<(List<Schedule>, int)> GetToDaySchedulesAsync(string childChannel)
+    public async Task<List<Schedule>> GetToDaySchedulesAsync(string childChannel)
     {
         return await GetSchedulesAsync(childChannel, default(DateTime));
     }
