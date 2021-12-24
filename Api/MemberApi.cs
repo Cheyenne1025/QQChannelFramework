@@ -203,14 +203,14 @@ public class MemberApi
         string after = "0";
 
         while (true) {
-            var batch = await GetMembers(guild_id, after, 1000);
+            var batch = await GetMembers(guild_id, after, 300);
+            
+            if (!batch.Any())
+                break;
             
             ret.AddRange(batch);
 
-            after = batch.Last().User.Id;
-            
-            if (batch.Count != 1000) 
-                break;
+            after = batch.Last().User.Id; 
         }
         
         return ret; 
