@@ -198,21 +198,14 @@ public class ChannelRoleApi
             });
 
         JToken requestData = null;
+ 
+        RawChildChannel rawChildChannel = new();
+        rawChildChannel.id = childChannelId;
 
-        if (role_id is "5")
-        {
-            RawChildChannel rawChildChannel = new();
-            rawChildChannel.id = childChannelId;
-
-            requestData = await _apiBase
-                .WithData(rawChildChannel)
-                .RequestAsync(processedInfo)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
-        }
+        requestData = await _apiBase
+            .WithData(rawChildChannel)
+            .RequestAsync(processedInfo)
+            .ConfigureAwait(false); 
 
         return requestData is null;
     }
@@ -243,21 +236,14 @@ public class ChannelRoleApi
             });
 
         JToken requestData = null;
+ 
+        RawChildChannel rawChildChannel = new();
+        rawChildChannel.id = childChannelId;
 
-        if (role_id is "5")
-        {
-            RawChildChannel rawChildChannel = new();
-            rawChildChannel.id = childChannelId;
-
-            requestData = await _apiBase
-                .WithData(rawChildChannel)
-                .RequestAsync(processedInfo)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
-        }
+        requestData = await _apiBase
+            .WithData(rawChildChannel)
+            .RequestAsync(processedInfo)
+            .ConfigureAwait(false); 
 
         return requestData is null;
     }
