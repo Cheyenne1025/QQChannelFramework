@@ -37,6 +37,11 @@ namespace QQChannelFramework.Models
         /// 发送人信息
         /// </summary>
         public User Sender { get; set; }
+
+        /// <summary>
+        /// 消息中@的人
+        /// </summary>
+        public List<User> Mentions { get;set; }
     }
 }
 
