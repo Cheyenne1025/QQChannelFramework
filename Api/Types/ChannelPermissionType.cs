@@ -18,6 +18,10 @@ namespace QQChannelFramework.Api.Types
         /// 子频道的管理权限
         /// </summary>
         Manager = 1 << 1,
+        /// <summary>
+        /// 子频道的发言
+        /// </summary>
+        Message = 1 << 2,
     }
 }
 

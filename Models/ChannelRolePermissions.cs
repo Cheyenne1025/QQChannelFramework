@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace QQChannelFramework.Models
 {
     /// <summary>
-    /// 子频道权限对象
+    /// 子频道身份组权限对象
     /// </summary>
-    public class ChannelPermissions
+    public class ChannelRolePermissions
     {
         /// <summary>
         /// 子频道ID
@@ -15,10 +15,10 @@ namespace QQChannelFramework.Models
         public string ChannelId { get; set; }
 
         /// <summary>
-        /// 用户 ID
+        /// 身份组 ID
         /// </summary>
-        [JsonProperty("user_id")]
-        public string UserId { get; set; }
+        [JsonProperty("role_id")]
+        public string RoleId { get; set; }
 
         /// <summary>
         /// 权限位图 (十进制)
