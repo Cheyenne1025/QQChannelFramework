@@ -90,7 +90,7 @@ public class MessageApi
     /// <param name="embedTemplate">embed模版数据</param>
     /// <param name="msg_id">要回复的消息ID (为空视为主动推送)</param>
     /// <returns></returns>
-    public async Task<Message> SendEmbedMessageAsync(string childChannelId,JObject embedTemplate,string msg_id = "")
+    public async Task<Message> SendEmbedMessageAsync(string childChannelId, JObject embedTemplate, string msg_id = "")
     {
         RawSendMessageApi rawSendMessageApi;
 
@@ -176,5 +176,24 @@ public class MessageApi
         Message message = requestData.ToObject<Message>();
 
         return message;
+    }
+
+    /// <summary>
+    /// 撤回消息
+    /// </summary>
+    /// <param name="childChannelId">消息所在的子频道Id</param>
+    /// <param name="messageId">要撤回的消息ID</param>
+    /// <returns></returns>
+    public async ValueTask RetractMessage(string childChannelId, string messageId)
+    {
+        RawRetractMessageApi rawRetractMessageApi;
+
+        var processedInfo = ApiFactory.Process(rawRetractMessageApi, new Dictionary<ParamType, string>()
+        {
+            {ParamType.channel_id,childChannelId},
+            {ParamType.message_id,messageId}
+        });
+
+        await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
     }
 }
