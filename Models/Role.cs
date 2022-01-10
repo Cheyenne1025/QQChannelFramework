@@ -18,7 +18,7 @@ public class Role
     /// <summary>
     /// 颜色，ARGB的HEX十六进制颜色值转换后的十进制数值
     /// </summary>
-    public UInt32 Color { get; set; }
+    public uint Color { get; set; }
 
     /// <summary>
     /// 是否在成员列表中单独展示
@@ -28,11 +28,11 @@ public class Role
     /// <summary>
     /// 人数
     /// </summary>
-    public UInt32 Number { get; set; }
+    public uint Number { get; set; }
 
     /// <summary>
     /// 最大人数
     /// </summary>
-    public UInt32 MemberLimit { get; set; }
+    public uint MemberLimit { get; set; }
 }
 

@@ -33,14 +33,14 @@ namespace QQChannelFramework.Models
         /// </summary>
         [JsonProperty("start_timestamp")]
         [JsonConverter(typeof(TimeConverter<Schedule>))]
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
         /// <summary>
         /// 日程结束时间
         /// </summary>
         [JsonProperty("end_timestamp")]
         [JsonConverter(typeof(TimeConverter<Schedule>))]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         /// <summary>
         /// 创建者

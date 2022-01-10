@@ -48,7 +48,7 @@ public class Guild
     /// <summary>
     /// 加入时间
     /// </summary>
-    public DateTime JoinedAt { get; set; }
+    public DateTime? JoinedAt { get; set; }
 
     /// <summary>
     /// 游戏绑定公会区服ID，需要特殊申请并配置后才会返回
