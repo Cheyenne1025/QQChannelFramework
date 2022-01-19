@@ -44,8 +44,7 @@ partial class FunctionWebSocket
     /// <para>包含: </para>
     /// <para>当收到用户发给机器人的私信消息时</para>
     /// </summary>
-    /// <returns></returns>
-    [Obsolete("官方暂未开放使用", true)]
+    /// <returns></returns> 
     public FunctionWebSocket RegisterDirectMessageEvent()
     {
         _registeredEvents.Add(Intents.DirectMessage);

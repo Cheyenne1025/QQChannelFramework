@@ -215,6 +215,12 @@ partial class FunctionWebSocket {
                         ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
                         break;
+                    
+                    case GuildEvents.DIRECT_MESSAGE_CREATE:
+
+                        ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+
+                        break;
 
                     case GuildEvents.MESSAGE_REACTION_ADD:
 

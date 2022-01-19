@@ -5,7 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using QQChannelFramework.Api; 
+using QQChannelFramework.Api;
+using QQChannelFramework.Api.Types;
 using QQChannelFramework.Models;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
@@ -99,18 +100,13 @@ public sealed partial class ChannelBot : FunctionWebSocket
     {
         QQChannelApi qQChannelApi = new(_openApiAccessInfo);
 
-        var _autoCut = false;
-
-        if(qQChannelApi.RequestMode == Api.Types.RequestMode.SandBox)
-        {
-            _autoCut = true;
-        }
+        bool autoCut = qQChannelApi.RequestMode == RequestMode.SandBox;
 
         _url = await qQChannelApi.UseReleaseMode().UseBotIdentity().GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
 
         await ConnectAsync(_url);
 
-        if(_autoCut)
+        if(autoCut)
         {
             qQChannelApi.UseSandBoxMode();
         }
