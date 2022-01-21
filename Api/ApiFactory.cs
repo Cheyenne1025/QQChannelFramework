@@ -23,7 +23,7 @@ public static class ApiFactory
 
         foreach (var key in param.Keys)
         {
-            var replaceType = "{" + key.ToString() + "}";
+            var replaceType = "{" + key + "}";
             if (processedApi.Url.Contains(replaceType))
             {
                 processedApi.Url = processedApi.Url.Replace(replaceType, param[key]);
