@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
 using QQChannelFramework.Api.Types;
@@ -66,7 +67,7 @@ public class DirectMessageApi {
 
         return message;
     }
-    
+
     /// <summary>
     /// 发送图片消息
     /// </summary>
@@ -88,5 +89,70 @@ public class DirectMessageApi {
         var message = requestData.ToObject<Message>();
 
         return message;
+    }
+
+    /// <summary>
+    /// 发送文字+图片消息
+    /// </summary>
+    /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param>
+    /// <param name="content">内容</param>
+    /// <param name="url">报备后的地址</param>
+    /// <param name="msgId">回复的消息ID</param>
+    /// <returns></returns>
+    public async Task<Message> SendTextAndImageMessageAsync(string guildId, string content, string url, string msgId = "") {
+        RawDirectSendMessageApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId}
+        });
+
+        var textMessage = new {image = url, content = content, msg_id = msgId};
+
+        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        var message = requestData.ToObject<Message>();
+
+        return message;
+    }
+
+    /// <summary>
+    /// 发送ark模版消息
+    /// </summary>
+    /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param>  
+    /// <param name="arkTemplate">Ark</param>
+    /// <returns></returns>
+    public async Task<Message> SendTemplateMessageAsync(string guildId, JObject arkTemplate) {
+        RawDirectSendMessageApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId}
+        }); 
+
+        var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        Message message = requestData.ToObject<Message>();
+
+        return message;
+    }
+
+    /// <summary>
+    /// 发送Embed模版消息
+    /// </summary>
+    /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param> 
+    /// <param name="msgId">回复的消息ID</param>
+    /// <param name="embedTemplate">embed模版数据</param> 
+    /// <returns></returns>
+    public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate, string msgId = "") {
+        RawDirectSendMessageApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId}
+        });
+
+        var embedMessage = new {msg_id = msgId, embed = embedTemplate};
+
+        var requestData = await _apiBase.WithData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        return requestData.ToObject<Message>();
     }
 }
