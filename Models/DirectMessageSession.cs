@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using QQChannelFramework.Tools.JsonConverters;
 
 namespace QQChannelFramework.Models;
 
@@ -22,5 +23,6 @@ public class DirectMessageSession {
     /// 创建私信会话时间戳
     /// </summary>
     [JsonProperty("create_time")]
+    [JsonConverter(typeof(TimeConverter<DirectMessageSession>))]
     public DateTime? CreateTime { get; set; }
 }

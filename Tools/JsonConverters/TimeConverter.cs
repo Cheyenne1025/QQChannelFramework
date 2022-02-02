@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace QQChannelFramework.Tools.JsonConverters
 {
-    public class TimeConverter<T> : Newtonsoft.Json.JsonConverter
+    internal class TimeConverter<T> : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
