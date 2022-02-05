@@ -50,37 +50,7 @@ public class MemberApi
             });
 
         var requestData = await _apiBase.RequestAsync(precessedInfo).ConfigureAwait(false);
-
-        var jObj = (JObject)requestData["user"];
-
-        Member member = new()
-        {
-            User = new()
-            {
-                Id = requestData["user"]["id"].ToString(),
-                UserName = requestData["user"]["username"].ToString(),
-                Avatar = requestData["user"]["avatar"].ToString(),
-                IsBot = bool.Parse(requestData["user"]["bot"].ToString()),
-                UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["user"]["union_openid"].ToString() : "",
-                UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["user"]["union_user_account"].ToString() : "",
-            },
-            Nick = requestData["nick"].ToString(),
-            Roles = new(),
-            JoinedAt = DateTime.Parse(requestData["joined_at"].ToString())
-        };
-
-
-        if (jObj.ContainsKey("roles"))
-        {
-            var roles = requestData["roles"].ToList();
-
-            foreach (var roleId in roles)
-            {
-                member.Roles.Add(roleId.ToString());
-            }
-        }
-
-        return member;
+        return requestData.ToObject<Member>();
     }
 
     /// <summary>
@@ -124,33 +94,7 @@ public class MemberApi
 
         foreach (var info in jArray)
         {
-            var jObj = (JObject)info["user"];
-
-            Member member = new()
-            {
-                User = new()
-                {
-                    Id = info["user"]["id"].ToString(),
-                    UserName = info["user"]["username"].ToString(),
-                    Avatar = info["user"]["avatar"].ToString(),
-                    IsBot = bool.Parse(info["user"]["bot"].ToString()),
-                    UnionOpenid = jObj.ContainsKey("union_openid") ? info["user"]["union_openid"].ToString() : "",
-                    UnionUserAccount = jObj.ContainsKey("union_user_account") ? info["user"]["union_user_account"].ToString() : "",
-                },
-                Nick = info["nick"].ToString(),
-                Roles = new(),
-                JoinedAt = DateTime.Parse(info["joined_at"].ToString())
-            };
-
-            if (jObj.ContainsKey("roles"))
-            {
-                foreach (var role in (JArray)info["roles"])
-                {
-                    member.Roles.Add(role.ToString());
-                }
-            }
-
-            members.Add(member);
+            members.Add(info.ToObject<Member>());
         }
 
         return members;

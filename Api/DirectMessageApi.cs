@@ -149,9 +149,9 @@ public class DirectMessageApi {
             {ParamType.guild_id, guildId}
         });
 
-        var embedMessage = new {msg_id = msgId, embed = embedTemplate};
+        var msg = new {msg_id = msgId, embed = embedTemplate};
 
-        var requestData = await _apiBase.WithData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
     }

@@ -81,4 +81,10 @@ public class Message {
     /// </summary>
     [JsonProperty("ark")]
     public MessageArk Ark { get; set; }
+    
+    /// <summary>
+    /// zi
+    /// </summary>
+    [JsonProperty("seq")]
+    public int Sequence { get; set; }
 }
