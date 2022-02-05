@@ -53,37 +53,7 @@ public class MemberApi
             });
 
         var requestData = await _apiBase.RequestAsync(precessedInfo).ConfigureAwait(false);
-
-        var jObj = (JObject)requestData["user"];
-
-        Member member = new()
-        {
-            User = new()
-            {
-                Id = requestData["user"]["id"].ToString(),
-                UserName = requestData["user"]["username"].ToString(),
-                Avatar = requestData["user"]["avatar"].ToString(),
-                IsBot = bool.Parse(requestData["user"]["bot"].ToString()),
-                UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["user"]["union_openid"].ToString() : "",
-                UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["user"]["union_user_account"].ToString() : "",
-            },
-            Nick = requestData["nick"].ToString(),
-            Roles = new(),
-            JoinedAt = DateTime.Parse(requestData["joined_at"].ToString())
-        };
-
-
-        if (jObj.ContainsKey("roles"))
-        {
-            var roles = requestData["roles"].ToList();
-
-            foreach (var roleId in roles)
-            {
-                member.Roles.Add(roleId.ToString());
-            }
-        }
-
-        return member;
+        return requestData.ToObject<Member>();
     }
 
     /// <summary>
