@@ -10,14 +10,11 @@ namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
 {
-    private static AnnounceApi _announceApi;
+    private AnnounceApi _announceApi;
 
     public AnnounceApi GetAnnounceApi()
     {
-        if (_announceApi is null)
-        {
-            _announceApi = new(apiBase);
-        }
+        _announceApi = new(apiBase);
 
         return _announceApi;
     }

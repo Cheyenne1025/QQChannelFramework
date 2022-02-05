@@ -13,14 +13,11 @@ namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
 {
-    private static ChannelRoleApi _channelRoleApi;
+    private ChannelRoleApi _channelRoleApi;
 
     public ChannelRoleApi GetChannelRoleApi()
     {
-        if (_channelRoleApi is null)
-        {
-            _channelRoleApi = new(apiBase);
-        }
+        _channelRoleApi = new(apiBase);
 
         return _channelRoleApi;
     }

@@ -11,14 +11,11 @@ namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
 {
-    private static MuteApi _muteApi;
+    private MuteApi _muteApi;
 
     public MuteApi GetMuteApi()
     {
-        if (_muteApi is null)
-        {
-            _muteApi = new(apiBase);
-        }
+        _muteApi = new(apiBase);
 
         return _muteApi;
     }

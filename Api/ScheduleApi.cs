@@ -12,14 +12,11 @@ namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
 {
-    private static ScheduleApi _scheduleApi;
+    private ScheduleApi _scheduleApi;
 
     public ScheduleApi GetScheduleApi()
     {
-        if (_scheduleApi is null)
-        {
-            _scheduleApi = new(apiBase);
-        }
+        _scheduleApi = new(apiBase);
 
         return _scheduleApi;
     }

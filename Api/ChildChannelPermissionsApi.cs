@@ -10,14 +10,11 @@ namespace QQChannelFramework.Api
 {
     sealed partial class QQChannelApi
     {
-        private static ChildChannelPermissionsApi _childChannelPermissionsApi;
+        private ChildChannelPermissionsApi _childChannelPermissionsApi;
 
         public ChildChannelPermissionsApi GetChildChannelPermissionsApi()
         {
-            if (_childChannelPermissionsApi is null)
-            {
-                _childChannelPermissionsApi = new(apiBase);
-            }
+            _childChannelPermissionsApi = new(apiBase);
 
             return _childChannelPermissionsApi;
         }

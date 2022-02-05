@@ -11,14 +11,11 @@ namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
 {
-    private static MessageApi _messageApi;
+    private MessageApi _messageApi;
 
     public MessageApi GetMessageApi()
     {
-        if (_messageApi is null)
-        {
-            _messageApi = new(apiBase);
-        }
+        _messageApi = new(apiBase);
 
         return _messageApi;
     }
