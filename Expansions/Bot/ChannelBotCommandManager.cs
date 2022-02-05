@@ -11,7 +11,7 @@ sealed partial class ChannelBot
 
     private static Dictionary<string, (List<Action<CommandInfo, CommandState>>,Dictionary<string, CommandState>)> _stepCommands = new();
 
-    private static List<string> _ChangeingCommands = new();
+    private static List<string> _changingCommands = new();
 
     /// <summary>
     /// 注册普通指令
@@ -70,9 +70,9 @@ sealed partial class ChannelBot
     /// <returns></returns>
     public async Task<ChannelBot> ChangeActionAsync(string command, Action<CommandInfo> newCommandAction)
     {
-        if(_ChangeingCommands.Contains(command) is false)
+        if(_changingCommands.Contains(command) is false)
         {
-            _ChangeingCommands.Add(command);
+            _changingCommands.Add(command);
 
             await Task.Delay(3000);
 
@@ -83,7 +83,7 @@ sealed partial class ChannelBot
 
             _commands[command] = newCommandAction;
 
-            _ChangeingCommands.Remove(command);
+            _changingCommands.Remove(command);
         }
 
         return this;
