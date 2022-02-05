@@ -31,8 +31,37 @@ public class MessageApi
     public MessageApi(ApiBase apiBase)
     {
         _apiBase = apiBase;
+    } 
+    
+    /// <summary>
+    /// 发送消息
+    /// </summary> 
+    /// <returns></returns>
+    public async Task<Message> SendMessageAsync(string childChannelId, string content = null, string image = null,
+        JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false,
+        string msgId = "") {
+        RawSendMessageApi rawSendMessageApi;
+
+        var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
+            {ParamType.channel_id, childChannelId}
+        });
+
+        var m = new {
+            content = content, embed = embed, ark = ark,
+            message_reference = referenceMessageId == null
+                ? null
+                : new {message_id = referenceMessageId, ignore_get_message_error = ignoreGetMessageError},
+            image = image, msg_id = msgId
+        };
+
+        var requestData = await _apiBase.WithData(m).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        Message message = requestData.ToObject<Message>();
+
+        return message;
     }
 
+    
     /// <summary>
     /// 发送文字消息
     /// </summary>
