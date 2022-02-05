@@ -12,14 +12,10 @@ using QQChannelFramework.Models.RawObject;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private ChannelRoleApi _channelRoleApi;
-
+{ 
     public ChannelRoleApi GetChannelRoleApi()
     {
-        _channelRoleApi = new(apiBase);
-
-        return _channelRoleApi;
+        return new(apiBase);
     }
 }
 

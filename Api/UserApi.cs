@@ -8,14 +8,10 @@ using Newtonsoft.Json.Linq;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private UserApi _userApi;
-
+{ 
     public UserApi GetUserApi()
-    {
-        _userApi = new(apiBase);
-
-        return _userApi;
+    { 
+        return new(apiBase);
     }
 }
 

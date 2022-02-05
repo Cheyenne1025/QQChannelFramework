@@ -8,14 +8,10 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private ChannelApi _channelApi;
-
+{ 
     public ChannelApi GetChannelApi()
     {
-        _channelApi = new(apiBase);
-
-        return _channelApi;
+        return new(apiBase);
     }
 }
 

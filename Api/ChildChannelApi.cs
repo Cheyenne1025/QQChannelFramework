@@ -12,14 +12,10 @@ using QQChannelFramework.Models.Types;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private ChildChannelApi _childChannelApi;
-
+{ 
     public ChildChannelApi GetChildChannelApi()
     {
-        _childChannelApi = new(apiBase);
-
-        return _childChannelApi;
+        return new(apiBase);
     }
 }
 

@@ -9,14 +9,10 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api
 {
     sealed partial class QQChannelApi
-    {
-        private ChildChannelPermissionsApi _childChannelPermissionsApi;
-
+    { 
         public ChildChannelPermissionsApi GetChildChannelPermissionsApi()
         {
-            _childChannelPermissionsApi = new(apiBase);
-
-            return _childChannelPermissionsApi;
+            return new(apiBase);
         }
     }
 

@@ -6,17 +6,10 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private static WebSocketApi _webSocketApi;
-
+{ 
     public WebSocketApi GetWebSocketApi()
-    {
-        if (_webSocketApi is null)
-        {
-            _webSocketApi = new(apiBase);
-        }
-
-        return _webSocketApi;
+    { 
+        return new(apiBase);
     }
 }
 

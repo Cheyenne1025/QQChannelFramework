@@ -10,14 +10,10 @@ using QQChannelFramework.Models.MessageModels;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private MessageApi _messageApi;
-
+{ 
     public MessageApi GetMessageApi()
-    {
-        _messageApi = new(apiBase);
-
-        return _messageApi;
+    { 
+        return new(apiBase);
     }
 }
 

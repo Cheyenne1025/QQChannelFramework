@@ -10,14 +10,10 @@ using System.Threading.Tasks;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private MuteApi _muteApi;
-
+{ 
     public MuteApi GetMuteApi()
-    {
-        _muteApi = new(apiBase);
-
-        return _muteApi;
+    { 
+        return new(apiBase);
     }
 }
 

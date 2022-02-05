@@ -9,14 +9,10 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private AnnounceApi _announceApi;
-
+{ 
     public AnnounceApi GetAnnounceApi()
     {
-        _announceApi = new(apiBase);
-
-        return _announceApi;
+        return new(apiBase);
     }
 }
 

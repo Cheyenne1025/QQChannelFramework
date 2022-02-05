@@ -11,14 +11,10 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private ScheduleApi _scheduleApi;
-
+{ 
     public ScheduleApi GetScheduleApi()
-    {
-        _scheduleApi = new(apiBase);
-
-        return _scheduleApi;
+    { 
+        return new(apiBase);
     }
 }
 

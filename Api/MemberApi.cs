@@ -12,14 +12,10 @@ using QQChannelFramework.Datas;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{
-    private MemberApi _memberApi;
-
+{ 
     public MemberApi GetMemberApi()
     {
-        _memberApi = new(apiBase);
-
-        return _memberApi;
+        return new(apiBase);
     }
 }
 

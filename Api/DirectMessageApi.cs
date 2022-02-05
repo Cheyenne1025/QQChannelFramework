@@ -9,11 +9,9 @@ using QQChannelFramework.Models.MessageModels;
 
 namespace QQChannelFramework.Api;
 
-sealed partial class QQChannelApi {
-    private DirectMessageApi _directMessageApi;
-
+sealed partial class QQChannelApi { 
     public DirectMessageApi GetDirectMessageApi() {
-        return _directMessageApi ??= new DirectMessageApi(apiBase);
+        return new(apiBase);
     }
 }
 
