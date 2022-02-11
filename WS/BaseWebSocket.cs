@@ -57,7 +57,7 @@ public class BaseWebSocket {
     protected ClientWebSocket webSocket = null;
     private byte[] receiveBuf = new byte[4096];
 
-    private CancellationTokenSource _websocketCancellationTokenSource = null; 
+    private CancellationTokenSource _websocketCancellationTokenSource = null;
 
     /// <summary>
     /// 开始连接
@@ -127,7 +127,7 @@ public class BaseWebSocket {
             if (!cancellationToken.IsCancellationRequested) {
                 if (webSocket.State == WebSocketState.Open) {
                     BeginReceive();
-                } else { 
+                } else {
                     ConnectBreak?.Invoke();
                 }
             }
@@ -160,6 +160,13 @@ public class BaseWebSocket {
             Debug.WriteLine(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
+        } finally {
+            // 被取消则不触发事件
+            if (!_websocketCancellationTokenSource.IsCancellationRequested) {
+                if (webSocket.State != WebSocketState.Open) {
+                    ConnectBreak?.Invoke();
+                }
+            }
         }
     }
 
@@ -167,18 +174,24 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
-        if (webSocket is not null) {   
-            try { 
+        if (webSocket is not null) {
+            try {
                 // 取消Task
-                _websocketCancellationTokenSource.Cancel(); 
-                _websocketCancellationTokenSource.Dispose();
+                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null,
+                    _websocketCancellationTokenSource.Token);
+            } catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+            try {
+                _websocketCancellationTokenSource.Cancel();
                 webSocket.Dispose();
+                _websocketCancellationTokenSource.Dispose();
             } catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
 
             _websocketCancellationTokenSource = null;
-            webSocket = null; 
+            webSocket = null;
 
             OnClose?.Invoke();
         }
