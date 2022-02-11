@@ -83,6 +83,7 @@ public class BaseWebSocket {
             BeginReceive();
         } catch (Exception ex) {
             OnError?.Invoke(ex);
+            ConnectBreak?.Invoke();
         }
     }
 

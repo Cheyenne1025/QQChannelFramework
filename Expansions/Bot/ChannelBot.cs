@@ -86,6 +86,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
         // Websocket断线重连
         ConnectBreak += async () => {
             Debug.WriteLine("MyBot Websocket 断线重连");
+            await Task.Delay(3000);
             await Reconnect();
         };
     }
