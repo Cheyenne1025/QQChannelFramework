@@ -120,8 +120,7 @@ public class BaseWebSocket {
                     OnReceived?.Invoke(JToken.Parse(data));
                 }
             } else { 
-                Debug.WriteLine($"BotWs close {result.CloseStatus} {result.CloseStatusDescription}");
-                ConnectBreak?.Invoke();
+                Debug.WriteLine($"BotWs close {result.CloseStatus} {result.CloseStatusDescription}"); 
             }
         } catch (TaskCanceledException x) {
             Debug.WriteLine(x);
