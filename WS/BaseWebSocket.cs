@@ -65,7 +65,7 @@ public class BaseWebSocket {
     /// <exception cref="Exception"></exception>
     protected async ValueTask ConnectAsync(string url) {
         _url = url;
-        connectUrl = new Uri(url);
+        connectUrl = new Uri(url); 
 
         // 释放上一个Websocket
         try {
@@ -95,10 +95,11 @@ public class BaseWebSocket {
     private async Task ReceiveAsync() {
         var cancellationToken = _websocketCancellationTokenSource.Token;
         try {
-            var ms = new MemoryStream();
-
-            while (!cancellationToken.IsCancellationRequested) {
-                var result = await webSocket.ReceiveAsync(receiveBuf, cancellationToken)
+            var ms = new MemoryStream(); 
+            WebSocketReceiveResult result;
+            while (true) {
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await webSocket.ReceiveAsync(receiveBuf, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (result.Count > 0) {
@@ -111,12 +112,15 @@ public class BaseWebSocket {
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var bytes = ms.ToArray();
-            var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-
-            cancellationToken.ThrowIfCancellationRequested();
-            if (data.Length > 0) {
-                OnReceived?.Invoke(JToken.Parse(data));
+            if (result.MessageType != WebSocketMessageType.Close) {
+                var bytes = ms.ToArray();
+                var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+                if (data.Length > 0) { 
+                    OnReceived?.Invoke(JToken.Parse(data));
+                }
+            } else { 
+                Debug.WriteLine($"BotWs close {result.CloseStatus} {result.CloseStatusDescription}");
+                ConnectBreak?.Invoke();
             }
         } catch (TaskCanceledException x) {
             Debug.WriteLine(x);
@@ -155,7 +159,7 @@ public class BaseWebSocket {
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true,
                     _websocketCancellationTokenSource.Token)
                 .ConfigureAwait(false);
-            OnSend?.Invoke();
+            OnSend?.Invoke(); 
         } catch (TaskCanceledException x) {
             Debug.WriteLine(x);
         } catch (Exception ex) {
@@ -174,6 +178,7 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
+        Debug.WriteLine($"BotWs close {webSocket}.");
         if (webSocket is not null) {
             try {
                 // 取消Task
@@ -182,6 +187,7 @@ public class BaseWebSocket {
             } catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
+
             try {
                 _websocketCancellationTokenSource.Cancel();
                 webSocket.Dispose();
