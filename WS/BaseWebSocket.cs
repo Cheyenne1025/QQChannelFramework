@@ -82,8 +82,7 @@ public class BaseWebSocket {
             OnConnected?.Invoke();
             BeginReceive();
         } catch (Exception ex) {
-            OnError?.Invoke(ex);
-            ConnectBreak?.Invoke();
+            OnError?.Invoke(ex); 
         }
     }
 
