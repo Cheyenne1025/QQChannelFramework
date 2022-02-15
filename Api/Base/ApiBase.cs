@@ -243,12 +243,7 @@ public class ApiBase
     /// <param name="resultData"></param>
     private void InspectionResultCode(in JToken resultData)
     {
-        var code = int.Parse(resultData["code"].ToString());
-
-        if (code >= 1000000 && code <= 2999999)
-        {
-            throw new SendMessageErrorException();
-        }
+        var code = int.Parse(resultData["code"].ToString()); 
 
         throw new ErrorResultException(code, resultData["message"].ToString());
     }
