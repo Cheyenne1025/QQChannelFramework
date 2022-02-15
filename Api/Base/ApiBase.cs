@@ -10,8 +10,7 @@ using QQChannelFramework.Exceptions;
 
 namespace QQChannelFramework.Api.Base;
 
-public class ApiBase
-{
+public class ApiBase {
     private readonly string _releaseUrl = "https://api.sgroup.qq.com";
 
     private readonly string _sandBoxUrl = "https://sandbox.api.sgroup.qq.com";
@@ -26,18 +25,16 @@ public class ApiBase
 
     private HttpContent _content;
 
-    public ApiBase(OpenApiAccessInfo openApiAccessInfo)
-    {
+    public ApiBase(OpenApiAccessInfo openApiAccessInfo) {
         _openApiAccessInfo = openApiAccessInfo;
 
-        if (_client is null)
-        {
+        if (_client is null) {
             _client = new HttpClient();
             _client.Timeout = TimeSpan.FromSeconds(10);
         }
 
-        if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null || _openApiAccessInfo.BotToken is null)
-        {
+        if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null ||
+            _openApiAccessInfo.BotToken is null) {
             throw new Exceptions.MissingAccessInfoException();
         }
     }
@@ -47,9 +44,9 @@ public class ApiBase
     /// </summary>
     /// <param name="token"></param>
     /// <returns></returns>
-    public ApiBase UseBotIdentity()
-    {
-        _client.DefaultRequestHeaders.Authorization = new("Bot", $"{_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}");
+    public ApiBase UseBotIdentity() {
+        _client.DefaultRequestHeaders.Authorization =
+            new("Bot", $"{_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}");
 
         return this;
     }
@@ -59,8 +56,7 @@ public class ApiBase
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public ApiBase WithData(object obj)
-    {
+    public ApiBase WithData(object obj) {
         _rawContent = obj;
         _content = new StringContent(JsonConvert.SerializeObject(obj));
         _content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
@@ -72,8 +68,7 @@ public class ApiBase
     /// 使用正式模式 (默认)
     /// </summary>
     /// <returns></returns>
-    public ApiBase UseReleaseMode()
-    {
+    public ApiBase UseReleaseMode() {
         _requestMode = Types.RequestMode.Release;
 
         return this;
@@ -83,17 +78,14 @@ public class ApiBase
     /// 使用沙箱模式
     /// </summary>
     /// <returns></returns>
-    public ApiBase UseSandBoxMode()
-    {
+    public ApiBase UseSandBoxMode() {
         _requestMode = Types.RequestMode.SandBox;
 
         return this;
     }
 
-    private async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo)
-    {
-        if (rawInfo.NeedParam && _content is null)
-        {
+    private async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo) {
+        if (rawInfo.NeedParam && _content is null) {
             throw new Exceptions.MissingDataException();
         }
 
@@ -103,56 +95,50 @@ public class ApiBase
 
         HttpResponseMessage responseMessage = null;
 
-        switch (rawInfo.Method)
-        {
+        switch (rawInfo.Method) {
             case MethodType.GET:
 
-                if(_rawContent is not null)
-                {
+                if (_rawContent is not null) {
                     _requestUrl = $"{_requestUrl}?";
-                    foreach (var item in (Dictionary<string, object>)_rawContent)
-                    {
+                    foreach (var item in (Dictionary<string, object>) _rawContent) {
                         _requestUrl += $"{item.Key}={item.Value}&";
                     }
                 }
 
-                responseMessage = _client.GetAsync(_requestUrl).Result;
+                responseMessage = await _client.GetAsync(_requestUrl).ConfigureAwait(false);
 
                 break;
 
             case MethodType.POST:
 
-                responseMessage = _client.PostAsync(_requestUrl, _content).Result;
+                responseMessage = await _client.PostAsync(_requestUrl, _content).ConfigureAwait(false);
 
                 break;
 
             case MethodType.DELETE:
 
-                responseMessage = _client.DeleteAsync(_requestUrl).Result;
+                responseMessage = await _client.DeleteAsync(_requestUrl).ConfigureAwait(false);
 
                 break;
 
             case MethodType.PATCH:
 
-                responseMessage = _client.PatchAsync(_requestUrl, _content).Result;
+                responseMessage = await _client.PatchAsync(_requestUrl, _content).ConfigureAwait(false);
 
                 break;
 
             case MethodType.PUT:
 
-                responseMessage = _client.PutAsync(_requestUrl, _content).Result;
+                responseMessage = await _client.PutAsync(_requestUrl, _content).ConfigureAwait(false);
 
                 break;
-        }
-
-        // Console.WriteLine(await responseMessage.Content.ReadAsStringAsync());
+        } 
 
         // 检查Http状态码
         InspectionHttpCode(responseMessage);
 
         // 状态码为204时无Content,无须读取
-        if (responseMessage.StatusCode == (System.Net.HttpStatusCode)204)
-        {
+        if (responseMessage.StatusCode == (System.Net.HttpStatusCode) 204) {
             return null;
         }
 
@@ -163,26 +149,21 @@ public class ApiBase
         _rawContent = null;
         _content = null;
 
-        if (jsonObject.ToString().StartsWith('['))
-        {
+        if (jsonObject.ToString().StartsWith('[')) {
             return jsonObject;
         }
 
         bool isError = false;
 
-        try
-        {
+        try {
             var test = jsonObject["code"];
 
-            if (test is not null)
-            {
+            if (test is not null) {
                 isError = true;
             }
-        }
-        catch { }
+        } catch { }
 
-        if (isError)
-        {
+        if (isError) {
             // 检查返回结果
             InspectionResultCode(jsonObject);
         }
@@ -195,8 +176,7 @@ public class ApiBase
     /// </summary>
     /// <param name="apiInfo"></param>
     /// <returns></returns>
-    public async Task<JToken> RequestAsync(IRawApiInfo apiInfo)
-    {
+    public async Task<JToken> RequestAsync(IRawApiInfo apiInfo) {
         return await RequestAsync(apiInfo.Url, apiInfo);
     }
 
@@ -205,8 +185,7 @@ public class ApiBase
     /// </summary>
     /// <param name="apiInfo"></param>
     /// <returns></returns>
-    public async Task<JToken> RequestAsync(ProcessedApiInfo apiInfo)
-    {
+    public async Task<JToken> RequestAsync(ProcessedApiInfo apiInfo) {
         return await RequestAsync(apiInfo.Url, apiInfo.RawInfo);
     }
 
@@ -214,22 +193,19 @@ public class ApiBase
     /// 检查HttpCode
     /// </summary>
     /// <param name="httpResponseMessage"></param>
-    private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage)
-    {
-        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK)
-        {
+    private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage) {
+        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK) {
             return;
         }
 
-        switch (httpResponseMessage.StatusCode)
-        {
+        switch (httpResponseMessage.StatusCode) {
             case System.Net.HttpStatusCode.Unauthorized:
 
                 throw new Exceptions.AccessInfoErrorException();
 
             case System.Net.HttpStatusCode.TooManyRequests:
 
-                throw new Exceptions.RequestRateTooHighException() ;
+                throw new Exceptions.RequestRateTooHighException();
 
             case System.Net.HttpStatusCode.NotFound:
 
@@ -241,9 +217,8 @@ public class ApiBase
     /// 检查请求结果Code
     /// </summary>
     /// <param name="resultData"></param>
-    private void InspectionResultCode(in JToken resultData)
-    {
-        var code = int.Parse(resultData["code"].ToString()); 
+    private void InspectionResultCode(in JToken resultData) {
+        var code = int.Parse(resultData["code"].ToString());
 
         throw new ErrorResultException(code, resultData["message"].ToString());
     }
