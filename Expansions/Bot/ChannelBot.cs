@@ -23,6 +23,8 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     private QQChannelApi _api;
 
     public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
+        _api = qqChannelApi;
+        
         CommandInfo _parseCommand(Message message) {
             var realContent = message.Content.Trim();
 
