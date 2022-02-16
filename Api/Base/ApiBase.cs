@@ -133,9 +133,14 @@ public class ApiBase {
 
                 break;
         } 
-
+        
+        var traceId = "Missing";
+        if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) { 
+            traceId = val.FirstOrDefault(); 
+        }
+        
         // 检查Http状态码
-        InspectionHttpCode(responseMessage);
+        InspectionHttpCode(responseMessage, traceId); 
 
         // 状态码为204时无Content,无须读取
         if (responseMessage.StatusCode == (System.Net.HttpStatusCode) 204) {
@@ -165,7 +170,7 @@ public class ApiBase {
 
         if (isError) {
             // 检查返回结果
-            InspectionResultCode(jsonObject);
+            InspectionResultCode(jsonObject, traceId);
         }
 
         return jsonObject;
@@ -193,23 +198,23 @@ public class ApiBase {
     /// 检查HttpCode
     /// </summary>
     /// <param name="httpResponseMessage"></param>
-    private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage) {
+    private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage, string traceId) {
         if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK) {
             return;
         }
-
+        
         switch (httpResponseMessage.StatusCode) {
             case System.Net.HttpStatusCode.Unauthorized:
 
-                throw new Exceptions.AccessInfoErrorException();
+                throw new HttpApiException(new AccessInfoErrorException(), traceId);
 
             case System.Net.HttpStatusCode.TooManyRequests:
 
-                throw new Exceptions.RequestRateTooHighException();
+                throw new HttpApiException(new RequestRateTooHighException(), traceId); 
 
             case System.Net.HttpStatusCode.NotFound:
 
-                throw new Exceptions.ApiNotExistException();
+                throw new HttpApiException(new ApiNotExistException(), traceId); 
         }
     }
 
@@ -217,9 +222,9 @@ public class ApiBase {
     /// 检查请求结果Code
     /// </summary>
     /// <param name="resultData"></param>
-    private void InspectionResultCode(in JToken resultData) {
+    private void InspectionResultCode(in JToken resultData, string traceId) {
         var code = int.Parse(resultData["code"].ToString());
 
-        throw new ErrorResultException(code, resultData["message"].ToString());
+        throw new HttpApiException(new ErrorResultException(code, resultData["message"].ToString()), traceId);
     }
 }

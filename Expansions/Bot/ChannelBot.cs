@@ -20,8 +20,9 @@ namespace QQChannelFramework.Expansions.Bot;
 /// </summary>
 public sealed partial class ChannelBot : FunctionWebSocket {
     private string _url;
+    private QQChannelApi _api;
 
-    public ChannelBot(OpenApiAccessInfo openApiAccessInfo) : base(openApiAccessInfo) {
+    public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
         CommandInfo _parseCommand(Message message) {
             var realContent = message.Content.Trim();
 
@@ -85,8 +86,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
 
         // Websocket断线重连
         ConnectBreak += async () => {
-            Debug.WriteLine("MyBot Websocket 断线重连");
-            await Task.Delay(3000);
+            Debug.WriteLine("MyBot Websocket 断线重连"); 
             await Reconnect();
         };
     }
@@ -94,10 +94,8 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     /// <summary>
     /// 机器人上线
     /// </summary>
-    public async ValueTask OnlineAsync() {
-        QQChannelApi qQChannelApi = new(_openApiAccessInfo);
-        _url = await qQChannelApi.UseBotIdentity().GetWebSocketApi().GetUrlAsync()
-            .ConfigureAwait(false);
+    public async ValueTask OnlineAsync() { 
+        _url = await _api.GetWebSocketApi().GetUrlAsync().ConfigureAwait(false);
         await ConnectAsync(_url);
     }
 
