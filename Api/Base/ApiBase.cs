@@ -225,6 +225,6 @@ public class ApiBase {
     private void InspectionResultCode(in JToken resultData, string traceId) {
         var code = int.Parse(resultData["code"].ToString());
 
-        throw new HttpApiException(new ErrorResultException(code, resultData["message"].ToString()), traceId);
+        throw new ErrorResultException(code, resultData["message"].ToString(), traceId);
     }
 }
