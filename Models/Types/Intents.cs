@@ -65,5 +65,12 @@ public enum Intents : int
     /// <para>当用户回复评论时</para>
     /// <para>当用户删除评论时</para>
     /// </summary>
-    Forum = 1 << 28
+    Forum = 1 << 28,
+    /// <summary>
+    /// 审核事件
+    /// <para>包含: </para>
+    /// <para>消息审核通过</para>
+    /// <para>消息审核不通过</para> 
+    /// </summary>
+    Audit = 1 << 27
 }

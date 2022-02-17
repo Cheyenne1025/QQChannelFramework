@@ -1,4 +1,5 @@
 ﻿using System;
+using ChannelModels.Returns;
 using QQChannelFramework.Models;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.WsModels;
@@ -12,6 +13,7 @@ partial class FunctionWebSocket
     public delegate void MemberDelegate(MemberWithGuildID memberWithGuildID);
     public delegate void MessageDelegate(Message message);
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
+    public delegate void AuditDelegate(MessageAudited audit);
 
     /// <summary>
     /// <para>触发时机: </para>
@@ -125,4 +127,16 @@ partial class FunctionWebSocket
     /// <para>消息表情态被用户取消(移除)</para>
     /// </summary>
     public event MessageReactionDelegate MessageReactionIsRemoved;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>消息审核通过</para>
+    /// </summary>
+    public event AuditDelegate MessageAuditPass;
+    
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>消息审核不通过</para>
+    /// </summary>
+    public event AuditDelegate MessageAuditReject;
 }

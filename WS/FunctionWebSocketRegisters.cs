@@ -110,6 +110,18 @@ partial class FunctionWebSocket
 
         return this;
     }
+    
+    /// <summary>
+    /// 注册主动消息审核相关事件
+    /// <para>为消息添加表情表态</para>
+    /// <para>为消息删除表情表态</para>
+    /// </summary>
+    /// <returns></returns>
+    public FunctionWebSocket RegisterAuditEvent()
+    {
+        _registeredEvents.Add(Intents.Audit); 
+        return this;
+    }
 
     /// <summary>
     /// 注册论坛相关事件
