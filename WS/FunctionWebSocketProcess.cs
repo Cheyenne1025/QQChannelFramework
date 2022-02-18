@@ -287,7 +287,7 @@ partial class FunctionWebSocket {
             case OpCode.Reconnect:
 
                 Reconnecting?.Invoke();
-
+ 
                 await CloseAsync(); 
                 await ConnectAsync(_url);
 

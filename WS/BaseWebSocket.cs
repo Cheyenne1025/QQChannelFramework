@@ -131,6 +131,7 @@ public class BaseWebSocket {
                 if (webSocket.State == WebSocketState.Open) {
                     BeginReceive();
                 } else {
+                    Debug.WriteLine($"{DateTime.Now} Connection break post receive check.");
                     ConnectBreak?.Invoke();
                 }
             }
@@ -149,6 +150,7 @@ public class BaseWebSocket {
 
         if (!_websocketCancellationTokenSource.IsCancellationRequested &&
             webSocket.State is not WebSocketState.Open) {
+            Debug.WriteLine($"{DateTime.Now} Connection break before send check.");
             ConnectBreak?.Invoke();
             return;
         }
@@ -167,6 +169,7 @@ public class BaseWebSocket {
             // 被取消则不触发事件
             if (!_websocketCancellationTokenSource.IsCancellationRequested) {
                 if (webSocket.State != WebSocketState.Open) {
+                    Debug.WriteLine($"{DateTime.Now} Connection break post send check.");
                     ConnectBreak?.Invoke();
                 }
             }
@@ -177,16 +180,8 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
-        Debug.WriteLine($"BotWs close {webSocket}.");
-        if (webSocket is not null) {
-            try {
-                // 取消Task
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, null,
-                    _websocketCancellationTokenSource.Token);
-            } catch (Exception ex) {
-                Debug.WriteLine(ex);
-            }
-
+        Debug.WriteLine($"{DateTime.Now} BotWs close, ws is null? {webSocket is null}.");
+        if (webSocket is not null) {  
             try {
                 _websocketCancellationTokenSource.Cancel();
                 webSocket.Dispose();
