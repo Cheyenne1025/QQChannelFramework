@@ -140,7 +140,7 @@ public class MemberApi
         string after = "0";
 
         while (true) {
-            var batch = await GetMembers(guild_id, after, 300);
+            var batch = await GetMembers(guild_id, after, 400);
             
             if (!batch.Any())
                 break;
