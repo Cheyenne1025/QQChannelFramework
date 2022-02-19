@@ -3,6 +3,7 @@ using QQChannelFramework.Api.Base;
 using QQChannelFramework.Models;
 using QQChannelFramework.Api.Raws;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace QQChannelFramework.Api;
@@ -84,17 +85,24 @@ public class UserApi
 
         var channelArray = JArray.Parse(requestData.ToString());
 
+        return channelArray.Select(channelInfo => channelInfo.ToObject<Guild>()).ToList();
+    }
+    
+    public async Task<List<Guild>> GetAllJoinedChannelsAsync()
+    { 
         List<Guild> guilds = new();
 
-        foreach (var channelInfo in channelArray)
-        {
-            guilds.Add(new()
-            {
-                Id = channelInfo["id"].ToString(),
-                Name = channelInfo["name"].ToString(),
-                Icon = channelInfo["icon"].ToString(),
-                Owner = bool.Parse(channelInfo["owner"].ToString())
-            });
+        string after = "";
+
+        while (true) {
+            var batch = await GetJoinedChannelsAsync("", after, 100).ConfigureAwait(false);
+            
+            if (!batch.Any())
+                break;
+            
+            guilds.AddRange(batch);
+
+            after = batch.Last().Id; 
         }
 
         return guilds;
