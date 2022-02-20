@@ -49,7 +49,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
             var rawData = realContent.Split(" ");
 
             CommandInfo commandInfo = new();
-            commandInfo.Key = rawData[0];
+            commandInfo.Key = rawData[1];
             commandInfo.Param = rawData.ToList();
             commandInfo.Param.RemoveAt(0);
             commandInfo.MessageId = message.Id;
