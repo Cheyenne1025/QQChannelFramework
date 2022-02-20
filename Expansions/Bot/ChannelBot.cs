@@ -25,12 +25,15 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
         _api = qqChannelApi;
         
-        CommandInfo _parseCommand(Message message) {
+        CommandInfo _parseCommand(Message message)
+        {
             var realContent = message.Content.Trim();
 
             // Check null and check count
-            if (message.Mentions is {Count: > 0}) {
-                foreach (var user in message.Mentions.Where(user => user != null)) {
+            if (message.Mentions is { Count: > 0 })
+            {
+                foreach (var user in message.Mentions.Where(user => user != null))
+                {
                     //在末尾处At没有空格
                     realContent = realContent.Replace($"<@!{user.Id}> ", string.Empty);
                     realContent = realContent.Replace($"<@!{user.Id}>", string.Empty);
@@ -39,8 +42,10 @@ public sealed partial class ChannelBot : FunctionWebSocket {
                     message.Content = message.Content.Trim();
             }
 
-            if (message.MentionEveryone) {
-                if (message.Content != null) {
+            if (message.MentionEveryone)
+            {
+                if (message.Content != null)
+                {
                     message.Content = message.Content.Replace($"@everyone ", string.Empty);
                     message.Content = message.Content.Replace($"@everyone", string.Empty);
 
@@ -51,8 +56,13 @@ public sealed partial class ChannelBot : FunctionWebSocket {
 
             var rawData = realContent.Split(" ");
 
+            if (rawData[0].Length is 0)
+            {
+                return default(CommandInfo);
+            }
+
             CommandInfo commandInfo = new();
-            commandInfo.Key = rawData[1];
+            commandInfo.Key = rawData[0];
             commandInfo.Param = rawData.ToList();
             commandInfo.Param.RemoveAt(0);
             commandInfo.MessageId = message.Id;
