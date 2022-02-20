@@ -100,7 +100,7 @@ public class ApiBase {
 
                 if (_rawContent is not null) {
                     _requestUrl = $"{_requestUrl}?" + string.Join('&', ((Dictionary<string, object>) _rawContent)
-                        .Where(a => !string.IsNullOrWhiteSpace(a.Key))
+                        .Where(a => !string.IsNullOrWhiteSpace(a.Value.ToString()))
                         .Select(a => $"{a.Key}={a.Value}")); 
                 }
 
