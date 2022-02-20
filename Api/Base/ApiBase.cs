@@ -99,10 +99,9 @@ public class ApiBase {
             case MethodType.GET:
 
                 if (_rawContent is not null) {
-                    _requestUrl = $"{_requestUrl}?";
-                    foreach (var item in (Dictionary<string, object>) _rawContent) {
-                        _requestUrl += $"{item.Key}={item.Value}&";
-                    }
+                    _requestUrl = $"{_requestUrl}?" + string.Join('&', ((Dictionary<string, object>) _rawContent)
+                        .Where(a => !string.IsNullOrWhiteSpace(a.Key))
+                        .Select(a => $"{a.Key}={a.Value}")); 
                 }
 
                 responseMessage = await _client.GetAsync(_requestUrl).ConfigureAwait(false);
