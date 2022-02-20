@@ -6,11 +6,11 @@ namespace QQChannelFramework.Api;
 /// <summary>
 /// QQ频道机器人OpenApi
 /// </summary>
-public sealed partial class QQChannelApi {
+public sealed partial class QQChannelApi { 
     
     private ApiBase apiBase {
         get {
-            var ret = new ApiBase(openApiAccessInfo);
+            var ret = new ApiBase(OpenApiAccessInfo);
             switch (Identity) {
                 case Identity.Bot: ret.UseBotIdentity(); break;
                 default:
@@ -26,10 +26,10 @@ public sealed partial class QQChannelApi {
         }
     }
     
-    private OpenApiAccessInfo openApiAccessInfo;
+    public OpenApiAccessInfo OpenApiAccessInfo { get; private set; }
     
     public QQChannelApi(OpenApiAccessInfo openApiAccessInfo) {
-        this.openApiAccessInfo = openApiAccessInfo;
+        OpenApiAccessInfo = openApiAccessInfo;
     }
 
     /// <summary>

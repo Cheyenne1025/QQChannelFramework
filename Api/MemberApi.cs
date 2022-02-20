@@ -54,7 +54,7 @@ public class MemberApi
     /// </summary>
     /// <param name="guild_id">主频道GuildID</param>
     /// <param name="after">上一次回包中最大的用户ID， 如果是第一次请求填0，默认为0</param>
-    /// <param name="limit">分页大小，1-1000，默认是1</param>
+    /// <param name="limit">分页大小，1-400，默认是1</param>
     /// <returns>元组 (成员集合，成员数量)</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
     public async Task<List<Member>> GetMembers(string guild_id,string after = "0", UInt32 limit = 1)
@@ -64,9 +64,9 @@ public class MemberApi
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        if (limit > 1000)
+        if (limit > 400)
         {
-            limit = 1000;
+            limit = 400;
         }
 
         RawGetChannelMembersApi rawGetChannelMembersApi;
@@ -140,7 +140,7 @@ public class MemberApi
         string after = "0";
 
         while (true) {
-            var batch = await GetMembers(guild_id, after, 300);
+            var batch = await GetMembers(guild_id, after, 400);
             
             if (!batch.Any())
                 break;

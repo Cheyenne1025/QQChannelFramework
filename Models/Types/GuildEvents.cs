@@ -112,5 +112,13 @@ public enum GuildEvents
     /// <summary>
     /// 当用户回复评论时
     /// </summary>
-    REPLY_DELETE
+    REPLY_DELETE,
+    /// <summary>
+    /// 消息审核通过
+    /// </summary>
+    MESSAGE_AUDIT_PASS,
+    /// <summary>
+    /// 消息审核不通过
+    /// </summary>
+    MESSAGE_AUDIT_REJECT
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
+using ChannelModels.Returns;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -233,6 +235,14 @@ partial class FunctionWebSocket {
                         MessageReactionIsRemoved?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
 
                         break;
+                    
+                    case GuildEvents.MESSAGE_AUDIT_PASS:  
+                        MessageAuditPass?.Invoke(data["d"].ToObject<MessageAudited>()); 
+                        break;
+                    
+                    case GuildEvents.MESSAGE_AUDIT_REJECT: 
+                        MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
+                        break;
                 }
 
                 OnDispatch?.Invoke(data);
@@ -277,7 +287,7 @@ partial class FunctionWebSocket {
             case OpCode.Reconnect:
 
                 Reconnecting?.Invoke();
-
+ 
                 await CloseAsync(); 
                 await ConnectAsync(_url);
 

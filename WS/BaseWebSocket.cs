@@ -57,7 +57,7 @@ public class BaseWebSocket {
     protected ClientWebSocket webSocket = null;
     private byte[] receiveBuf = new byte[4096];
 
-    private CancellationTokenSource _websocketCancellationTokenSource = null; 
+    private CancellationTokenSource _websocketCancellationTokenSource = null;
 
     /// <summary>
     /// 开始连接
@@ -65,7 +65,7 @@ public class BaseWebSocket {
     /// <exception cref="Exception"></exception>
     protected async ValueTask ConnectAsync(string url) {
         _url = url;
-        connectUrl = new Uri(url);
+        connectUrl = new Uri(url); 
 
         // 释放上一个Websocket
         try {
@@ -82,7 +82,7 @@ public class BaseWebSocket {
             OnConnected?.Invoke();
             BeginReceive();
         } catch (Exception ex) {
-            OnError?.Invoke(ex);
+            OnError?.Invoke(ex); 
         }
     }
 
@@ -95,10 +95,11 @@ public class BaseWebSocket {
     private async Task ReceiveAsync() {
         var cancellationToken = _websocketCancellationTokenSource.Token;
         try {
-            var ms = new MemoryStream();
-
-            while (!cancellationToken.IsCancellationRequested) {
-                var result = await webSocket.ReceiveAsync(receiveBuf, cancellationToken)
+            var ms = new MemoryStream(); 
+            WebSocketReceiveResult result;
+            while (true) {
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await webSocket.ReceiveAsync(receiveBuf, cancellationToken)
                     .ConfigureAwait(false);
 
                 if (result.Count > 0) {
@@ -111,12 +112,14 @@ public class BaseWebSocket {
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var bytes = ms.ToArray();
-            var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-
-            cancellationToken.ThrowIfCancellationRequested();
-            if (data.Length > 0) {
-                OnReceived?.Invoke(JToken.Parse(data));
+            if (result.MessageType != WebSocketMessageType.Close) {
+                var bytes = ms.ToArray();
+                var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+                if (data.Length > 0) { 
+                    OnReceived?.Invoke(JToken.Parse(data));
+                }
+            } else { 
+                Debug.WriteLine($"BotWs close handshake {result.CloseStatus} {result.CloseStatusDescription}"); 
             }
         } catch (TaskCanceledException x) {
             Debug.WriteLine(x);
@@ -127,7 +130,8 @@ public class BaseWebSocket {
             if (!cancellationToken.IsCancellationRequested) {
                 if (webSocket.State == WebSocketState.Open) {
                     BeginReceive();
-                } else { 
+                } else {
+                    Debug.WriteLine($"{DateTime.Now} Connection break post receive check.");
                     ConnectBreak?.Invoke();
                 }
             }
@@ -146,6 +150,7 @@ public class BaseWebSocket {
 
         if (!_websocketCancellationTokenSource.IsCancellationRequested &&
             webSocket.State is not WebSocketState.Open) {
+            Debug.WriteLine($"{DateTime.Now} Connection break before send check.");
             ConnectBreak?.Invoke();
             return;
         }
@@ -155,11 +160,19 @@ public class BaseWebSocket {
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true,
                     _websocketCancellationTokenSource.Token)
                 .ConfigureAwait(false);
-            OnSend?.Invoke();
+            OnSend?.Invoke(); 
         } catch (TaskCanceledException x) {
             Debug.WriteLine(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
+        } finally {
+            // 被取消则不触发事件
+            if (!_websocketCancellationTokenSource.IsCancellationRequested) {
+                if (webSocket.State != WebSocketState.Open) {
+                    Debug.WriteLine($"{DateTime.Now} Connection break post send check.");
+                    ConnectBreak?.Invoke();
+                }
+            }
         }
     }
 
@@ -167,18 +180,18 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
-        if (webSocket is not null) {   
-            try { 
-                // 取消Task
-                _websocketCancellationTokenSource.Cancel(); 
-                _websocketCancellationTokenSource.Dispose();
+        Debug.WriteLine($"{DateTime.Now} BotWs close, ws is null? {webSocket is null}.");
+        if (webSocket is not null) {  
+            try {
+                _websocketCancellationTokenSource.Cancel();
                 webSocket.Dispose();
+                _websocketCancellationTokenSource.Dispose();
             } catch (Exception ex) {
                 Debug.WriteLine(ex);
             }
 
             _websocketCancellationTokenSource = null;
-            webSocket = null; 
+            webSocket = null;
 
             OnClose?.Invoke();
         }
