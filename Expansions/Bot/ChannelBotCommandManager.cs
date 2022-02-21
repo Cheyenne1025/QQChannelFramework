@@ -159,7 +159,13 @@ sealed partial class ChannelBot
 
     private void InvokeCommand(CommandInfo commandInfo,out bool trigger)
     {
-        if(_commands.ContainsKey(commandInfo.Key) is true)
+        if (commandInfo.Key is null)
+        {
+            trigger = false;
+            return;
+        }
+
+        if (_commands.ContainsKey(commandInfo.Key) is true)
         {
             trigger = true;
             _commands[commandInfo.Key](commandInfo);
