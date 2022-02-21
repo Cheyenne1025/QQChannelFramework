@@ -97,42 +97,42 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.CHANNEL_CREATE:
 
-                        ChildChannelCreated?.Invoke(new WsChildChannel() {
+                        ChildChannelCreated?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
                             OwnerId = data["d"]["owner_id"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChildChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChildChannelSubType>(data["d"]["sub_type"].ToString()),
+                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
+                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
                         });
 
                         break;
 
                     case GuildEvents.CHANNEL_UPDATE:
 
-                        ChildChannelInfoChange?.Invoke(new WsChildChannel() {
+                        ChildChannelInfoChange?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
                             OwnerId = data["d"]["owner_id"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChildChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChildChannelSubType>(data["d"]["sub_type"].ToString()),
+                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
+                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
                         });
 
                         break;
 
                     case GuildEvents.CHANNEL_DELETE:
 
-                        ChildChannelBeRemoved?.Invoke(new WsChildChannel() {
+                        ChildChannelBeRemoved?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
                             OwnerId = data["d"]["owner_id"].ToString(),
                             OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChildChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChildChannelSubType>(data["d"]["sub_type"].ToString()),
+                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
+                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
                         });
 
                         break;

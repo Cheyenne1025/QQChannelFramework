@@ -10,7 +10,7 @@ namespace QQChannelFramework.Api
 {
     sealed partial class QQChannelApi
     { 
-        public ChildChannelPermissionsApi GetChildChannelPermissionsApi()
+        public ChannelPermissionsApi GetChildChannelPermissionsApi()
         {
             return new(apiBase);
         }
@@ -19,11 +19,11 @@ namespace QQChannelFramework.Api
     /// <summary>
     /// 子频道权限Api
     /// </summary>
-    public class ChildChannelPermissionsApi
+    public class ChannelPermissionsApi
     {
         readonly ApiBase _apiBase;
 
-        public ChildChannelPermissionsApi(ApiBase apiBase)
+        public ChannelPermissionsApi(ApiBase apiBase)
         {
             _apiBase = apiBase;
         }

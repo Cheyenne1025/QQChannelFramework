@@ -9,7 +9,7 @@ namespace QQChannelFramework.WS;
 partial class FunctionWebSocket
 {
     public delegate void GuildDelegate(WsGuild guild);
-    public delegate void ChildChannelDelegate(WsChildChannel childChannel);
+    public delegate void ChildChannelDelegate(WsChannel channel);
     public delegate void MemberDelegate(MemberWithGuildID memberWithGuildID);
     public delegate void MessageDelegate(Message message);
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);

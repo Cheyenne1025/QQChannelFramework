@@ -3,7 +3,7 @@
 /// <summary>
 /// 子频道类型
 /// </summary>
-public enum ChildChannelType : int
+public enum ChannelType : int
 {
     /// <summary>
     /// 文字子频道

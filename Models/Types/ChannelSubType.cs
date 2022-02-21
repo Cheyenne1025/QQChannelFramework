@@ -3,7 +3,7 @@
 /// <summary>
 /// 子类型
 /// </summary>
-public enum ChildChannelSubType : int
+public enum ChannelSubType : int
 {
     /// <summary>
     /// 闲聊

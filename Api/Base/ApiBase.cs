@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Types;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using QQChannelFramework.Exceptions;
 
@@ -58,8 +59,7 @@ public class ApiBase {
     /// <returns></returns>
     public ApiBase WithData(object obj) {
         _rawContent = obj;
-        _content = new StringContent(JsonConvert.SerializeObject(obj));
-        _content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+        _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json"); 
 
         return this;
     }
