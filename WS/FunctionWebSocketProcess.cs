@@ -202,7 +202,7 @@ partial class FunctionWebSocket {
                             deleteMemberModel.Roles.Add(role.ToString());
                         }
 
-                        MemberExistGuild?.Invoke(deleteMemberModel);
+                        MemberLeaveGuild?.Invoke(deleteMemberModel);
 
                         break;
 

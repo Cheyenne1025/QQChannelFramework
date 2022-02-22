@@ -62,7 +62,7 @@ partial class FunctionWebSocket
     /// <para>触发时机: </para>
     /// <para>成员退出频道</para>
     /// </summary>
-    public event MemberDelegate MemberExistGuild;
+    public event MemberDelegate MemberLeaveGuild;
 
     /// <summary>
     /// <para>触发时机: </para>
