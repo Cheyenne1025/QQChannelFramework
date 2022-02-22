@@ -97,7 +97,7 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.CHANNEL_CREATE:
 
-                        ChildChannelCreated?.Invoke(new WsChannel() {
+                        ChannelCreated?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -111,7 +111,7 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.CHANNEL_UPDATE:
 
-                        ChildChannelInfoChange?.Invoke(new WsChannel() {
+                        ChannelInfoChange?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),
@@ -125,7 +125,7 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.CHANNEL_DELETE:
 
-                        ChildChannelBeRemoved?.Invoke(new WsChannel() {
+                        ChannelBeRemoved?.Invoke(new WsChannel() {
                             Id = data["d"]["id"].ToString(),
                             GuildId = data["d"]["guild_id"].ToString(),
                             Name = data["d"]["name"].ToString(),

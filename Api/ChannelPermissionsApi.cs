@@ -10,7 +10,7 @@ namespace QQChannelFramework.Api
 {
     sealed partial class QQChannelApi
     { 
-        public ChannelPermissionsApi GetChildChannelPermissionsApi()
+        public ChannelPermissionsApi GetChannelPermissionsApi()
         {
             return new(apiBase);
         }
@@ -36,9 +36,9 @@ namespace QQChannelFramework.Api
         /// <returns>权限对象</returns>
         public async Task<ChannelPermissions> GetPermissionsAsync(string channel_id, string user_id)
         {
-            RawGetChildChannelPermissionsApi rawGetChildChannelPermissionsApi;
+            RawGetChannelPermissionsApi rawGetChannelPermissionsApi;
 
-            var processedInfo = ApiFactory.Process(rawGetChildChannelPermissionsApi, new Dictionary<ParamType, string>()
+            var processedInfo = ApiFactory.Process(rawGetChannelPermissionsApi, new Dictionary<ParamType, string>()
             {
                 {ParamType.channel_id,channel_id },
                 {ParamType.user_id,user_id }
@@ -52,17 +52,17 @@ namespace QQChannelFramework.Api
         /// <summary>
         /// 获取指定子频道身份组的权限
         /// </summary>
-        /// <param name="channel_id">子频道ID</param>
-        /// <param name="role_id">身份组ID</param>
+        /// <param name="channelId">子频道ID</param>
+        /// <param name="roleId">身份组ID</param>
         /// <returns></returns>
-        public async Task<ChannelRolePermissions> GetChildChannelRolePermission(string channel_id, string role_id)
+        public async Task<ChannelRolePermissions> GetChannelRolePermission(string channelId, string roleId)
         {
-            RawGetChildChannelRolePermissionApi rawGetChildChannelRolePermissionApi;
+            RawGetChannelRolePermissionApi rawGetChannelRolePermissionApi;
 
-            var processedInfo = ApiFactory.Process(rawGetChildChannelRolePermissionApi, new Dictionary<ParamType, string>()
+            var processedInfo = ApiFactory.Process(rawGetChannelRolePermissionApi, new Dictionary<ParamType, string>()
             {
-                {ParamType.channel_id,channel_id},
-                {ParamType.role_id,role_id}
+                {ParamType.channel_id,channelId},
+                {ParamType.role_id,roleId}
             });
 
             var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
@@ -80,9 +80,9 @@ namespace QQChannelFramework.Api
         /// <returns></returns>
         public async Task<bool> UpdateRolePermissionAsync(string channel_id, string role_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
         {
-            RawUpdateChildChannelRolePermissionApi rawUpdateChildChannelRolePermissionApi;
+            RawUpdateChannelRolePermissionApi rawUpdateChannelRolePermissionApi;
 
-            var processedInfo = ApiFactory.Process(rawUpdateChildChannelRolePermissionApi, new Dictionary<ParamType, string>()
+            var processedInfo = ApiFactory.Process(rawUpdateChannelRolePermissionApi, new Dictionary<ParamType, string>()
             {
                 {ParamType.channel_id,channel_id },
                 {ParamType.role_id,role_id }
@@ -109,9 +109,9 @@ namespace QQChannelFramework.Api
         /// <returns></returns>
         public async Task<bool> UpdatePermissionsAsync(string channel_id, string user_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
         {
-            RawUpdateChildChannelPermissionsApi rawUpdateChildChannelPermissionsApi;
+            RawUpdateChannelPermissionsApi rawUpdateChannelPermissionsApi;
 
-            var processedInfo = ApiFactory.Process(rawUpdateChildChannelPermissionsApi, new Dictionary<ParamType, string>()
+            var processedInfo = ApiFactory.Process(rawUpdateChannelPermissionsApi, new Dictionary<ParamType, string>()
             {
                 {ParamType.channel_id,channel_id },
                 {ParamType.user_id,user_id }

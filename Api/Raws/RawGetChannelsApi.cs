@@ -3,15 +3,15 @@
 namespace QQChannelFramework.Api.Raws;
 
 /// <summary>
-/// 源Api信息 - 获取子频道信息
+/// 源Api信息 - 获取频道下的子频道列表
 /// </summary>
-public struct RawGetChildChannelApi : Base.IRawApiInfo
+public struct RawGetChannelsApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
     public bool NeedParam => false;
 
-    public string Url => "/channels/{channel_id}";
+    public string Url => "/guilds/{guild_id}/channels";
 
     public MethodType Method => MethodType.GET;
 }

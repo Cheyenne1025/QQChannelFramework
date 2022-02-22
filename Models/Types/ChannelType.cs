@@ -26,9 +26,17 @@ public enum ChannelType : int
     /// <summary>
     /// 子频道分类
     /// </summary>
-    Child,
+    Channel,
     /// <summary>
     /// 直播子频道
     /// </summary>
     Live = 10005,
+    /// <summary>
+    /// 应用子频道
+    /// </summary>
+    Application = 10006,
+    /// <summary>
+    /// 话题子频道
+    /// </summary>
+    Topic = 10007,
 }

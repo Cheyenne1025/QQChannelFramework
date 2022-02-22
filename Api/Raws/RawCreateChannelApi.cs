@@ -6,7 +6,7 @@ namespace QQChannelFramework.Api.Raws
     /// <summary>
     /// 源Api信息 - 创建子频道
     /// </summary>
-    public struct RawCreateChildChannelApi : Base.IRawApiInfo
+    public struct RawCreateChannelApi : Base.IRawApiInfo
     {
         public string Version => "1.0";
 

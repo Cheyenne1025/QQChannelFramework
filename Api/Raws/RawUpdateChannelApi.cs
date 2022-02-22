@@ -4,17 +4,17 @@ using QQChannelFramework.Api.Types;
 namespace QQChannelFramework.Api.Raws
 {
     /// <summary>
-    /// 源Api信息 - 删除子频道
+    /// 源Api信息 - 更新子频道信息
     /// </summary>
-    public struct RawDeleteChildChannelApi : Base.IRawApiInfo
+    public struct RawUpdateChannelApi : Base.IRawApiInfo
     {
         public string Version => "1.0";
 
-        public bool NeedParam => false;
+        public bool NeedParam => true;
 
         public string Url => "/channels/{channel_id}";
 
-        public MethodType Method => MethodType.DELETE;
+        public MethodType Method => MethodType.PATCH;
     }
 }
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// 源对象 - 子频道对象
 /// </summary>
-public struct RawChildChannel
+public struct RawChannel
 {
     /// <summary>
     /// 子频道id

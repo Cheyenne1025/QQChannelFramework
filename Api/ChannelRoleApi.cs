@@ -167,7 +167,7 @@ public class ChannelRoleApi
 
     /// <summary>
     /// 增加频道身份组成员
-    /// <para>注: 如果要从身份组是 「子频道管理员」增加成员, 需要传递childChannelId参数，指定添加到哪个子频道</para>
+    /// <para>注: 如果要从身份组是 「子频道管理员」增加成员, 需要传递channelId参数，指定添加到哪个子频道</para>
     /// </summary>
     /// <param name="guild_id">频道Guild</param>
     /// <param name="user_id">成员ID</param>
@@ -192,11 +192,11 @@ public class ChannelRoleApi
 
         JToken requestData = null;
  
-        RawChildChannel rawChildChannel = new();
-        rawChildChannel.id = channelId;
+        RawChannel rawChannel = new();
+        rawChannel.id = channelId;
 
         requestData = await _apiBase
-            .WithData(rawChildChannel)
+            .WithData(rawChannel)
             .RequestAsync(processedInfo)
             .ConfigureAwait(false); 
 
@@ -205,7 +205,7 @@ public class ChannelRoleApi
 
     /// <summary>
     /// 删除频道身份组成员
-    /// <para>注: 如果要从身份组是 「子频道管理员」删除成员, 需要传递childChannelId参数，指定添加到哪个子频道</para>
+    /// <para>注: 如果要从身份组是 「子频道管理员」删除成员, 需要传递channelId参数，指定添加到哪个子频道</para>
     /// </summary>
     /// <param name="guild_id">频道Guild</param>
     /// <param name="user_id">成员ID</param>
@@ -230,11 +230,11 @@ public class ChannelRoleApi
 
         JToken requestData = null;
  
-        RawChildChannel rawChildChannel = new();
-        rawChildChannel.id = channelId;
+        RawChannel rawChannel = new();
+        rawChannel.id = channelId;
 
         requestData = await _apiBase
-            .WithData(rawChildChannel)
+            .WithData(rawChannel)
             .RequestAsync(processedInfo)
             .ConfigureAwait(false); 
 

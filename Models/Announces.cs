@@ -18,7 +18,7 @@ namespace QQChannelFramework.Models
         /// 子频道ID
         /// </summary>
         [JsonProperty("channel_id")]
-        public string ChildChannel { get; set; }
+        public string ChannelId { get; set; }
 
         /// <summary>
         /// 消息ID

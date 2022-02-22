@@ -33,9 +33,9 @@ public class ChannelApi {
     /// <param name="channelId">子频道ID</param>
     /// <returns>子频道信息</returns>
     public async Task<Channel> GetInfoAsync(string channelId) {
-        RawGetChildChannelApi rawGetChildChannelApi;
+        RawGetChannelApi rawGetChannelApi;
 
-        var processedInfo = ApiFactory.Process(rawGetChildChannelApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawGetChannelApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
@@ -50,22 +50,22 @@ public class ChannelApi {
     /// <param name="guild_id">主频道Guild</param>
     /// <returns>元组 (子频道列表,数量)</returns>
     public async Task<List<Channel>> GetChannelsAsync(string guild_id) {
-        RawGetChildChannelsApi rawGetChildChannelsApi;
+        RawGetChannelsApi rawGetChannelsApi;
 
-        var processedInfo = ApiFactory.Process(rawGetChildChannelsApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawGetChannelsApi, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guild_id}
         });
 
         JArray requestDatas =
             JArray.Parse((await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false)).ToString());
 
-        List<Channel> childChannels = new();
+        List<Channel> channels = new();
 
         foreach (var channelInfo in requestDatas) {
-            childChannels.Add(channelInfo.ToObject<Channel>());
+            channels.Add(channelInfo.ToObject<Channel>());
         }
 
-        return childChannels;
+        return channels;
     }
 
     /// <summary>
@@ -79,9 +79,9 @@ public class ChannelApi {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        RawCreateChildChannelApi rawCreateChildChannelApi;
+        RawCreateChannelApi rawCreateChannelApi;
 
-        var processedInfo = ApiFactory.Process(rawCreateChildChannelApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawCreateChannelApi, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, newChannel.GuildId}
         });
 
@@ -113,9 +113,9 @@ public class ChannelApi {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        RawUpdateChildChannelApi rawUpdateChildChannelApi;
+        RawUpdateChannelApi rawUpdateChannelApi;
 
-        var processedInfo = ApiFactory.Process(rawUpdateChildChannelApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawUpdateChannelApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channel.Id}
         });
 
@@ -144,9 +144,9 @@ public class ChannelApi {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        RawUpdateChildChannelApi rawUpdateChildChannelApi;
+        RawUpdateChannelApi rawUpdateChannelApi;
 
-        var processedInfo = ApiFactory.Process(rawUpdateChildChannelApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawUpdateChannelApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
@@ -170,9 +170,9 @@ public class ChannelApi {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        RawDeleteChildChannelApi rawDeleteChildChannelApi;
+        RawDeleteChannelApi rawDeleteChannelApi;
 
-        var processedInfo = ApiFactory.Process(rawDeleteChildChannelApi, new Dictionary<ParamType, string>() {
+        var processedInfo = ApiFactory.Process(rawDeleteChannelApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 

@@ -2,7 +2,7 @@
 namespace QQChannelFramework.Models.WsModels
 {
     /// <summary>
-    /// WebSocket接收的ChildChannel数据对象
+    /// WebSocket接收的Channel数据对象
     /// </summary>
     public class WsChannel : Channel
     {

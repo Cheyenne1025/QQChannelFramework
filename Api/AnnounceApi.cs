@@ -31,16 +31,16 @@ public class AnnounceApi
     /// <summary>
     /// 创建子频道公告
     /// </summary>
-    /// <param name="childChannel">子频道ID</param>
+    /// <param name="channelId">子频道ID</param>
     /// <param name="messageId">消息ID</param>
     /// <returns>公告对象</returns>
-    public async Task<Announces> CreateAsync(string childChannel, string messageId)
+    public async Task<Announces> CreateAsync(string channelId, string messageId)
     {
         RawCreateAnnounceApi rawCreateAnnounceApi;
 
         var processedInfo = ApiFactory.Process(rawCreateAnnounceApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel }
+            {ParamType.channel_id,channelId }
         });
 
         var requestData = await _apiBase
@@ -50,30 +50,23 @@ public class AnnounceApi
             })
             .RequestAsync(processedInfo)
             .ConfigureAwait(false);
-
-        Announces announces = new()
-        {
-            Guild = requestData["guild_id"].ToString(),
-            ChildChannel = requestData["channel_id"].ToString(),
-            MessageId = requestData["message_id"].ToString()
-        };
-
-        return announces;
+ 
+        return requestData.ToObject<Announces>();
     }
 
     /// <summary>
     /// 删除子频道公告
     /// </summary>
-    /// <param name="childChannel">子频道ID</param>
+    /// <param name="channelId">子频道ID</param>
     /// <param name="messageId">消息ID</param>
     /// <returns></returns>
-    public async ValueTask DeleteAsync(string childChannel, string messageId)
+    public async ValueTask DeleteAsync(string channelId, string messageId)
     {
         RawDeleteAnnounceApi rawDeleteAnnounceApi;
 
         var processedInfo = ApiFactory.Process(rawDeleteAnnounceApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel },
+            {ParamType.channel_id,channelId },
             {ParamType.message_id,messageId }
         });
 

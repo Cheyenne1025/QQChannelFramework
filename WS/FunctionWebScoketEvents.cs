@@ -9,7 +9,7 @@ namespace QQChannelFramework.WS;
 partial class FunctionWebSocket
 {
     public delegate void GuildDelegate(WsGuild guild);
-    public delegate void ChildChannelDelegate(WsChannel channel);
+    public delegate void ChannelDelegate(WsChannel channel);
     public delegate void MemberDelegate(MemberWithGuildID memberWithGuildID);
     public delegate void MessageDelegate(Message message);
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
@@ -36,17 +36,17 @@ partial class FunctionWebSocket
     /// <para>触发时机: </para>
     /// <para>子频道被创建</para>
     /// </summary>
-    public event ChildChannelDelegate ChildChannelCreated;
+    public event ChannelDelegate ChannelCreated;
     /// <summary>
     /// <para>触发时机: </para>
     /// <para>子频道信息变更</para>
     /// </summary>
-    public event ChildChannelDelegate ChildChannelInfoChange;
+    public event ChannelDelegate ChannelInfoChange;
     /// <summary>
     /// <para>触发时机: </para>
     /// <para>子频道被删除</para>
     /// </summary>
-    public event ChildChannelDelegate ChildChannelBeRemoved;
+    public event ChannelDelegate ChannelBeRemoved;
 
     /// <summary>
     /// <para>触发时机: </para>

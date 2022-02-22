@@ -34,16 +34,16 @@ public class ScheduleApi
     /// <summary>
     /// 获取指定 日程子频道 中指定结束时间后的当日活动日程
     /// </summary>
-    /// <param name="childChannel">日程子频道Id</param>
+    /// <param name="channel">日程子频道Id</param>
     /// <param name="since">结束时间</param>
     /// <returns>元组 (日程集合，数量)</returns>
-    public async Task<List<Schedule>> GetSchedulesAsync(string childChannel, DateTime since)
+    public async Task<List<Schedule>> GetSchedulesAsync(string channel, DateTime since)
     {
         RawGetSchedulesApi rawGetSchedulesApi;
 
         var processedInfo = ApiFactory.Process(rawGetSchedulesApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel }
+            {ParamType.channel_id,channel }
         });
 
         JToken requestData;
@@ -87,27 +87,27 @@ public class ScheduleApi
     /// <summary>
     /// 获取当日所有日程
     /// </summary>
-    /// <param name="childChannel">日程子频道Id</param>
+    /// <param name="channel">日程子频道Id</param>
     /// <returns>元组 (日程集合，数量)</returns>
-    public async Task<List<Schedule>> GetToDaySchedulesAsync(string childChannel)
+    public async Task<List<Schedule>> GetToDaySchedulesAsync(string channel)
     {
-        return await GetSchedulesAsync(childChannel, default(DateTime));
+        return await GetSchedulesAsync(channel, default(DateTime));
     }
 
     /// <summary>
     /// 获取指定的日程信息
     /// </summary>
-    /// <param name="childChannel">子频道Id</param>
-    /// <param name="schedule_id">日程ID</param>
+    /// <param name="channelId">子频道Id</param>
+    /// <param name="scheduleId">日程ID</param>
     /// <returns></returns>
-    public async Task<Schedule> GetScheduleInfoAsync(string childChannel, string schedule_id)
+    public async Task<Schedule> GetScheduleInfoAsync(string channelId, string scheduleId)
     {
         RawGetScheduleApi rawGetScheduleApi;
 
         var processedInfo = ApiFactory.Process(rawGetScheduleApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel },
-            {ParamType.schedule_id,schedule_id }
+            {ParamType.channel_id,channelId },
+            {ParamType.schedule_id,scheduleId }
         });
 
         var requestData = await _apiBase.RequestAsync(processedInfo);
@@ -118,16 +118,16 @@ public class ScheduleApi
     /// <summary>
     /// 创建日程
     /// </summary>
-    /// /// <param name="childChannel">日程子频道ID</param>
+    /// /// <param name="channelId">日程子频道ID</param>
     /// <param name="newSchedule">不需要ID的新日程信息</param>
     /// <returns>创建的日程信息</returns>
-    public async Task<Schedule> CreateAsync(string childChannel,Schedule newSchedule)
+    public async Task<Schedule> CreateAsync(string channelId,Schedule newSchedule)
     {
         RawCreateScheduleApi rawCreateScheduleApi;
 
         var processedInfo = ApiFactory.Process(rawCreateScheduleApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel }
+            {ParamType.channel_id,channelId }
         });
 
         if(newSchedule is not null)
@@ -148,17 +148,18 @@ public class ScheduleApi
     /// <summary>
     /// 更新日程
     /// </summary>
-    /// <param name="childChannel">日程所在子频道ID</param>
-    /// <param name="schedule_id">日程ID</param>
+    /// <param name="channelId">日程所在子频道ID</param>
+    /// <param name="scheduleId">日程ID</param>
+    /// <param name="newSchedule"></param>
     /// <returns>修改后的日程信息</returns>
-    public async Task<Schedule> UpdateAsync(string childChannel, string schedule_id, Schedule newSchedule)
+    public async Task<Schedule> UpdateAsync(string channelId, string scheduleId, Schedule newSchedule)
     {
         RawAddMemberToRoleApi rawAddMemberToRoleApi;
 
         var processedInfo = ApiFactory.Process(rawAddMemberToRoleApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel },
-            {ParamType.schedule_id,schedule_id }
+            {ParamType.channel_id,channelId },
+            {ParamType.schedule_id,scheduleId }
         });
 
         if(newSchedule.Id is not null)
@@ -180,17 +181,17 @@ public class ScheduleApi
     /// <summary>
     /// 删除日程
     /// </summary>
-    /// <param name="childChannel">日程所在子频道ID</param>
-    /// <param name="schedule_id">日程ID</param>
+    /// <param name="channelId">日程所在子频道ID</param>
+    /// <param name="scheduleId">日程ID</param>
     /// <returns></returns>
-    public async ValueTask DeleteAsync(string childChannel,string schedule_id)
+    public async ValueTask DeleteAsync(string channelId,string scheduleId)
     {
         RawDeleteScheduleApi rawDeleteScheduleApi;
 
         var processedInfo = ApiFactory.Process(rawDeleteScheduleApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,childChannel },
-            {ParamType.schedule_id,schedule_id }
+            {ParamType.channel_id,channelId },
+            {ParamType.schedule_id,scheduleId }
         });
 
         await _apiBase.RequestAsync(processedInfo);
