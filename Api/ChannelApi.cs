@@ -30,13 +30,13 @@ public class ChannelApi {
     /// <summary>
     /// 获取子频道信息
     /// </summary>
-    /// <param name="childChannelId">子频道ID</param>
+    /// <param name="channelId">子频道ID</param>
     /// <returns>子频道信息</returns>
-    public async Task<Channel> GetInfoAsync(string childChannelId) {
+    public async Task<Channel> GetInfoAsync(string channelId) {
         RawGetChildChannelApi rawGetChildChannelApi;
 
         var processedInfo = ApiFactory.Process(rawGetChildChannelApi, new Dictionary<ParamType, string>() {
-            {ParamType.channel_id, childChannelId}
+            {ParamType.channel_id, channelId}
         });
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);

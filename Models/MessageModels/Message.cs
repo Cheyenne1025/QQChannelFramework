@@ -17,7 +17,7 @@ public class Message {
     /// 子频道
     /// </summary>
     [JsonProperty("channel_id")]
-    public string ChildChannelId { get; set; }
+    public string ChannelId { get; set; }
 
     /// <summary>
     /// 主频道

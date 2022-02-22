@@ -172,11 +172,11 @@ public class ChannelRoleApi
     /// <param name="guild_id">频道Guild</param>
     /// <param name="user_id">成员ID</param>
     /// <param name="role_id">身份组ID</param>
-    /// <param name="childChannelId">子频道ID</param>
+    /// <param name="channelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> AddMemberAsync(string guild_id, string user_id, string role_id, string childChannelId = "")
+    public async Task<bool> AddMemberAsync(string guild_id, string user_id, string role_id, string channelId = "")
     {
-        if (role_id is "5" && childChannelId is "")
+        if (role_id is "5" && channelId is "")
         {
             throw new Exceptions.ParamErrorException("将成员添加到 「子频道管理员」身份组时需要传入第4个子频道ID参数");
         }
@@ -193,7 +193,7 @@ public class ChannelRoleApi
         JToken requestData = null;
  
         RawChildChannel rawChildChannel = new();
-        rawChildChannel.id = childChannelId;
+        rawChildChannel.id = channelId;
 
         requestData = await _apiBase
             .WithData(rawChildChannel)
@@ -210,11 +210,11 @@ public class ChannelRoleApi
     /// <param name="guild_id">频道Guild</param>
     /// <param name="user_id">成员ID</param>
     /// <param name="role_id">身份组ID</param>
-    /// <param name="childChannelId">子频道ID</param>
+    /// <param name="channelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> DeleteMemberAsync(string guild_id, string user_id, string role_id, string childChannelId = "")
+    public async Task<bool> DeleteMemberAsync(string guild_id, string user_id, string role_id, string channelId = "")
     {
-        if (role_id is "5" && childChannelId is "")
+        if (role_id is "5" && channelId is "")
         {
             throw new Exceptions.ParamErrorException("将成员从 「子频道管理员」身份组删除时需要传入第4个子频道ID参数");
         }
@@ -231,7 +231,7 @@ public class ChannelRoleApi
         JToken requestData = null;
  
         RawChildChannel rawChildChannel = new();
-        rawChildChannel.id = childChannelId;
+        rawChildChannel.id = channelId;
 
         requestData = await _apiBase
             .WithData(rawChildChannel)

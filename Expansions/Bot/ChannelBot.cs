@@ -68,7 +68,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
             commandInfo.MessageId = message.Id;
             commandInfo.Sender = message.Author;
             commandInfo.GuildId = message.GuildId;
-            commandInfo.ChannelId = message.ChildChannelId;
+            commandInfo.ChannelId = message.ChannelId;
             commandInfo.Mentions = message.Mentions;
 
             return commandInfo;
