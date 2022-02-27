@@ -62,13 +62,13 @@ public class Channel
     /// 子频道私密类型 
     /// </summary>
     [JsonProperty("private_type")]
-    public ChannelPrivateType PrivateType  { get; set; }
+    public ChannelPrivateType? PrivateType  { get; set; }
 
     /// <summary>
     /// 子频道发言权限
     /// </summary>
     [JsonProperty("speak_permission")]
-    public ChannelSpeakPermission SpeakPermission { get; set; }
+    public ChannelSpeakPermission? SpeakPermission { get; set; }
     
     /// <summary>
     /// 用于标识应用子频道应用类型，仅应用子频道时会使用该字段
