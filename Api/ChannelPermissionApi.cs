@@ -1,89 +1,131 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Models.ChannelPermissionModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QQChannelFramework.Api.Types;
+using QQChannelFramework.Models;
 
-namespace QQChannelFramework.Api;
-
-sealed partial class QQChannelApi
+namespace QQChannelFramework.Api
 {
-    public ChannelApi GetChannelPermissionApi()
-    {
-        return new(apiBase);
-    }
-}
-
-/// <summary>
-/// 频道Api接口权限Api
-/// </summary>
-public class ChannelPermissionApi
-{
-    private readonly ApiBase _apiBase;
-
-    public ChannelPermissionApi(ApiBase apiBase)
-    {
-        _apiBase = apiBase;
+    sealed partial class QQChannelApi
+    { 
+        public ChannelPermissionApi GetChannelPermissionApi()
+        {
+            return new(apiBase);
+        }
     }
 
     /// <summary>
-    /// 获取频道可用权限列表
+    /// 子频道权限Api
     /// </summary>
-    /// <param name="guildId"></param>
-    /// <returns></returns>
-    public async Task<List<APIPermission>> GetPermissionsAsync(string guildId)
+    public class ChannelPermissionApi
     {
-        RawGetChannelPermissionApi rawGetChannelPermissionApi;
+        readonly ApiBase _apiBase;
 
-        var processedApiInfo = ApiFactory.Process(rawGetChannelPermissionApi, new Dictionary<Types.ParamType, string>()
+        public ChannelPermissionApi(ApiBase apiBase)
         {
-            [Types.ParamType.guild_id] = guildId
-        });
-
-        var info = await _apiBase.RequestAsync(processedApiInfo).ConfigureAwait(false);
-
-        List<APIPermission> permissions = new();
-
-        foreach (var json in info["apis"])
-        {
-            permissions.Add(json.ToObject<APIPermission>());
+            _apiBase = apiBase;
         }
 
-        return permissions;
-    }
-
-    /// <summary>
-    /// 创建频道 API 接口权限授权链接
-    /// <br/>
-    /// <b>每天只能在一个频道内发 3 条（默认值）频道权限授权链接</b>
-    /// </summary>
-    /// <param name="guildId"></param>
-    /// <param name="channelId"></param>
-    /// <param name="identifyInfo"></param>
-    /// <param name="desc"></param>
-    /// <returns></returns>
-    public async Task<APIPermissionDemand> CreateAuthPermissionUrlAsync(string guildId, string channelId, APIPermissionDemandIdentify identifyInfo, string desc)
-    {
-        RawCreateChannelPermissionAuthUrlApi rawCreateChannelPermissionUrlApi;
-
-        var processedApiInfo = ApiFactory.Process(rawCreateChannelPermissionUrlApi, new Dictionary<Types.ParamType, string>()
+        /// <summary>
+        /// 获取用户在子频道的权限
+        /// </summary>
+        /// <param name="channel_id">子频道ID</param>
+        /// <param name="user_id">用户ID</param>
+        /// <returns>权限对象</returns>
+        public async Task<ChannelPermissions> GetPermissionsAsync(string channel_id, string user_id)
         {
-            [Types.ParamType.guild_id] = guildId
-        });
+            RawGetChannelPermissionsApi rawGetChannelPermissionsApi;
 
-        var info = await _apiBase
-            .WithData(new Dictionary<string, object>()
+            var processedInfo = ApiFactory.Process(rawGetChannelPermissionsApi, new Dictionary<ParamType, string>()
             {
-                ["channel_id"] = channelId,
-                ["api_identify"] = identifyInfo,
-                ["desc"] = desc
-            })
-            .RequestAsync(processedApiInfo).ConfigureAwait(false);
+                {ParamType.channel_id,channel_id },
+                {ParamType.user_id,user_id }
+            });
 
-        return info.ToObject<APIPermissionDemand>();
+            var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
+
+            return requestData.ToObject<ChannelPermissions>();
+        }
+
+        /// <summary>
+        /// 获取指定子频道身份组的权限
+        /// </summary>
+        /// <param name="channelId">子频道ID</param>
+        /// <param name="roleId">身份组ID</param>
+        /// <returns></returns>
+        public async Task<ChannelRolePermissions> GetChannelRolePermission(string channelId, string roleId)
+        {
+            RawGetChannelRolePermissionApi rawGetChannelRolePermissionApi;
+
+            var processedInfo = ApiFactory.Process(rawGetChannelRolePermissionApi, new Dictionary<ParamType, string>()
+            {
+                {ParamType.channel_id,channelId},
+                {ParamType.role_id,roleId}
+            });
+
+            var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
+
+            return requestData.ToObject<ChannelRolePermissions>();
+        }
+
+        /// <summary>
+        /// 修改指定子频道身份组的权限
+        /// </summary>
+        /// <param name="channel_id">子频道ID</param>
+        /// <param name="role_id">身份组ID</param>
+        /// <param name="add">添加的权限</param>
+        /// <param name="remove">移除的权限</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateRolePermissionAsync(string channel_id, string role_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
+        {
+            RawUpdateChannelRolePermissionApi rawUpdateChannelRolePermissionApi;
+
+            var processedInfo = ApiFactory.Process(rawUpdateChannelRolePermissionApi, new Dictionary<ParamType, string>()
+            {
+                {ParamType.channel_id,channel_id },
+                {ParamType.role_id,role_id }
+            });
+
+            var requestData = await _apiBase
+                .WithData(new Dictionary<string, object>()
+                {
+                    {"add",add is not ChannelPermissionType.None ? Convert.ToString((int)add,2):"" },
+                    {"remove",remove is not ChannelPermissionType.None ?  Convert.ToString((int)remove,2):""}
+                })
+                .RequestAsync(processedInfo).ConfigureAwait(false);
+
+            return requestData is null;
+        }
+
+        /// <summary>
+        /// 修改指定子频道的权限
+        /// </summary>
+        /// <param name="channel_id">子频道ID</param>
+        /// <param name="user_id">用户ID</param>
+        /// <param name="add">添加的权限</param>
+        /// <param name="remove">移除的权限</param>
+        /// <returns></returns>
+        public async Task<bool> UpdatePermissionsAsync(string channel_id, string user_id, ChannelPermissionType add = ChannelPermissionType.None, ChannelPermissionType remove = ChannelPermissionType.None)
+        {
+            RawUpdateChannelPermissionsApi rawUpdateChannelPermissionsApi;
+
+            var processedInfo = ApiFactory.Process(rawUpdateChannelPermissionsApi, new Dictionary<ParamType, string>()
+            {
+                {ParamType.channel_id,channel_id },
+                {ParamType.user_id,user_id }
+            });
+
+            var requestData = await _apiBase
+                .WithData(new Dictionary<string, object>()
+                {
+                    {"add",add is not ChannelPermissionType.None ? Convert.ToString((int)add,2):"" },
+                    {"remove",remove is not ChannelPermissionType.None ?  Convert.ToString((int)remove,2):""}
+                })
+                .RequestAsync(processedInfo).ConfigureAwait(false);
+
+            return requestData is null;
+        }
     }
 }
