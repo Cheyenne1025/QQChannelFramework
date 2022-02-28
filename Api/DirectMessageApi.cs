@@ -31,7 +31,7 @@ public class DirectMessageApi {
     /// <param name="userId">接收者 id</param>
     /// <param name="sourceGuildId">源频道 id</param>
     /// <returns></returns>
-    public async Task<DirectMessageSession> CreateDirectMessageSession(string userId, string sourceGuildId) {
+    public async Task<DirectMessageSession> CreateDirectMessageSessionAsync(string userId, string sourceGuildId) {
         RawCreateDirectMessageSessionApi raw;
 
         var textMessage = new {recipient_id = userId, source_guild_id = sourceGuildId};

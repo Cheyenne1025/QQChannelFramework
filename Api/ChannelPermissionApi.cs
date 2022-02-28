@@ -55,7 +55,7 @@ namespace QQChannelFramework.Api
         /// <param name="channelId">子频道ID</param>
         /// <param name="roleId">身份组ID</param>
         /// <returns></returns>
-        public async Task<ChannelRolePermissions> GetChannelRolePermission(string channelId, string roleId)
+        public async Task<ChannelRolePermissions> GetChannelRolePermissionAsync(string channelId, string roleId)
         {
             RawGetChannelRolePermissionApi rawGetChannelRolePermissionApi;
 

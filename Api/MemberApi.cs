@@ -57,7 +57,7 @@ public class MemberApi
     /// <param name="limit">分页大小，1-400，默认是1</param>
     /// <returns>元组 (成员集合，成员数量)</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
-    public async Task<List<Member>> GetMembers(string guild_id,string after = "0", UInt32 limit = 1)
+    public async Task<List<Member>> GetMembersAsync(string guild_id,string after = "0", UInt32 limit = 1)
     {
         if(CommonState.PrivateBot is false)
         {
@@ -128,7 +128,7 @@ public class MemberApi
     /// <param name="guild_id">主频道GuildID</param> 
     /// <returns>元组 (成员集合，成员数量)</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
-    public async Task<List<Member>> GetAllMembers(string guild_id)
+    public async Task<List<Member>> GetAllMembersAsync(string guild_id)
     {
         if(CommonState.PrivateBot is false)
         {
@@ -140,7 +140,7 @@ public class MemberApi
         string after = "0";
 
         while (true) {
-            var batch = await GetMembers(guild_id, after, 400);
+            var batch = await GetMembersAsync(guild_id, after, 400);
             
             if (!batch.Any())
                 break;

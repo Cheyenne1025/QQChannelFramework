@@ -206,7 +206,7 @@ public class MessageApi
     /// <param name="channelId">消息所在的子频道Id</param>
     /// <param name="messageId">要撤回的消息ID</param>
     /// <returns></returns>
-    public async ValueTask RetractMessage(string channelId, string messageId)
+    public async ValueTask RetractMessageAsync(string channelId, string messageId)
     {
         RawRetractMessageApi rawRetractMessageApi;
 
