@@ -4,7 +4,7 @@ using QQChannelFramework.Api.Types;
 namespace QQChannelFramework.Api.Raws
 {
     /// <summary>
-    /// 源Api信息 - 创建子频道公告
+    /// 源Api信息 - 创建频道公告
     /// </summary>
     public struct RawCreateAnnounceApi : Base.IRawApiInfo
     {
@@ -12,7 +12,7 @@ namespace QQChannelFramework.Api.Raws
 
         public bool NeedParam => true;
 
-        public string Url => "/channels/{channel_id}/announces";
+        public string Url => "/guilds/{guild_id}/announces";
 
         public MethodType Method => MethodType.POST;
     }

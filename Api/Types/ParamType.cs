@@ -28,5 +28,7 @@ public enum ParamType
     /// <summary>
     /// 日程Id
     /// </summary>
-    schedule_id,
+    schedule_id, 
+    type,
+    id,
 }

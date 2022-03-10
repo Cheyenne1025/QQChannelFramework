@@ -12,7 +12,7 @@ namespace QQChannelFramework.Api.Raws
 
         public bool NeedParam => false;
 
-        public string Url => "/channels/{channel_id}/announces/{message_id}";
+        public string Url => "/guilds/{guild_id}/announces/{message_id}";
 
         public MethodType Method => MethodType.DELETE;
     }

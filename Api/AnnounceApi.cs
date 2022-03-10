@@ -29,18 +29,18 @@ public class AnnounceApi
     }
 
     /// <summary>
-    /// 创建子频道公告
+    /// 创建频道公告
     /// </summary>
-    /// <param name="channelId">子频道ID</param>
+    /// <param name="guildId">频道ID</param>
     /// <param name="messageId">消息ID</param>
     /// <returns>公告对象</returns>
-    public async Task<Announces> CreateAsync(string channelId, string messageId)
+    public async Task<Announces> CreateAsync(string guildId, string messageId)
     {
         RawCreateAnnounceApi rawCreateAnnounceApi;
 
         var processedInfo = ApiFactory.Process(rawCreateAnnounceApi, new Dictionary<ParamType, string>()
         {
-            {ParamType.channel_id,channelId }
+            {ParamType.guild_id,guildId }
         });
 
         var requestData = await _apiBase
