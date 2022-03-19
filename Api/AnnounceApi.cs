@@ -9,7 +9,8 @@ using QQChannelFramework.Models;
 namespace QQChannelFramework.Api;
 
 sealed partial class QQChannelApi
-{ 
+{
+    [Obsolete("2022年3月15日后废弃,请使用 精华消息API代替此功能")]
     public AnnounceApi GetAnnounceApi()
     {
         return new(apiBase);
@@ -19,6 +20,7 @@ sealed partial class QQChannelApi
 /// <summary>
 /// 公告Api
 /// </summary>
+[Obsolete("2022年3月15日后废弃,请使用 精华消息API代替此功能")]
 public class AnnounceApi
 {
     private readonly ApiBase _apiBase;
@@ -34,6 +36,7 @@ public class AnnounceApi
     /// <param name="guildId">频道ID</param>
     /// <param name="messageId">消息ID</param>
     /// <returns>公告对象</returns>
+    [Obsolete("2022年3月15日后废弃,请使用 精华消息API代替此功能")]
     public async Task<Announces> CreateAsync(string guildId, string messageId)
     {
         RawCreateAnnounceApi rawCreateAnnounceApi;
@@ -60,6 +63,7 @@ public class AnnounceApi
     /// <param name="channelId">子频道ID</param>
     /// <param name="messageId">消息ID</param>
     /// <returns></returns>
+    [Obsolete("2022年3月15日后废弃,请使用 精华消息API代替此功能")]
     public async ValueTask DeleteAsync(string channelId, string messageId)
     {
         RawDeleteAnnounceApi rawDeleteAnnounceApi;

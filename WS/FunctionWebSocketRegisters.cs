@@ -110,11 +110,11 @@ partial class FunctionWebSocket
 
         return this;
     }
-    
+
     /// <summary>
     /// 注册主动消息审核相关事件
-    /// <para>为消息添加表情表态</para>
-    /// <para>为消息删除表情表态</para>
+    /// <para>消息审核通过</para>
+    /// <para>消息审核未通过</para>
     /// </summary>
     /// <returns></returns>
     public FunctionWebSocket RegisterAuditEvent()
