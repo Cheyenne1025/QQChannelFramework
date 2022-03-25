@@ -243,6 +243,16 @@ partial class FunctionWebSocket {
                     case GuildEvents.MESSAGE_AUDIT_REJECT: 
                         MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
                         break;
+                    
+                    case GuildEvents.FORUM_THREAD_CREATE:
+                    case GuildEvents.FORUM_THREAD_UPDATE:
+                    case GuildEvents.FORUM_THREAD_DELETE:
+                    case GuildEvents.FORUM_POST_CREATE:
+                    case GuildEvents.FORUM_POST_DELETE:
+                    case GuildEvents.FORUM_REPLY_CREATE:
+                    case GuildEvents.FORUM_REPLY_DELETE: 
+                        Debug.WriteLine(data["d"]);
+                        break;
                 }
 
                 OnDispatch?.Invoke(data);

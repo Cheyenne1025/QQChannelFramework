@@ -133,8 +133,7 @@ partial class FunctionWebSocket
     /// <para>当用户回复评论时</para>
     /// <para>当用户回复评论时</para>
     /// </summary>
-    /// <returns></returns>
-    [Obsolete("等待官方启用", true)]
+    /// <returns></returns> 
     public FunctionWebSocket RegisterForumEvent()
     {
         _registeredEvents.Add(Intents.Forum);
