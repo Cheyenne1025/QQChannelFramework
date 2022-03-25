@@ -9,7 +9,7 @@ using QQChannelFramework.Models.MessageModels;
 
 namespace QQChannelFramework.Api;
 
-sealed partial class QQChannelApi { 
+sealed partial class QQChannelApi {
     public DirectMessageApi GetDirectMessageApi() {
         return new(apiBase);
     }
@@ -97,7 +97,8 @@ public class DirectMessageApi {
     /// <param name="url">报备后的地址</param>
     /// <param name="msgId">回复的消息ID</param>
     /// <returns></returns>
-    public async Task<Message> SendTextAndImageMessageAsync(string guildId, string content, string url, string msgId = "") {
+    public async Task<Message> SendTextAndImageMessageAsync(string guildId, string content, string url,
+        string msgId = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -124,7 +125,7 @@ public class DirectMessageApi {
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
-        }); 
+        });
 
         var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -152,5 +153,23 @@ public class DirectMessageApi {
         var requestData = await _apiBase.WithData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
+    }
+
+    /// <summary>
+    /// 撤回消息
+    /// </summary>
+    /// <param name="channelId">消息所在的子频道Id</param>
+    /// <param name="messageId">要撤回的消息ID</param>
+    /// <param name="hideTip">隐藏撤回提示</param>
+    /// <returns></returns>
+    public async ValueTask RetractMessageAsync(string guildId, string messageId, bool hideTip = false) {
+        RawDirectRetractMessageApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId},
+            {ParamType.message_id, messageId}
+        });
+
+        await _apiBase.WithData(new {hidetip = hideTip}).RequestAsync(processedInfo).ConfigureAwait(false);
     }
 }
