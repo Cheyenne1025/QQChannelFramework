@@ -170,7 +170,8 @@ public class DirectMessageApi {
             {ParamType.message_id, messageId}
         });
 
-        await _apiBase.WithData(new Dictionary<string, object> {{"hidetip", hideTip}}).RequestAsync(processedInfo)
+        await _apiBase.WithData(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}})
+            .RequestAsync(processedInfo)
             .ConfigureAwait(false);
     }
 }
