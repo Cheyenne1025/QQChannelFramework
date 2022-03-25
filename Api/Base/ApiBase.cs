@@ -59,7 +59,7 @@ public class ApiBase {
     /// <returns></returns>
     public ApiBase WithData(object obj) {
         _rawContent = obj;
-        _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json"); 
+        _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
         return this;
     }
@@ -96,13 +96,19 @@ public class ApiBase {
         HttpResponseMessage responseMessage = null;
 
         switch (rawInfo.Method) {
-            case MethodType.GET:
+            case MethodType.GET: 
+            case MethodType.DELETE: 
 
                 if (_rawContent is not null) {
                     _requestUrl = $"{_requestUrl}?" + string.Join('&', ((Dictionary<string, object>) _rawContent)
                         .Where(a => !string.IsNullOrWhiteSpace(a.Value.ToString()))
-                        .Select(a => $"{a.Key}={a.Value}")); 
+                        .Select(a => $"{a.Key}={a.Value}"));
                 }
+                break;
+        }
+
+        switch (rawInfo.Method) {
+            case MethodType.GET:
 
                 responseMessage = await _client.GetAsync(_requestUrl).ConfigureAwait(false);
 
@@ -131,15 +137,15 @@ public class ApiBase {
                 responseMessage = await _client.PutAsync(_requestUrl, _content).ConfigureAwait(false);
 
                 break;
-        } 
-        
-        var traceId = "Missing";
-        if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) { 
-            traceId = val.FirstOrDefault(); 
         }
-        
+
+        var traceId = "Missing";
+        if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {
+            traceId = val.FirstOrDefault();
+        }
+
         // 检查Http状态码
-        InspectionHttpCode(responseMessage, traceId); 
+        InspectionHttpCode(responseMessage, traceId);
 
         // 状态码为204时无Content,无须读取
         if (responseMessage.StatusCode == (System.Net.HttpStatusCode) 204) {
@@ -201,7 +207,7 @@ public class ApiBase {
         if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK) {
             return;
         }
-        
+
         switch (httpResponseMessage.StatusCode) {
             case System.Net.HttpStatusCode.Unauthorized:
 
@@ -209,11 +215,11 @@ public class ApiBase {
 
             case System.Net.HttpStatusCode.TooManyRequests:
 
-                throw new HttpApiException(new RequestRateTooHighException(), traceId); 
+                throw new HttpApiException(new RequestRateTooHighException(), traceId);
 
             case System.Net.HttpStatusCode.NotFound:
 
-                throw new HttpApiException(new ApiNotExistException(), traceId); 
+                throw new HttpApiException(new ApiNotExistException(), traceId);
         }
     }
 
