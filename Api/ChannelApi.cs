@@ -74,7 +74,7 @@ public class ChannelApi {
     /// <param name="newChannel">新子频道对象，无需填写Id字段</param>
     /// <param name="privateUserIds">额外允许查看的用户列表</param>
     /// <returns>创建的子频道对象</returns>
-    public async Task<Channel> CreateChannelAsync(Channel newChannel, string[] privateUserIds = null) {
+    public async Task<Channel> CreateChannelAsync(string guildId, Channel newChannel, string[] privateUserIds = null) {
         if (CommonState.PrivateBot is false) {
             throw new Exceptions.BotNotIsPrivateException();
         }
@@ -82,11 +82,11 @@ public class ChannelApi {
         RawCreateChannelApi rawCreateChannelApi;
 
         var processedInfo = ApiFactory.Process(rawCreateChannelApi, new Dictionary<ParamType, string>() {
-            {ParamType.guild_id, newChannel.GuildId}
+            {ParamType.guild_id, guildId}
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>() {
+            .WithContentData(new Dictionary<string, object>() {
                 {"name", newChannel.Name},
                 {"type", (int) newChannel.Type},
                 {"sub_type", (int) newChannel.SubType},
@@ -120,7 +120,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>() {
+            .WithContentData(new Dictionary<string, object>() {
                 {"name", channel.Name},
                 {"type", (int) channel.Type},
                 {"position", channel.Position},
@@ -151,7 +151,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>() {
+            .WithContentData(new Dictionary<string, object>() {
                 {"private_type", (int) privateType},
             })
             .RequestAsync(processedInfo)
@@ -177,7 +177,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>() {
+            .WithContentData(new Dictionary<string, object>() {
                 {"speak_permission", (int) speakPermission}
             })
             .RequestAsync(processedInfo)
@@ -203,7 +203,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>() {
+            .WithContentData(new Dictionary<string, object>() {
                 {"position", position},
                 {"parent_id", parent}
             })

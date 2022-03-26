@@ -36,7 +36,7 @@ public class DirectMessageApi {
 
         var textMessage = new {recipient_id = userId, source_guild_id = sourceGuildId};
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(raw).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(raw).ConfigureAwait(false);
 
         var dms = requestData.ToObject<DirectMessageSession>();
 
@@ -59,7 +59,7 @@ public class DirectMessageApi {
 
         var textMessage = new {content = content, msg_id = msgId};
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -82,7 +82,7 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, msg_id = msgId};
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -107,7 +107,7 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, content = content, msg_id = msgId};
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -127,7 +127,7 @@ public class DirectMessageApi {
             {ParamType.guild_id, guildId}
         });
 
-        var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -150,7 +150,7 @@ public class DirectMessageApi {
 
         var msg = new {msg_id = msgId, embed = embedTemplate};
 
-        var requestData = await _apiBase.WithData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
     }
@@ -170,7 +170,7 @@ public class DirectMessageApi {
             {ParamType.message_id, messageId}
         });
 
-        await _apiBase.WithData(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}})
+        await _apiBase.WithQueryParam(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}})
             .RequestAsync(processedInfo)
             .ConfigureAwait(false);
     }

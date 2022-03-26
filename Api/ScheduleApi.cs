@@ -51,7 +51,7 @@ public class ScheduleApi
         if (since != default)
         {
             requestData = await _apiBase
-                .WithData(new Dictionary<string, object>()
+                .WithQueryParam(new Dictionary<string, object>()
                 {
                     {"since", new DateTimeOffset(since).ToUnixTimeMilliseconds() }
                 })
@@ -60,7 +60,7 @@ public class ScheduleApi
         else
         {
             requestData = await _apiBase
-                .WithData(new Dictionary<string, object>()
+                .WithQueryParam(new Dictionary<string, object>()
                 {
                     {"since","" }
                 })
@@ -136,7 +136,7 @@ public class ScheduleApi
         }
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
+            .WithContentData(new Dictionary<string, object>()
             {
                 {"schedule",newSchedule }
             })
@@ -168,7 +168,7 @@ public class ScheduleApi
         }
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
+            .WithContentData(new Dictionary<string, object>()
             {
                 {"schedule",newSchedule }
             })

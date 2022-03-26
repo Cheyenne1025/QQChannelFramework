@@ -11,8 +11,7 @@ public static class ConvertHelper
     /// </summary>
     /// <param name="colorStr"></param>
     /// <returns></returns>
-    public static uint GetHex(string colorStr)
-    {
+    public static uint GetHex(string colorStr) { 
         var color = $"ff{colorStr.Replace("#", "")}";
 
         return uint.Parse(color, System.Globalization.NumberStyles.AllowHexSpecifier);

@@ -46,7 +46,7 @@ public class MessageApi {
             image = image, msg_id = msgId
         };
 
-        var requestData = await _apiBase.WithData(m).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(m).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -68,7 +68,7 @@ public class MessageApi {
 
         var textMessage = new {content = content, msg_id = msg_id};
 
-        var requestData = await _apiBase.WithData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -88,7 +88,7 @@ public class MessageApi {
             {ParamType.channel_id, channelId}
         });
 
-        var requestData = await _apiBase.WithData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -111,7 +111,7 @@ public class MessageApi {
 
         var embedMessage = new {msg_id = msg_id, embed = embedTemplate};
 
-        var requestData = await _apiBase.WithData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
     }
@@ -131,7 +131,7 @@ public class MessageApi {
 
         var imageMessage = new {image = imageUrl, msg_id = msg_id};
 
-        var requestData = await _apiBase.WithData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithContentData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -156,7 +156,7 @@ public class MessageApi {
         var imageAndTextMessage = new {image = imageUrl, content = content, msg_id = msg_id};
 
         var requestData =
-            await _apiBase.WithData(imageAndTextMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+            await _apiBase.WithContentData(imageAndTextMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -199,6 +199,6 @@ public class MessageApi {
             {ParamType.message_id, messageId}
         });
 
-        await _apiBase.WithData(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}}).RequestAsync(processedInfo).ConfigureAwait(false);
+        await _apiBase.WithQueryParam(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}}).RequestAsync(processedInfo).ConfigureAwait(false);
     }
 }

@@ -22,7 +22,7 @@ public class ApiBase {
 
     private static HttpClient _client;
 
-    private object _rawContent;
+    private string _queryParam;
 
     private HttpContent _content;
 
@@ -53,13 +53,39 @@ public class ApiBase {
     }
 
     /// <summary>
-    /// 携带数据
+    /// 携带body数据
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public ApiBase WithData(object obj) {
-        _rawContent = obj;
+    public ApiBase WithContentData(object obj) { 
         _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+        return this;
+    }
+    
+    /// <summary>
+    /// 携带query参数
+    /// </summary>
+    /// <param name="obj">字典</param>
+    /// <returns></returns>
+    public ApiBase WithQueryParam(Dictionary<string, object> obj) {
+        _queryParam = string.Join('&', obj
+            .Where(a => !string.IsNullOrWhiteSpace(a.Value.ToString()))
+            .Select(a => $"{a.Key}={a.Value}")); 
+
+        return this;
+    }
+    
+    /// <summary>
+    /// 携带query参数
+    /// </summary>
+    /// <param name="obj">匿名对象</param>
+    /// <returns></returns>
+    public ApiBase WithQueryParam(object obj) {
+        var propertyInfos = obj.GetType().GetProperties();
+        _queryParam = string.Join('&', propertyInfos
+            .Select(a => (a.Name, a.GetValue(obj)))
+            .Where(a => !string.IsNullOrWhiteSpace(a.Item2?.ToString()))); 
 
         return this;
     }
@@ -69,7 +95,7 @@ public class ApiBase {
     /// </summary>
     /// <returns></returns>
     public ApiBase UseReleaseMode() {
-        _requestMode = Types.RequestMode.Release;
+        _requestMode = RequestMode.Release;
 
         return this;
     }
@@ -79,7 +105,7 @@ public class ApiBase {
     /// </summary>
     /// <returns></returns>
     public ApiBase UseSandBoxMode() {
-        _requestMode = Types.RequestMode.SandBox;
+        _requestMode = RequestMode.SandBox;
 
         return this;
     }
@@ -93,52 +119,17 @@ public class ApiBase {
 
         _requestUrl = $"{_requestUrl}{api}";
 
-        HttpResponseMessage responseMessage = null;
+        HttpResponseMessage responseMessage = null; 
 
-        switch (rawInfo.Method) {
-            case MethodType.GET: 
-            case MethodType.DELETE: 
-
-                if (_rawContent is not null) {
-                    _requestUrl = $"{_requestUrl}?" + string.Join('&', ((Dictionary<string, object>) _rawContent)
-                        .Where(a => !string.IsNullOrWhiteSpace(a.Value.ToString()))
-                        .Select(a => $"{a.Key}={a.Value}"));
-                }
-                break;
-        }
-
-        switch (rawInfo.Method) {
-            case MethodType.GET:
-
-                responseMessage = await _client.GetAsync(_requestUrl).ConfigureAwait(false);
-
-                break;
-
-            case MethodType.POST:
-
-                responseMessage = await _client.PostAsync(_requestUrl, _content).ConfigureAwait(false);
-
-                break;
-
-            case MethodType.DELETE:
-
-                responseMessage = await _client.DeleteAsync(_requestUrl).ConfigureAwait(false);
-
-                break;
-
-            case MethodType.PATCH:
-
-                responseMessage = await _client.PatchAsync(_requestUrl, _content).ConfigureAwait(false);
-
-                break;
-
-            case MethodType.PUT:
-
-                responseMessage = await _client.PutAsync(_requestUrl, _content).ConfigureAwait(false);
-
-                break;
-        }
-
+        if (!string.IsNullOrWhiteSpace(_queryParam)) {
+            _requestUrl = $"{_requestUrl}?{_queryParam}";
+        }  
+        
+        var req = new HttpRequestMessage(rawInfo.Method.ToHttpMethod(), _requestUrl);
+        if (req.Method != HttpMethod.Get)
+            req.Content = _content;
+        responseMessage = await _client.SendAsync(req).ConfigureAwait(false);
+          
         var traceId = "Missing";
         if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {
             traceId = val.FirstOrDefault();
@@ -156,7 +147,7 @@ public class ApiBase {
 
         var jsonObject = JToken.Parse(responseData);
 
-        _rawContent = null;
+        _queryParam = null;
         _content = null;
 
         if (jsonObject.ToString().StartsWith('[')) {

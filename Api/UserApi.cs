@@ -74,7 +74,7 @@ public class UserApi
         RawGetCurrentChannelsJoinedApi rawGetCurrentChannelsJoinedApi;
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
+            .WithQueryParam(new Dictionary<string, object>()
             {
                     {"before",before },
                     {"after",after },

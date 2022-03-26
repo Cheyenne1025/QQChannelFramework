@@ -3,7 +3,7 @@
 /// <summary>
 /// 创建频道身份组参数模型 - 携带需要设置/修改的字段内容
 /// </summary>
-public struct Info
+public struct RoleInfo
 {
     /// <summary>
     /// 名称
@@ -18,5 +18,5 @@ public struct Info
     /// <summary>
     /// 在成员列表中单独展示
     /// </summary>
-    public bool Hoist { get; set; }
+    public bool? Hoist { get; set; }
 }

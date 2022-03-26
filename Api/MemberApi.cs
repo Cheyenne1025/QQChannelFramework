@@ -77,7 +77,7 @@ public class MemberApi
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string,object>()
+            .WithQueryParam(new Dictionary<string,object>()
             {
                 {"after", after},
                 {"limit",limit }

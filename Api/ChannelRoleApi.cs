@@ -11,10 +11,8 @@ using QQChannelFramework.Models.RawObject;
 
 namespace QQChannelFramework.Api;
 
-sealed partial class QQChannelApi
-{ 
-    public ChannelRoleApi GetChannelRoleApi()
-    {
+sealed partial class QQChannelApi {
+    public ChannelRoleApi GetChannelRoleApi() {
         return new(apiBase);
     }
 }
@@ -22,12 +20,10 @@ sealed partial class QQChannelApi
 /// <summary>
 /// 频道身份组Api
 /// </summary>
-public class ChannelRoleApi
-{
+public class ChannelRoleApi {
     private readonly ApiBase _apiBase;
 
-    public ChannelRoleApi(ApiBase apiBase)
-    {
+    public ChannelRoleApi(ApiBase apiBase) {
         _apiBase = apiBase;
     }
 
@@ -35,14 +31,12 @@ public class ChannelRoleApi
     /// 获取所有频道身份组
     /// </summary>
     /// <returns>元组 (身份组列表,身份组当前数量,身份组上限)</returns>
-    public async Task<(List<Role> Roles, int RoleNumLimit)> GetRolesAsync(string guild_id)
-    {
+    public async Task<(List<Role> Roles, int RoleNumLimit)> GetRolesAsync(string guild_id) {
         RawGetChannelRolesApi rawGetChannelRolesApi;
 
-        var prcocessedInfo = ApiFactory.Process(rawGetChannelRolesApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id }
-            });
+        var prcocessedInfo = ApiFactory.Process(rawGetChannelRolesApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id}
+        });
 
         var requestData = await _apiBase.RequestAsync(prcocessedInfo).ConfigureAwait(false);
 
@@ -50,10 +44,8 @@ public class ChannelRoleApi
 
         JArray rolesData = JArray.Parse(requestData["roles"].ToString());
 
-        foreach (var roleInfo in rolesData)
-        {
-            roles.Add(new()
-            {
+        foreach (var roleInfo in rolesData) {
+            roles.Add(new() {
                 Id = roleInfo["id"].ToString(),
                 Color = uint.Parse(roleInfo["color"].ToString()),
                 Name = roleInfo["name"].ToString(),
@@ -68,80 +60,51 @@ public class ChannelRoleApi
 
     /// <summary>
     /// 创建频道身份组
-    /// </summary>
-    /// <param name="filter">标识需要设置/修改哪些字段</param>
-    /// <param name="info">携带需要设置/修改的字段内容</param>
+    /// </summary> 
+    /// <param name="roleInfo">身份组属性</param>
     /// <param name="guild_id"></param>
     /// <returns>创建的身份组ID</returns>
-    public async Task<string> CreateAsync(Filter filter, Info info, string guild_id)
-    {
+    public async Task<Role> CreateAsync(RoleInfo roleInfo, string guild_id) {
         RawCreateChannelRoleApi rawCreateChannelRoleApi;
 
-        var prcessedInfo = ApiFactory.Process(rawCreateChannelRoleApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id }
-            });
+        var prcessedInfo = ApiFactory.Process(rawCreateChannelRoleApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id}
+        });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
-        {
-                    {"filter",new Dictionary<string,object>()
-                    {
-                        {"name",filter.Name ? 1:0 },
-                        {"color",filter.Color ? 1:0 },
-                        {"hoist",filter.Hoist ? 1:0 }
-                    }
-                    },
-                    {"info",new Dictionary<string,object>()
-                    {
-                        {"name",info.Name },
-                        {"color",Tools.ConvertHelper.GetHex(info.Color) },
-                        {"hoist",info.Hoist ? 1:0 }
-                    }
-                    }
-        }).RequestAsync(prcessedInfo).ConfigureAwait(false);
+            .WithContentData(new Dictionary<string, object>() {
+                {"name", roleInfo.Name},
+                {"color", string.IsNullOrWhiteSpace(roleInfo.Color) ? null : Tools.ConvertHelper.GetHex(roleInfo.Color)},
+                {"hoist", roleInfo.Hoist.HasValue ? roleInfo.Hoist.Value ? 1 : 0 : null}
+            }).RequestAsync(prcessedInfo).ConfigureAwait(false);
 
-        return requestData["role_id"].ToString();
+        return requestData["role"].ToObject<Role>();
     }
 
     /// <summary>
     /// 更新频道身份组
-    /// </summary>
-    /// <param name="filter">标识需要设置/修改哪些字段</param>
-    /// <param name="info">携带需要设置/修改的字段内容</param>
+    /// </summary> 
+    /// <param name="roleInfo">更新内容，不需要更新的设为null</param>
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
     /// <returns>元组 (频道ID,身份组ID)</returns>
-    public async Task<(string GuildId, string RoleId)> UpdateInfoAsync(Filter filter, Info info, string guild_id, string role_id)
-    {
+    public async Task<Role> UpdateInfoAsync(RoleInfo roleInfo, string guild_id,
+        string role_id) {
         RawUpdateChannelRoleInfoApi rawUpdateChannelRoleInfoApi;
 
-        var processedInfo = ApiFactory.Process(rawUpdateChannelRoleInfoApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id },
-                {ParamType.role_id,role_id }
-            });
+        var processedInfo = ApiFactory.Process(rawUpdateChannelRoleInfoApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id},
+            {ParamType.role_id, role_id}
+        });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
-        {
-                    {"filter",new Dictionary<string,object>()
-                    {
-                        {"name",filter.Name ? 1:0 },
-                        {"color",filter.Color ? 1:0 },
-                        {"hoist",filter.Hoist ? 1:0 }
-                    }
-                    },
-                    {"info",new Dictionary<string,object>()
-                    {
-                        {"name",info.Name },
-                        {"color",Tools.ConvertHelper.GetHex(info.Color)},
-                        {"hoist",info.Hoist ? 1:0 }
-                    }
-                    }
-        }).RequestAsync(processedInfo).ConfigureAwait(false);
+            .WithContentData(new Dictionary<string, object>() {
+                {"name", roleInfo.Name},
+                {"color", string.IsNullOrWhiteSpace(roleInfo.Color) ? null : Tools.ConvertHelper.GetHex(roleInfo.Color)},
+                {"hoist", roleInfo.Hoist.HasValue ? roleInfo.Hoist.Value ? 1 : 0 : null}
+            }).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        return (requestData["guild_id"].ToString(), requestData["role_id"].ToString());
+        return requestData["role"].ToObject<Role>();
     }
 
     /// <summary>
@@ -150,19 +113,15 @@ public class ChannelRoleApi
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
     /// <returns>是否删除成功</returns>
-    public async Task<bool> DeleteAsync(string guild_id, string role_id)
-    {
+    public async Task DeleteAsync(string guild_id, string role_id) {
         RawDeleteChannelRoleApi rawDeleteChannelRoleApi;
 
-        var processedInfo = ApiFactory.Process(rawDeleteChannelRoleApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id },
-                {ParamType.role_id,role_id }
-            });
+        var processedInfo = ApiFactory.Process(rawDeleteChannelRoleApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id},
+            {ParamType.role_id, role_id}
+        });
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
-
-        return requestData is null;
     }
 
     /// <summary>
@@ -174,31 +133,25 @@ public class ChannelRoleApi
     /// <param name="role_id">身份组ID</param>
     /// <param name="channelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> AddMemberAsync(string guild_id, string user_id, string role_id, string channelId = "")
-    {
-        if (role_id is "5" && channelId is "")
-        {
+    public async Task<bool> AddMemberAsync(string guild_id, string user_id, string role_id, string channelId = null) {
+        if (role_id is "5" && channelId is "") {
             throw new Exceptions.ParamErrorException("将成员添加到 「子频道管理员」身份组时需要传入第4个子频道ID参数");
         }
 
         RawAddMemberToRoleApi rawAddMemberToRoleApi;
 
-        var processedInfo = ApiFactory.Process(rawAddMemberToRoleApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id },
-                {ParamType.user_id,user_id },
-                {ParamType.role_id,role_id }
-            });
+        var processedInfo = ApiFactory.Process(rawAddMemberToRoleApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id},
+            {ParamType.user_id, user_id},
+            {ParamType.role_id, role_id}
+        });
 
         JToken requestData = null;
- 
-        RawChannel rawChannel = new();
-        rawChannel.id = channelId;
 
         requestData = await _apiBase
-            .WithData(rawChannel)
+            .WithContentData(new {channel = new {id = channelId}})
             .RequestAsync(processedInfo)
-            .ConfigureAwait(false); 
+            .ConfigureAwait(false);
 
         return requestData is null;
     }
@@ -212,31 +165,26 @@ public class ChannelRoleApi
     /// <param name="role_id">身份组ID</param>
     /// <param name="channelId">子频道ID</param>
     /// <returns></returns>
-    public async Task<bool> DeleteMemberAsync(string guild_id, string user_id, string role_id, string channelId = "")
-    {
-        if (role_id is "5" && channelId is "")
-        {
-            throw new Exceptions.ParamErrorException("将成员从 「子频道管理员」身份组删除时需要传入第4个子频道ID参数");
+    public async Task<bool>
+        DeleteMemberAsync(string guild_id, string user_id, string role_id, string channelId = null) {
+        if (role_id is "5" && channelId is "") {
+            throw new Exceptions.ParamErrorException("将成员从「子频道管理员」身份组删除时需要传入第4个子频道ID参数");
         }
 
         RawDeleteMemberFromRoleApi rawDeleteMemberFromRoleApi;
 
-        var processedInfo = ApiFactory.Process(rawDeleteMemberFromRoleApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id },
-                {ParamType.user_id,user_id },
-                {ParamType.role_id,role_id }
-            });
+        var processedInfo = ApiFactory.Process(rawDeleteMemberFromRoleApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id},
+            {ParamType.user_id, user_id},
+            {ParamType.role_id, role_id}
+        });
 
         JToken requestData = null;
- 
-        RawChannel rawChannel = new();
-        rawChannel.id = channelId;
 
         requestData = await _apiBase
-            .WithData(rawChannel)
+            .WithContentData(new {channel = new {id = channelId}})
             .RequestAsync(processedInfo)
-            .ConfigureAwait(false); 
+            .ConfigureAwait(false);
 
         return requestData is null;
     }

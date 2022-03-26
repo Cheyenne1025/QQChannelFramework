@@ -47,7 +47,7 @@ public class AnnounceApi
         });
 
         var requestData = await _apiBase
-            .WithData(new Dictionary<string, object>()
+            .WithContentData(new Dictionary<string, object>()
             {
                 {"message_id",messageId }
             })
