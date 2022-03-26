@@ -6,6 +6,7 @@ using ChannelModels.Returns;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
 
@@ -242,6 +243,22 @@ partial class FunctionWebSocket {
                     
                     case GuildEvents.MESSAGE_AUDIT_REJECT: 
                         MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
+                        break;
+
+                    case GuildEvents.AUDIO_START:
+                        AudioStart?.Invoke(data["d"].ToObject<AudioAction>());
+                        break;
+
+                    case GuildEvents.AUDIO_FINISH:
+                        AudioFinish?.Invoke(data["d"].ToObject<AudioAction>());
+                        break;
+
+                    case GuildEvents.AUDIO_ON_MIC:
+                        BotTopMic?.Invoke(data["d"].ToObject<AudioAction>());
+                        break;
+
+                    case GuildEvents.AUDIO_OFF_MIC:
+                        BotOffMic?.Invoke(data["d"].ToObject<AudioAction>());
                         break;
                     
                     case GuildEvents.FORUM_THREAD_CREATE:

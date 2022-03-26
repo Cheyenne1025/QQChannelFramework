@@ -1,6 +1,7 @@
 ﻿using System;
 using ChannelModels.Returns;
 using QQChannelFramework.Models;
+using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.WsModels;
 
@@ -14,6 +15,7 @@ partial class FunctionWebSocket
     public delegate void MessageDelegate(Message message);
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
     public delegate void AuditDelegate(MessageAudited audit);
+    public delegate void AudioDelegate(AudioAction audioAction);
 
     /// <summary>
     /// <para>触发时机: </para>
@@ -139,4 +141,28 @@ partial class FunctionWebSocket
     /// <para>消息审核不通过</para>
     /// </summary>
     public event AuditDelegate MessageAuditReject;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>音频开始播放时</para>
+    /// </summary>
+    public event AudioDelegate AudioStart;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>音频播放结束时</para>
+    /// </summary>
+    public event AudioDelegate AudioFinish;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>机器人上麦时</para>
+    /// </summary>
+    public event AudioDelegate BotTopMic;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>机器人下麦时</para>
+    /// </summary>
+    public event AudioDelegate BotOffMic;
 }

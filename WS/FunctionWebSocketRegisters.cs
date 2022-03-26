@@ -61,7 +61,6 @@ partial class FunctionWebSocket
     /// <para>下麦时</para>
     /// </summary>
     /// <returns></returns>
-    [Obsolete("等待官方完善", true)]
     public FunctionWebSocket RegisterAudioActionEvent()
     {
         _registeredEvents.Add(Intents.AudioAction);
@@ -136,6 +135,11 @@ partial class FunctionWebSocket
     /// <returns></returns> 
     public FunctionWebSocket RegisterForumEvent()
     {
+        if (CommonState.PrivateBot is false)
+        {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
         _registeredEvents.Add(Intents.Forum);
 
         return this;
