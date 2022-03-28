@@ -58,7 +58,7 @@ namespace QQChannelFramework.Models
         /// 日程提醒类型
         /// </summary>
         [JsonProperty("remind_type")]
-        [JsonConverter(typeof(EnumToStringConverter<Types.RemindType>))]
+        [JsonConverter(typeof(EnumToStringConverter<RemindType>))]
         public RemindType Type { get; set; }
     }
 }
