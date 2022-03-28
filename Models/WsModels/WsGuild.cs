@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 namespace QQChannelFramework.Models.WsModels
 {
     /// <summary>
@@ -9,6 +11,7 @@ namespace QQChannelFramework.Models.WsModels
         /// <summary>
         /// 操作人的ID
         /// </summary>
+        [JsonProperty("op_user_id")]
         public string OperationUserId { get; set; }
     }
 }

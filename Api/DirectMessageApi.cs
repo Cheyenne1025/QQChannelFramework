@@ -48,16 +48,16 @@ public class DirectMessageApi {
     /// </summary>
     /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param>
     /// <param name="content">内容</param>
-    /// <param name="msgId">回复的消息ID</param>
+    /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
-    public async Task<Message> SendTextMessageAsync(string guildId, string content, string msgId = "") {
+    public async Task<Message> SendTextMessageAsync(string guildId, string content, string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
         });
 
-        var textMessage = new {content = content, msg_id = msgId};
+        var textMessage = new {content = content, msg_id = passiveReference};
 
         var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -71,16 +71,16 @@ public class DirectMessageApi {
     /// </summary>
     /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param>
     /// <param name="url">报备后的地址</param>
-    /// <param name="msgId">回复的消息ID</param>
+    /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
-    public async Task<Message> SendImageMessageAsync(string guildId, string url, string msgId = "") {
+    public async Task<Message> SendImageMessageAsync(string guildId, string url, string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
         });
 
-        var textMessage = new {image = url, msg_id = msgId};
+        var textMessage = new {image = url, msg_id = passiveReference};
 
         var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -95,17 +95,17 @@ public class DirectMessageApi {
     /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param>
     /// <param name="content">内容</param>
     /// <param name="url">报备后的地址</param>
-    /// <param name="msgId">回复的消息ID</param>
+    /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
     public async Task<Message> SendTextAndImageMessageAsync(string guildId, string content, string url,
-        string msgId = "") {
+        string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
         });
 
-        var textMessage = new {image = url, content = content, msg_id = msgId};
+        var textMessage = new {image = url, content = content, msg_id = passiveReference};
 
         var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -138,17 +138,17 @@ public class DirectMessageApi {
     /// 发送Embed模版消息
     /// </summary>
     /// <param name="guildId">在<b>创建私信会话时</b>以及<b>私信消息事件中</b>获取的<i>guild_id</i></param> 
-    /// <param name="msgId">回复的消息ID</param>
+    /// <param name="passiveReference">回复的消息ID</param>
     /// <param name="embedTemplate">embed模版数据</param> 
     /// <returns></returns>
-    public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate, string msgId = "") {
+    public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate, string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
         });
 
-        var msg = new {msg_id = msgId, embed = embedTemplate};
+        var msg = new {msg_id = passiveReference, embed = embedTemplate};
 
         var requestData = await _apiBase.WithContentData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
 

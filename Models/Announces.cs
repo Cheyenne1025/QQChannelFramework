@@ -37,7 +37,7 @@ namespace QQChannelFramework.Models {
         /// <summary>
         /// 公告类别
         /// </summary>
-        [JsonProperty("message_id")]
+        [JsonProperty("announces_type")]
         public AnnounceType AnnounceType { get; set; }
 
         /// <summary>

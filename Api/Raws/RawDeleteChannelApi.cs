@@ -10,8 +10,7 @@ namespace QQChannelFramework.Api.Raws
     {
         public string Version => "1.0";
 
-        public bool NeedParam => false;
-
+        
         public string Url => "/channels/{channel_id}";
 
         public MethodType Method => MethodType.DELETE;

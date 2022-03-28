@@ -14,8 +14,7 @@ public struct RawGlobalMuteApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => true;
-
+    
     public string Url => "/guilds/{guild_id}/mute";
 
     public MethodType Method => MethodType.PATCH;

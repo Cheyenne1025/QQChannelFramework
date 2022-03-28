@@ -14,5 +14,4 @@ public struct RawGetMainChannelApi : IRawApiInfo
 
     public MethodType Method => MethodType.GET;
 
-    public bool NeedParam => false;
-}
+    }

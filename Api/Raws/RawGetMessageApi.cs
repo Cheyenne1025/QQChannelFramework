@@ -9,8 +9,7 @@ public struct RawGetMessageApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => false;
-
+    
     public string Url => "/channels/{channel_id}/messages/{message_id}";
 
     public MethodType Method => MethodType.GET;

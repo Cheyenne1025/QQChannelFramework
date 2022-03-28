@@ -10,8 +10,7 @@ namespace QQChannelFramework.Api.Raws
     {
         public string Version => "1.0";
 
-        public bool NeedParam => true;
-
+        
         public string Url => "/channels/{channel_id}/members/{user_id}/permissions";
 
         public MethodType Method => MethodType.PUT;

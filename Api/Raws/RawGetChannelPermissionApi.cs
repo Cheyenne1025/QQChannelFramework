@@ -14,8 +14,7 @@ public struct RawGetChannelPermissionApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => false;
-
+    
     public string Url => "/guilds/{guild_id}/api_permission";
 
     public MethodType Method => MethodType.GET;

@@ -47,163 +47,55 @@ partial class FunctionWebSocket {
 
                     case GuildEvents.GUILD_CREATE:
 
-                        BotAreAddedToTheGuild?.Invoke(new WsGuild() {
-                            Id = data["d"]["id"].ToString(),
-                            Description = data["d"]["description"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            Icon = data["d"]["icon"].ToString(),
-                            MaxMembers = int.Parse(data["d"]["max_members"].ToString()),
-                            MemberCount = int.Parse(data["d"]["member_count"].ToString()),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            Owner = false,
-                            JoinedAt = Tools.ConvertHelper.GetDateTime(int.Parse(data["d"]["joined_at"].ToString())),
-                            OperationUserId = data["d"]["op_user_id"].ToString()
-                        });
+                        BotAreAddedToTheGuild?.Invoke(data["d"].ToObject<WsGuild>());
 
                         break;
 
                     case GuildEvents.GUILD_UPDATE:
 
-                        GuildInfoChange?.Invoke(new WsGuild() {
-                            Id = data["d"]["id"].ToString(),
-                            Description = data["d"]["description"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            Icon = data["d"]["icon"].ToString(),
-                            MaxMembers = int.Parse(data["d"]["max_members"].ToString()),
-                            MemberCount = int.Parse(data["d"]["member_count"].ToString()),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            Owner = false,
-                            JoinedAt = Tools.ConvertHelper.GetDateTime(int.Parse(data["d"]["joined_at"].ToString())),
-                            OperationUserId = data["d"]["op_user_id"].ToString()
-                        });
+                        GuildInfoChange?.Invoke(data["d"].ToObject<WsGuild>());
 
                         break;
 
                     case GuildEvents.GUILD_DELETE:
 
-                        BotBeRemoved?.Invoke(new WsGuild() {
-                            Id = data["d"]["id"].ToString(),
-                            Description = data["d"]["description"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            Icon = data["d"]["icon"].ToString(),
-                            MaxMembers = int.Parse(data["d"]["max_members"].ToString()),
-                            MemberCount = int.Parse(data["d"]["member_count"].ToString()),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            Owner = false,
-                            JoinedAt = Tools.ConvertHelper.GetDateTime(int.Parse(data["d"]["joined_at"].ToString())),
-                            OperationUserId = data["d"]["op_user_id"].ToString()
-                        });
+                        BotBeRemoved?.Invoke(data["d"].ToObject<WsGuild>());
 
                         break;
 
                     case GuildEvents.CHANNEL_CREATE:
 
-                        ChannelCreated?.Invoke(new WsChannel() {
-                            Id = data["d"]["id"].ToString(),
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
-                        });
+                        ChannelCreated?.Invoke(data["d"].ToObject<WsChannel>());
 
                         break;
 
                     case GuildEvents.CHANNEL_UPDATE:
 
-                        ChannelInfoChange?.Invoke(new WsChannel() {
-                            Id = data["d"]["id"].ToString(),
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
-                        });
+                        ChannelInfoChange?.Invoke(data["d"].ToObject<WsChannel>());
 
                         break;
 
                     case GuildEvents.CHANNEL_DELETE:
 
-                        ChannelBeRemoved?.Invoke(new WsChannel() {
-                            Id = data["d"]["id"].ToString(),
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            Name = data["d"]["name"].ToString(),
-                            OwnerId = data["d"]["owner_id"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            Type = Enum.Parse<ChannelType>(data["d"]["type"].ToString()),
-                            SubType = Enum.Parse<ChannelSubType>(data["d"]["sub_type"].ToString()),
-                        });
+                        ChannelBeRemoved?.Invoke(data["d"].ToObject<WsChannel>());
 
                         break;
 
-                    case GuildEvents.GUILD_MEMBER_ADD:
+                    case GuildEvents.GUILD_MEMBER_ADD: 
 
-                        var newMemberModel = new Models.MemberWithGuildID() {
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            JoinedAt = null,
-                            Nick = data["d"]["nick"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new() {
-                                IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
-                                Id = data["d"]["user"]["id"].ToString(),
-                                UserName = data["d"]["user"]["username"].ToString()
-                            },
-                            Roles = new()
-                        };
-
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
-                            newMemberModel.Roles.Add(role.ToString());
-                        }
-
-                        NewMemberJoin?.Invoke(newMemberModel);
+                        NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
                         break;
 
                     case GuildEvents.GUILD_MEMBER_UPDATE:
-
-                        var updateMemberModel = new Models.MemberWithGuildID() {
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            JoinedAt = null,
-                            Nick = data["d"]["nick"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new() {
-                                IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
-                                Id = data["d"]["user"]["id"].ToString(),
-                                UserName = data["d"]["user"]["username"].ToString()
-                            },
-                            Roles = new()
-                        };
-
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
-                            updateMemberModel.Roles.Add(role.ToString());
-                        }
-
-                        MemberInfoChange?.Invoke(updateMemberModel);
+ 
+                        MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
                         break;
 
                     case GuildEvents.GUILD_MEMBER_REMOVE:
-
-                        var deleteMemberModel = new Models.MemberWithGuildID() {
-                            GuildId = data["d"]["guild_id"].ToString(),
-                            JoinedAt = null,
-                            Nick = data["d"]["nick"].ToString(),
-                            OperationUserId = data["d"]["op_user_id"].ToString(),
-                            User = new() {
-                                IsBot = bool.Parse(data["d"]["user"]["bot"].ToString()),
-                                Id = data["d"]["user"]["id"].ToString(),
-                                UserName = data["d"]["user"]["username"].ToString()
-                            },
-                            Roles = new()
-                        };
-
-                        foreach (var role in JArray.Parse(data["d"]["roles"].ToString())) {
-                            deleteMemberModel.Roles.Add(role.ToString());
-                        }
-
-                        MemberLeaveGuild?.Invoke(deleteMemberModel);
+ 
+                        MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
                         break;
 

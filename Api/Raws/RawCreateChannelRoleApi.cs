@@ -9,8 +9,7 @@ public struct RawCreateChannelRoleApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => true;
-
+    
     public string Url => "/guilds/{guild_id}/roles";
 
     public MethodType Method => MethodType.POST;

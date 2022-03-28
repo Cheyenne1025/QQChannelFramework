@@ -10,12 +10,7 @@ public interface IRawApiInfo
     /// <summary>
     /// Api版本
     /// </summary>
-    public string Version { get; }
-
-    /// <summary>
-    /// 是否需要参数
-    /// </summary>
-    public bool NeedParam { get; }
+    public string Version { get; } 
 
     /// <summary>
     /// 源Api地址

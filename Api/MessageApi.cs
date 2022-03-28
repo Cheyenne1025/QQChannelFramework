@@ -27,11 +27,12 @@ public class MessageApi {
 
     /// <summary>
     /// 发送消息
-    /// </summary> 
+    /// </summary>
+    /// <param name="passiveReference">被动消息回复ID</param>
     /// <returns></returns>
     public async Task<Message> SendMessageAsync(string channelId, string content = null, string image = null,
         JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false,
-        string msgId = "") {
+        string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
@@ -43,7 +44,7 @@ public class MessageApi {
             message_reference = referenceMessageId == null
                 ? null
                 : new {message_id = referenceMessageId, ignore_get_message_error = ignoreGetMessageError},
-            image = image, msg_id = msgId
+            image = image, msg_id = passiveReference
         };
 
         var requestData = await _apiBase.WithContentData(m).RequestAsync(processedInfo).ConfigureAwait(false);
@@ -58,15 +59,16 @@ public class MessageApi {
     /// </summary>
     /// <param name="channelId"></param>
     /// <param name="content"></param>
+    /// <param name="passiveReference">被动消息回复ID</param>
     /// <returns></returns>
-    public async Task<Message> SendTextMessageAsync(string channelId, string content, string msg_id = "") {
+    public async Task<Message> SendTextMessageAsync(string channelId, string content, string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
-        var textMessage = new {content = content, msg_id = msg_id};
+        var textMessage = new {content = content, msg_id = passiveReference};
 
         var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -100,16 +102,16 @@ public class MessageApi {
     /// </summary>
     /// <param name="channelId">子频道ID</param>
     /// <param name="embedTemplate">embed模版数据</param>
-    /// <param name="msg_id">要回复的消息ID (为空视为主动推送)</param>
+    /// <param name="passiveReference">要回复的消息ID (为空视为主动推送)</param>
     /// <returns></returns>
-    public async Task<Message> SendEmbedMessageAsync(string channelId, JObject embedTemplate, string msg_id = "") {
+    public async Task<Message> SendEmbedMessageAsync(string channelId, JObject embedTemplate, string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
-        var embedMessage = new {msg_id = msg_id, embed = embedTemplate};
+        var embedMessage = new {msg_id = passiveReference, embed = embedTemplate};
 
         var requestData = await _apiBase.WithContentData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -122,14 +124,14 @@ public class MessageApi {
     /// <param name="channelId">子频道ID</param>
     /// <param name="imageUrl">图片Url</param>
     /// <returns></returns>
-    public async Task<Message> SendImageMessageAsync(string channelId, string imageUrl, string msg_id = "") {
+    public async Task<Message> SendImageMessageAsync(string channelId, string imageUrl, string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
-        var imageMessage = new {image = imageUrl, msg_id = msg_id};
+        var imageMessage = new {image = imageUrl, msg_id = passiveReference};
 
         var requestData = await _apiBase.WithContentData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
@@ -146,14 +148,14 @@ public class MessageApi {
     /// <param name="content">文字内容</param>
     /// <returns></returns>
     public async Task<Message> SendImageAndTextMessageAsync(string channelId, string imageUrl, string content,
-        string msg_id = "") {
+        string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId}
         });
 
-        var imageAndTextMessage = new {image = imageUrl, content = content, msg_id = msg_id};
+        var imageAndTextMessage = new {image = imageUrl, content = content, msg_id = passiveReference};
 
         var requestData =
             await _apiBase.WithContentData(imageAndTextMessage).RequestAsync(processedInfo).ConfigureAwait(false);
@@ -167,14 +169,14 @@ public class MessageApi {
     /// 获取指定消息
     /// </summary>
     /// <param name="channelId">子频道ID</param>
-    /// <param name="message_id">消息ID</param>
+    /// <param name="messageId">消息ID</param>
     /// <returns>获取的消息</returns>
-    public async Task<Message> GetMessageAsync(string channelId, string message_id) {
+    public async Task<Message> GetMessageAsync(string channelId, string messageId) {
         RawGetMessageApi rawGetMessageApi;
 
         var processedInfo = ApiFactory.Process(rawGetMessageApi, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId},
-            {ParamType.message_id, message_id}
+            {ParamType.message_id, messageId}
         });
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);

@@ -9,8 +9,7 @@ public struct RawGetChannelsApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => false;
-
+    
     public string Url => "/guilds/{guild_id}/channels";
 
     public MethodType Method => MethodType.GET;

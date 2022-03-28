@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace QQChannelFramework.Tools.JsonConverters
 {
-    public class EnumToStringConverter<T> : Newtonsoft.Json.JsonConverter
+    internal class EnumToStringConverter<TEnumType> : Newtonsoft.Json.JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -12,12 +12,12 @@ namespace QQChannelFramework.Tools.JsonConverters
 
         public override bool CanConvert(Type typeToConvert)
         {
-            return typeToConvert == typeof(T);
+            return typeToConvert == typeof(TEnumType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Enum.Parse(typeof(T), (string)reader.Value);
+            return Enum.Parse(typeof(TEnumType), (string)reader.Value);
         }
     }
 }

@@ -9,8 +9,7 @@ public struct RawGetCurrentUserApi : Base.IRawApiInfo
 {
     public string Version => "1.0";
 
-    public bool NeedParam => false;
-
+    
     public string Url => "/users/@me";
 
     public MethodType Method => MethodType.GET;

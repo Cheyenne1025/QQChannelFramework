@@ -110,10 +110,7 @@ public class ApiBase {
         return this;
     }
 
-    private async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo) {
-        if (rawInfo.NeedParam && _content is null) {
-            throw new Exceptions.MissingDataException();
-        }
+    private async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo) { 
 
         string _requestUrl = _requestMode == RequestMode.Release ? _releaseUrl : _sandBoxUrl;
 
