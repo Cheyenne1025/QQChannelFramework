@@ -1,13 +1,21 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models
-{
+namespace QQChannelFramework.Models {
+    public class RecommendChannel {
+        [JsonProperty("channel_id")] public string ChannelId;
+        [JsonProperty("introduce")] public string Introduce;
+    }
+
+    public enum AnnounceType {
+        Member = 0,
+        Welcome
+    }
+
     /// <summary>
     /// 公告对象
     /// </summary>
-    public class Announces
-    {
+    public class Announces {
         /// <summary>
         /// 主频道ID
         /// </summary>
@@ -25,6 +33,17 @@ namespace QQChannelFramework.Models
         /// </summary>
         [JsonProperty("message_id")]
         public string MessageId { get; set; }
+
+        /// <summary>
+        /// 公告类别
+        /// </summary>
+        [JsonProperty("message_id")]
+        public AnnounceType AnnounceType { get; set; }
+
+        /// <summary>
+        /// 推荐子频道详情列表
+        /// </summary>
+        [JsonProperty("recommend_channels")]
+        public RecommendChannel[] RecommendChannels { get; set; }
     }
 }
-
