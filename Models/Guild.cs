@@ -1,4 +1,7 @@
-﻿namespace QQChannelFramework.Models;
+﻿using Newtonsoft.Json;
+using QQChannelFramework.Tools.JsonConverters;
+
+namespace QQChannelFramework.Models;
 
 /// <summary>
 /// 主频道对象
@@ -48,6 +51,7 @@ public class Guild
     /// <summary>
     /// 加入时间
     /// </summary>
+    [JsonConverter(typeof(UnixSecondsToDateTimeConverter))]
     public DateTime? JoinedAt { get; set; }
 
     /// <summary>

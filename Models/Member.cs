@@ -32,6 +32,6 @@ public class Member
     /// 用户加入频道的时间
     /// </summary>
     [JsonProperty("joined_at")] 
-    [JsonConverter(typeof(UnixSecondTimestampToDateTimeConverter))]
+    [JsonConverter(typeof(UnixSecondsToDateTimeConverter))]
     public DateTime? JoinedAt { get; set; }
 }

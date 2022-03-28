@@ -137,11 +137,7 @@ public class ScheduleApi {
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.channel_id, channelId},
             {ParamType.schedule_id, scheduleId}
-        });
-
-        if (newSchedule.Id is not null) {
-            newSchedule.Id = null;
-        }
+        }); 
 
         var requestData = await _apiBase
             .WithContentData(new {

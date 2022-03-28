@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using QQChannelFramework.Tools.JsonConverters;
 
 namespace QQChannelFramework.Models.WsModels
 {

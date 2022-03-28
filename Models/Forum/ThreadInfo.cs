@@ -34,8 +34,7 @@ namespace QQChannelFramework.Models.Forum
         /// <summary>
         /// 发表时间
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("date_time")]
-        [JsonConverter(typeof(UnixSecondTimestampToDateTimeConverter))]
+        [Newtonsoft.Json.JsonProperty("date_time")] 
         public DateTime? DateTime { get; set; }
     }
 }

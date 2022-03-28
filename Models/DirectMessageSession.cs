@@ -23,6 +23,6 @@ public class DirectMessageSession {
     /// 创建私信会话时间戳
     /// </summary>
     [JsonProperty("create_time")]
-    [JsonConverter(typeof(UnixSecondTimestampToDateTimeConverter))]
+    [JsonConverter(typeof(UnixSecondsToDateTimeConverter))]
     public DateTime? CreateTime { get; set; }
 }
