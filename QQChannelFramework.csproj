@@ -6,7 +6,7 @@
 开发文档: https://www.yuque.com/chianne1025/mybot</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>MyBot</PackageId>
-    <PackageVersion>1.1.5</PackageVersion>
+    <PackageVersion>1.1.6</PackageVersion>
     <Title>MyBot</Title>
     <Authors>Chianne1025, cnSchwarzer</Authors>
     <Copyright>MyBot Team</Copyright>
@@ -18,11 +18,11 @@
     <Product>MyBot</Product>
     <PackageIcon>Logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.1.5</Version>
+    <Version>1.1.6</Version>
     <Nullable>disable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>1.1.5</AssemblyVersion>
-    <FileVersion>1.1.5.0</FileVersion>
+    <AssemblyVersion>1.1.6</AssemblyVersion>
+    <FileVersion>1.1.6.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
