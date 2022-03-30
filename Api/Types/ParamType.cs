@@ -31,4 +31,8 @@ public enum ParamType
     schedule_id, 
     type,
     id,
+    /// <summary>
+    /// 帖子Id
+    /// </summary>
+    thread_id,
 }
