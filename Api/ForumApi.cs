@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Types;
+using QQChannelFramework.Models.Forum;
+using QQChannelFramework.Tools;
 
 namespace QQChannelFramework.Api;
 
@@ -66,5 +68,31 @@ public class ForumApi
         });
 
         await _apiBase.RequestAsync(rawDeleteForumThreadsApi).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 发布帖子
+    /// </summary>
+    /// <param name="title">帖子标题</param>
+    /// <param name="childId">论坛子频道Id</param>
+    /// <param name="contentData">帖子内容</param>
+    /// <returns>元组 (帖子任务ID,发帖时间)</returns>
+    public async ValueTask<(string, DateTime)> Publish(string title, string childId, ThreadContent contentData)
+    {
+        Raws.RawPublishForumThreads rawPublishForumThreads;
+
+        var processedInfo = ApiFactory.Process(rawPublishForumThreads, new Dictionary<ParamType, string>()
+        {
+            {
+                ParamType.channel_id, childId
+            }
+        });
+
+        var requestData = await _apiBase.WithContentData(new Dictionary<string, object>()
+        {
+            ["title"] = title, ["content"] = contentData.Content, ["format"] = contentData.Type
+        }).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        return (requestData["task_id"].ToString(), ConvertHelper.GetDateTime(long.Parse(requestData["create_time"].ToString())));
     }
 }
