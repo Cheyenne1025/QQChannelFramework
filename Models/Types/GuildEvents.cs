@@ -106,11 +106,11 @@ public enum GuildEvents
     /// </summary>
     FORUM_POST_DELETE,
     /// <summary>
-    /// 当用户回复评论时
+    /// 当用户对评论回复时
     /// </summary>
     FORUM_REPLY_CREATE,
     /// <summary>
-    /// 当用户回复评论时
+    /// 当用户删除对评论的回复时
     /// </summary>
     FORUM_REPLY_DELETE,
     /// <summary>
