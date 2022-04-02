@@ -78,6 +78,10 @@ public enum GuildEvents
     /// </summary>
     MESSAGE_CREATE,
     /// <summary>
+    /// 消息被撤回
+    /// </summary>
+    MESSAGE_DELETE,
+    /// <summary>
     /// 为消息添加表情表态
     /// </summary>
     MESSAGE_REACTION_ADD,

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using ChannelModels.Returns;
 using ChannelModels.Types;
 using Newtonsoft.Json;
@@ -10,7 +9,6 @@ using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.Forum;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
-using Thread = QQChannelFramework.Models.Forum.Thread;
 
 namespace QQChannelFramework.WS;
 
@@ -21,8 +19,6 @@ partial class FunctionWebSocket {
     /// <param name="data"></param>
     private async void Process(JToken data) {
         var opCode = (OpCode) int.Parse(data["op"].ToString());
-        
-        OnDispatch?.Invoke(data);
 
         switch (opCode) {
             case OpCode.Dispatch:
@@ -31,164 +27,178 @@ partial class FunctionWebSocket {
 
                 _nowS = data["s"].ToString();
 
-                switch (Enum.Parse<GuildEvents>(t)) {
-                    case GuildEvents.READY:
+                if (Enum.TryParse<GuildEvents>(t, out var e)) {
+                    switch (e) {
+                        case GuildEvents.READY:
 
-                        _sessionInfo.Version = data["d"]["version"].ToString();
-                        _sessionInfo.SessionId = data["d"]["session_id"].ToString();
-                        _sessionInfo.BotId = data["d"]["user"]["id"].ToString();
-                        _sessionInfo.Name = data["d"]["user"]["username"].ToString();
+                            _sessionInfo.Version = data["d"]["version"].ToString();
+                            _sessionInfo.SessionId = data["d"]["session_id"].ToString();
+                            _sessionInfo.BotId = data["d"]["user"]["id"].ToString();
+                            _sessionInfo.Name = data["d"]["user"]["username"].ToString();
 
-                        AuthenticationSuccess?.Invoke();
+                            AuthenticationSuccess?.Invoke();
 
-                        break;
+                            break;
 
-                    case GuildEvents.RESUMED:
+                        case GuildEvents.RESUMED:
 
-                        //Resumed?.Invoke();
+                            //Resumed?.Invoke();
 
-                        break;
+                            break;
 
-                    case GuildEvents.GUILD_CREATE:
+                        case GuildEvents.GUILD_CREATE:
 
-                        BotAreAddedToTheGuild?.Invoke(data["d"].ToObject<WsGuild>());
+                            BotAreAddedToTheGuild?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.GUILD_UPDATE:
+                        case GuildEvents.GUILD_UPDATE:
 
-                        GuildInfoChange?.Invoke(data["d"].ToObject<WsGuild>());
+                            GuildInfoChange?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.GUILD_DELETE:
+                        case GuildEvents.GUILD_DELETE:
 
-                        BotBeRemoved?.Invoke(data["d"].ToObject<WsGuild>());
+                            BotBeRemoved?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.CHANNEL_CREATE:
+                        case GuildEvents.CHANNEL_CREATE:
 
-                        ChannelCreated?.Invoke(data["d"].ToObject<WsChannel>());
+                            ChannelCreated?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.CHANNEL_UPDATE:
+                        case GuildEvents.CHANNEL_UPDATE:
 
-                        ChannelInfoChange?.Invoke(data["d"].ToObject<WsChannel>());
+                            ChannelInfoChange?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.CHANNEL_DELETE:
+                        case GuildEvents.CHANNEL_DELETE:
 
-                        ChannelBeRemoved?.Invoke(data["d"].ToObject<WsChannel>());
+                            ChannelBeRemoved?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.GUILD_MEMBER_ADD: 
+                        case GuildEvents.GUILD_MEMBER_ADD:
 
-                        NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                            NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.GUILD_MEMBER_UPDATE:
- 
-                        MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                        case GuildEvents.GUILD_MEMBER_UPDATE:
 
-                        break;
+                            MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                    case GuildEvents.GUILD_MEMBER_REMOVE:
- 
-                        MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                            break;
 
-                        break;
+                        case GuildEvents.GUILD_MEMBER_REMOVE:
 
-                    case GuildEvents.AT_MESSAGE_CREATE:
+                            MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                        ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                            break;
 
-                        break;
+                        case GuildEvents.AT_MESSAGE_CREATE:
 
-                    case GuildEvents.MESSAGE_CREATE:
+                            ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                            break;
 
-                        break;
-                    
-                    case GuildEvents.DIRECT_MESSAGE_CREATE:
+                        case GuildEvents.MESSAGE_CREATE:
 
-                        ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                            ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        break;
+                            break;
 
-                    case GuildEvents.MESSAGE_REACTION_ADD:
+                        case GuildEvents.MESSAGE_DELETE:
 
-                        MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
+                            break;
 
-                        break;
+                        case GuildEvents.DIRECT_MESSAGE_CREATE:
 
-                    case GuildEvents.MESSAGE_REACTION_REMOVE:
+                            ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        MessageReactionIsRemoved?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
+                            break;
 
-                        break;
-                    
-                    case GuildEvents.MESSAGE_AUDIT_PASS:  
-                        MessageAuditPass?.Invoke(data["d"].ToObject<MessageAudited>()); 
-                        break;
-                    
-                    case GuildEvents.MESSAGE_AUDIT_REJECT: 
-                        MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
-                        break;
+                        case GuildEvents.MESSAGE_REACTION_ADD:
 
-                    case GuildEvents.AUDIO_START:
-                        AudioStart?.Invoke(data["d"].ToObject<AudioAction>());
-                        break;
+                            MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
 
-                    case GuildEvents.AUDIO_FINISH:
-                        AudioFinish?.Invoke(data["d"].ToObject<AudioAction>());
-                        break;
+                            break;
 
-                    case GuildEvents.AUDIO_ON_MIC:
-                        BotTopMic?.Invoke(data["d"].ToObject<AudioAction>());
-                        break;
+                        case GuildEvents.MESSAGE_REACTION_REMOVE:
 
-                    case GuildEvents.AUDIO_OFF_MIC:
-                        BotOffMic?.Invoke(data["d"].ToObject<AudioAction>());
-                        break;
-                    
-                    case GuildEvents.FORUM_THREAD_CREATE:
-                        ForumThreadAreCreated?.Invoke(data["d"].ToObject<Thread>());
-                        break;
+                            MessageReactionIsRemoved?.Invoke(data["d"]
+                                .ToObject<Models.MessageModels.MessageReaction>());
 
-                    case GuildEvents.FORUM_THREAD_UPDATE:
-                        ForumThreadWasUpdated?.Invoke(data["d"].ToObject<Thread>());
-                        break;
-                    
-                    case GuildEvents.FORUM_THREAD_DELETE:
-                        ForumThreadDeleted?.Invoke(data["d"].ToObject<Thread>());
-                        break;
-                    
-                    case GuildEvents.FORUM_POST_CREATE:
-                        ForumPostAreCreated?.Invoke(data["d"].ToObject<Post>());
-                        break;
-                    
-                    case GuildEvents.FORUM_POST_DELETE:
-                        ForumPostDeleted?.Invoke(data["d"].ToObject<Post>());
-                        break;
-                    
-                    case GuildEvents.FORUM_REPLY_CREATE:
-                        ForumReplyAreCreated?.Invoke(data["d"].ToObject<Reply>());
-                        break;
-                    
-                    case GuildEvents.FORUM_REPLY_DELETE: 
-                        ForumReplyDeleted?.Invoke(data["d"].ToObject<Reply>());
-                        break;
-                    
-                    case GuildEvents.FORUM_PUBLISH_AUDIT_RESULT:
-                        ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
-                        break;
+                            break;
+
+                        case GuildEvents.MESSAGE_AUDIT_PASS:
+                            MessageAuditPass?.Invoke(data["d"].ToObject<MessageAudited>());
+                            break;
+
+                        case GuildEvents.MESSAGE_AUDIT_REJECT:
+                            MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
+                            break;
+
+                        case GuildEvents.AUDIO_START:
+                            AudioStart?.Invoke(data["d"].ToObject<AudioAction>());
+                            break;
+
+                        case GuildEvents.AUDIO_FINISH:
+                            AudioFinish?.Invoke(data["d"].ToObject<AudioAction>());
+                            break;
+
+                        case GuildEvents.AUDIO_ON_MIC:
+                            BotTopMic?.Invoke(data["d"].ToObject<AudioAction>());
+                            break;
+
+                        case GuildEvents.AUDIO_OFF_MIC:
+                            BotOffMic?.Invoke(data["d"].ToObject<AudioAction>());
+                            break;
+
+                        case GuildEvents.FORUM_THREAD_CREATE:
+                            ForumThreadAreCreated?.Invoke(data["d"].ToObject<Thread>());
+                            break;
+
+                        case GuildEvents.FORUM_THREAD_UPDATE:
+                            ForumThreadWasUpdated?.Invoke(data["d"].ToObject<Thread>());
+                            break;
+
+                        case GuildEvents.FORUM_THREAD_DELETE:
+                            ForumThreadDeleted?.Invoke(data["d"].ToObject<Thread>());
+                            break;
+
+                        case GuildEvents.FORUM_POST_CREATE:
+                            ForumPostAreCreated?.Invoke(data["d"].ToObject<Post>());
+                            break;
+
+                        case GuildEvents.FORUM_POST_DELETE:
+                            ForumPostDeleted?.Invoke(data["d"].ToObject<Post>());
+                            break;
+
+                        case GuildEvents.FORUM_REPLY_CREATE:
+                            ForumReplyAreCreated?.Invoke(data["d"].ToObject<Reply>());
+                            break;
+
+                        case GuildEvents.FORUM_REPLY_DELETE:
+                            ForumReplyDeleted?.Invoke(data["d"].ToObject<Reply>());
+                            break;
+
+                        case GuildEvents.FORUM_PUBLISH_AUDIT_RESULT:
+                            ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
+                            break;
+
+                        default:
+                            Debug.WriteLine($"Unexpected event {t}");
+                            Debug.WriteLine(data["d"]);
+                            break;
+                    }
                 }
+
+                OnDispatch?.Invoke(data);
 
                 break;
 
@@ -230,8 +240,8 @@ partial class FunctionWebSocket {
             case OpCode.Reconnect:
 
                 Reconnecting?.Invoke();
- 
-                await CloseAsync(); 
+
+                await CloseAsync();
                 await ConnectAsync(_url);
 
                 break;
