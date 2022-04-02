@@ -126,7 +126,7 @@ public class MemberApi
     /// 获取频道内所有成员信息 (私域可用)
     /// </summary>
     /// <param name="guild_id">主频道GuildID</param> 
-    /// <returns>元组 (成员集合，成员数量)</returns>
+    /// <returns>成员集合</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
     public async Task<List<Member>> GetAllMembersAsync(string guild_id)
     {

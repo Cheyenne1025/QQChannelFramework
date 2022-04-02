@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Types;
@@ -20,7 +21,36 @@ public class ForumApi
     public ForumApi(ApiBase apiBase) {
         _apiBase = apiBase;
     }
-    
+
+    /// <summary>
+    /// 获取指定子频道帖子列表
+    /// </summary>
+    /// <param name="childId">论坛子频道Id</param>
+    /// <returns>元组(帖子列表，是否拉取完毕)</returns>
+    public async ValueTask<(List<Thread>, bool)> GetThreadsAsync(string childId)
+    {
+        Raws.RawGetForumThreadsApi rawGetForumThreadsApi;
+
+        var processedInfo = ApiFactory.Process(rawGetForumThreadsApi, new Dictionary<ParamType, string>()
+        {
+            {ParamType.channel_id, childId}
+        });
+
+        var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
+
+        var arr = requestData["threads"].ToArray();
+        var finish = requestData["is_finish"].ToString();
+
+        List<Thread> threads = new List<Thread>();
+
+        foreach (var threadObj in arr)
+        {
+            threads.Add(threadObj.ToObject<Thread>());
+        }
+
+        return (threads, finish is "1");
+    }
+
     /// <summary>
     /// 获取论坛帖子详细
     /// </summary>

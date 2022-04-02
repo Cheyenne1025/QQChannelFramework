@@ -30,7 +30,7 @@ public class ChannelRoleApi {
     /// <summary>
     /// 获取所有频道身份组
     /// </summary>
-    /// <returns>元组 (身份组列表,身份组当前数量,身份组上限)</returns>
+    /// <returns>元组 (身份组列表,身份组上限)</returns>
     public async Task<(List<Role> Roles, int RoleNumLimit)> GetRolesAsync(string guild_id) {
         RawGetChannelRolesApi rawGetChannelRolesApi;
 
@@ -87,7 +87,7 @@ public class ChannelRoleApi {
     /// <param name="roleInfo">更新内容，不需要更新的设为null</param>
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
-    /// <returns>元组 (频道ID,身份组ID)</returns>
+    /// <returns>频道身份组对象</returns>
     public async Task<Role> UpdateInfoAsync(RoleInfo roleInfo, string guild_id,
         string role_id) {
         RawUpdateChannelRoleInfoApi rawUpdateChannelRoleInfoApi;
@@ -112,7 +112,7 @@ public class ChannelRoleApi {
     /// </summary>
     /// <param name="guild_id">频道Guild</param>
     /// <param name="role_id">身份组ID</param>
-    /// <returns>是否删除成功</returns>
+    /// <returns></returns>
     public async Task DeleteAsync(string guild_id, string role_id) {
         RawDeleteChannelRoleApi rawDeleteChannelRoleApi;
 

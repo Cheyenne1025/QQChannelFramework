@@ -48,7 +48,7 @@ public class ChannelApi {
     /// 获取频道下的子频道列表
     /// </summary>
     /// <param name="guild_id">主频道Guild</param>
-    /// <returns>元组 (子频道列表,数量)</returns>
+    /// <returns>子频道列表</returns>
     public async Task<List<Channel>> GetChannelsAsync(string guild_id) {
         RawGetChannelsApi rawGetChannelsApi;
 
