@@ -114,6 +114,8 @@ partial class FunctionWebSocket {
 
                         case GuildEvents.MESSAGE_DELETE:
 
+                            UserRetractMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+
                             break;
 
                         case GuildEvents.DIRECT_MESSAGE_CREATE:

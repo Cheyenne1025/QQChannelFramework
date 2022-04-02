@@ -219,4 +219,10 @@ partial class FunctionWebSocket
     /// <para>收到论坛主题发布的审核结果时</para>
     /// </summary>
     public event FourmAuditDelegate ForumPublishAuditResultReceived;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// 用户撤回消息时
+    /// </summary>
+    public event MessageDelegate UserRetractMessage;
 }
