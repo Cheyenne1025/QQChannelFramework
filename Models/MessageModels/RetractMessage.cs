@@ -14,8 +14,17 @@ public class RetractMessage
     public Message Message { get; set; }
 
     /// <summary>
-    /// 进行撤回操作的用户Id
+    /// 进行撤回操作的用户
     /// </summary>
     [JsonProperty("op_user")]
-    public string OperationUserId { get; set; }
+    public RetractOperationUser OperationUser { get; set; }
+}
+
+public class RetractOperationUser
+{
+    /// <summary>
+    /// 用户Id
+    /// </summary>
+    [JsonProperty("id")]
+    public string Id { get; set; }
 }
