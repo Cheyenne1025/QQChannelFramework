@@ -7,8 +7,10 @@ using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Models.AudioModels;
+using QQChannelFramework.Models.Forum;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
+using Thread = QQChannelFramework.Models.Forum.Thread;
 
 namespace QQChannelFramework.WS;
 
@@ -19,6 +21,8 @@ partial class FunctionWebSocket {
     /// <param name="data"></param>
     private async void Process(JToken data) {
         var opCode = (OpCode) int.Parse(data["op"].ToString());
+        
+        OnDispatch?.Invoke(data);
 
         switch (opCode) {
             case OpCode.Dispatch:
@@ -154,17 +158,37 @@ partial class FunctionWebSocket {
                         break;
                     
                     case GuildEvents.FORUM_THREAD_CREATE:
+                        ForumThreadAreCreated?.Invoke(data["d"].ToObject<Thread>());
+                        break;
+
                     case GuildEvents.FORUM_THREAD_UPDATE:
+                        ForumThreadWasUpdated?.Invoke(data["d"].ToObject<Thread>());
+                        break;
+                    
                     case GuildEvents.FORUM_THREAD_DELETE:
+                        ForumThreadDeleted?.Invoke(data["d"].ToObject<Thread>());
+                        break;
+                    
                     case GuildEvents.FORUM_POST_CREATE:
+                        ForumPostAreCreated?.Invoke(data["d"].ToObject<Post>());
+                        break;
+                    
                     case GuildEvents.FORUM_POST_DELETE:
+                        ForumPostDeleted?.Invoke(data["d"].ToObject<Post>());
+                        break;
+                    
                     case GuildEvents.FORUM_REPLY_CREATE:
+                        ForumReplyAreCreated?.Invoke(data["d"].ToObject<Reply>());
+                        break;
+                    
                     case GuildEvents.FORUM_REPLY_DELETE: 
-                        Debug.WriteLine(data["d"]);
+                        ForumReplyDeleted?.Invoke(data["d"].ToObject<Reply>());
+                        break;
+                    
+                    case GuildEvents.FORUM_PUBLISH_AUDIT_RESULT:
+                        ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
                         break;
                 }
-
-                OnDispatch?.Invoke(data);
 
                 break;
 

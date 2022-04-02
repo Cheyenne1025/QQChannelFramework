@@ -2,6 +2,7 @@
 using ChannelModels.Returns;
 using QQChannelFramework.Models;
 using QQChannelFramework.Models.AudioModels;
+using QQChannelFramework.Models.Forum;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.WsModels;
 
@@ -16,6 +17,11 @@ partial class FunctionWebSocket
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
     public delegate void AuditDelegate(MessageAudited audit);
     public delegate void AudioDelegate(AudioAction audioAction);
+    public delegate void ForumThreadDelegate(Models.Forum.Thread thread);
+    public delegate void ForumPostDelegate(Models.Forum.Post post);
+    public delegate void ForumReplyDelegate(Models.Forum.Reply reply);
+    public delegate void FourmAuditDelegate(Models.Forum.AuditResult auditResult);
+    
 
     /// <summary>
     /// <para>触发时机: </para>
@@ -165,4 +171,52 @@ partial class FunctionWebSocket
     /// <para>机器人下麦时</para>
     /// </summary>
     public event AudioDelegate BotOffMic;
+    
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛新主题创建时</para>
+    /// </summary>
+    public event ForumThreadDelegate ForumThreadAreCreated;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题被更新后</para>
+    /// </summary>
+    public event ForumThreadDelegate ForumThreadWasUpdated;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题被删除后</para>
+    /// </summary>
+    public event ForumThreadDelegate ForumThreadDeleted;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题收到评论</para>
+    /// </summary>
+    public event ForumPostDelegate ForumPostAreCreated;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题的评论被删除</para>
+    /// </summary>
+    public event ForumPostDelegate ForumPostDeleted;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题的评论的收到回复</para>
+    /// </summary>
+    public event ForumReplyDelegate ForumReplyAreCreated;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>论坛主题的评论的收到的回复被删除</para>
+    /// </summary>
+    public event ForumReplyDelegate ForumReplyDeleted;
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>收到论坛主题发布的审核结果时</para>
+    /// </summary>
+    public event FourmAuditDelegate ForumPublishAuditResultReceived;
 }

@@ -120,5 +120,9 @@ public enum GuildEvents
     /// <summary>
     /// 消息审核不通过
     /// </summary>
-    MESSAGE_AUDIT_REJECT
+    MESSAGE_AUDIT_REJECT,
+    /// <summary>
+    /// 帖子审核事件
+    /// </summary>
+    FORUM_PUBLISH_AUDIT_RESULT
 }
