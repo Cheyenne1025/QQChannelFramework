@@ -14,6 +14,7 @@ partial class FunctionWebSocket
     public delegate void ChannelDelegate(WsChannel channel);
     public delegate void MemberDelegate(MemberWithGuildID memberWithGuildID);
     public delegate void MessageDelegate(Message message);
+    public delegate void RetractMessageDelegate(RetractMessage retractMessage);
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
     public delegate void AuditDelegate(MessageAudited audit);
     public delegate void AudioDelegate(AudioAction audioAction);
@@ -224,5 +225,5 @@ partial class FunctionWebSocket
     /// <para>触发时机: </para>
     /// 用户撤回消息时
     /// </summary>
-    public event MessageDelegate UserRetractMessage;
+    public event RetractMessageDelegate UserRetractMessage;
 }
