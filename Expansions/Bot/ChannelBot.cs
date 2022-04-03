@@ -25,8 +25,13 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
         _api = qqChannelApi;
         
-        CommandInfo _parseCommand(Message message)
+        CommandInfo _parseCommand(Message message) 
         {
+            if (message.Content == null)
+            {
+                return default;
+            }
+            
             var realContent = message.Content.Trim();
 
             // Check null and check count

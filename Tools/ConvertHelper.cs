@@ -52,4 +52,30 @@ public static class ConvertHelper
         long t = (dateTime.Ticks - startTime.Ticks) / 10000;
         return t.ToString();
     }
+    
+    /// <summary>
+    /// 转换全角为半角
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public static string ToDBC(string input)
+    {
+        char[] inputChars = input.ToCharArray();
+
+        for (int i = 0; i < inputChars.Length; i++)
+        {
+            if (inputChars[i] == 12288)
+            {
+                inputChars[i] = (char) 32;
+                continue;
+            }
+
+            if (inputChars[i] > 65280 && inputChars[i] < 65375)
+            {
+                inputChars[i] = (char) (inputChars[i] - 65248);
+            }
+        }
+        
+        return new string(inputChars);
+    }
 }
