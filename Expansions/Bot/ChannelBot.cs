@@ -25,18 +25,26 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
         _api = qqChannelApi;
         
-        CommandInfo _parseCommand(Message message)
+        CommandInfo _parseCommand(Message message) 
         {
+            if (message.Content == null)
+            {
+                return default;
+            }
+            
             var realContent = message.Content.Trim();
 
             // Check null and check count
             if (message.Mentions is { Count: > 0 })
             {
-                foreach (var user in message.Mentions.Where(user => user != null))
+                foreach (var user in message.Mentions)
                 {
-                    //在末尾处At没有空格
-                    realContent = realContent.Replace($"<@!{user.Id}> ", string.Empty);
-                    realContent = realContent.Replace($"<@!{user.Id}>", string.Empty);
+                    if (user != null)
+                    {
+                        //在末尾处At没有空格
+                        realContent = realContent.Replace($"<@!{user.Id}> ", string.Empty);
+                        realContent = realContent.Replace($"<@!{user.Id}>", string.Empty);
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(message.Content))
                     message.Content = message.Content.Trim();
@@ -54,7 +62,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
                 }
             }
 
-            var rawData = realContent.Split(" ");
+            var rawData = realContent.Trim().Split(" ");
 
             if (rawData[0].Length is 0)
             {
