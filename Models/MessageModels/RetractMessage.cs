@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections;
+using Newtonsoft.Json;
 
 namespace QQChannelFramework.Models.MessageModels;
 
@@ -11,8 +12,8 @@ public class RetractMessage
     /// 撤回的消息
     /// </summary>
     [JsonProperty("message")]
-    public Message Message { get; set; }
-
+    public Message Message { get; set; } 
+    
     /// <summary>
     /// 进行撤回操作的用户
     /// </summary>

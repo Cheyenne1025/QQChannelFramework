@@ -31,7 +31,7 @@ public class MessageApi {
     /// <param name="passiveReference">被动消息回复ID</param>
     /// <returns></returns>
     public async Task<Message> SendMessageAsync(string channelId, string content = null, string image = null,
-        JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false,
+        JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false, MessageMarkdown markdown = null,
         string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
@@ -44,7 +44,8 @@ public class MessageApi {
             message_reference = referenceMessageId == null
                 ? null
                 : new {message_id = referenceMessageId, ignore_get_message_error = ignoreGetMessageError},
-            image = image, msg_id = passiveReference
+            image = image, msg_id = passiveReference,
+            markdown = markdown
         };
 
         var requestData = await _apiBase.WithContentData(m).RequestAsync(processedInfo).ConfigureAwait(false);
@@ -75,6 +76,18 @@ public class MessageApi {
         Message message = requestData.ToObject<Message>();
 
         return message;
+    }
+    
+    /// <summary>
+    /// 发送Markdown消息
+    /// </summary>
+    /// <param name="channelId"></param>
+    /// <param name="rawMarkdown">Markdown字符串</param>
+    /// <param name="passiveReference">被动消息回复ID</param>
+    /// <returns></returns>
+    public async Task<Message> SendMarkdownMessageAsync(string channelId, string rawMarkdown, string passiveReference = "") {
+        return await SendMessageAsync(channelId, markdown: new MessageMarkdown {Content = rawMarkdown},
+            passiveReference: passiveReference);
     }
 
     /// <summary>
