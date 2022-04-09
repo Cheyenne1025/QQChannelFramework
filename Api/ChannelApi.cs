@@ -74,7 +74,7 @@ public class ChannelApi {
     /// <param name="newChannel">新子频道对象，无需填写Id字段</param>
     /// <param name="privateUserIds">额外允许查看的用户列表</param>
     /// <returns>创建的子频道对象</returns>
-    public async Task<Channel> CreateChannelAsync(string guildId, Channel newChannel, string[] privateUserIds = null) {
+    public async Task<Channel> CreateChannelAsync(string guildId, Channel newChannel) {
         if (CommonState.PrivateBot is false) {
             throw new Exceptions.BotNotIsPrivateException();
         }
@@ -93,7 +93,7 @@ public class ChannelApi {
                 {"position", newChannel.Position},
                 {"parent_id", newChannel.ParentId},
                 {"private_type", (int) newChannel.PrivateType},
-                {"private_user_ids", privateUserIds},
+                {"private_user_ids", newChannel.PrivateUserIds},
                 {"speak_permission", (int) newChannel.SpeakPermission},
                 {"application_id", newChannel.ApplicationId}
             })
@@ -153,6 +153,33 @@ public class ChannelApi {
         var requestData = await _apiBase
             .WithContentData(new Dictionary<string, object>() {
                 {"private_type", (int) privateType},
+            })
+            .RequestAsync(processedInfo)
+            .ConfigureAwait(false);
+
+        return requestData.ToObject<Channel>();
+    }
+    
+    /// <summary>
+    /// 更新子频道信息 (私域可用)
+    /// </summary>
+    /// <param name="channel">子频道</param> 
+    /// <returns></returns>
+    public async Task<Channel> UpdateChannelPrivateTypeAsync(string channelId, ChannelPrivateType privateType, string[] privateUserIds) {
+        if (CommonState.PrivateBot is false) {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        RawUpdateChannelApi rawUpdateChannelApi;
+
+        var processedInfo = ApiFactory.Process(rawUpdateChannelApi, new Dictionary<ParamType, string>() {
+            {ParamType.channel_id, channelId}
+        });
+
+        var requestData = await _apiBase
+            .WithContentData(new Dictionary<string, object>() {
+                {"private_type", (int) privateType},
+                {"private_user_ids", privateUserIds},
             })
             .RequestAsync(processedInfo)
             .ConfigureAwait(false);

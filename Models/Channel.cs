@@ -1,4 +1,5 @@
-﻿using ChannelModels.Types;
+﻿using System.Collections.Generic;
+using ChannelModels.Types;
 using Newtonsoft.Json;
 using QQChannelFramework.Models.Types;
 
@@ -63,6 +64,12 @@ public class Channel
     /// </summary>
     [JsonProperty("private_type")]
     public ChannelPrivateType? PrivateType  { get; set; }
+    
+    /// <summary>
+    /// 额外成员
+    /// </summary>
+    [JsonProperty("private_user_ids")]
+    public List<string> PrivateUserIds { get; set; }
 
     /// <summary>
     /// 子频道发言权限
