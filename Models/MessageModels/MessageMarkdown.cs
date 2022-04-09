@@ -12,7 +12,7 @@ public class MessageMarkdownParams {
 
 public class MessageMarkdown {
     [JsonProperty("template_id")]
-    public int TemplateId { get; set; }
+    public int? TemplateId { get; set; }
     [JsonProperty("params")]
     public List<MessageMarkdownParams> Params { get; set; }
     [JsonProperty("content")]
