@@ -11,10 +11,8 @@ using QQChannelFramework.Datas;
 
 namespace QQChannelFramework.Api;
 
-sealed partial class QQChannelApi
-{ 
-    public MemberApi GetMemberApi()
-    {
+sealed partial class QQChannelApi {
+    public MemberApi GetMemberApi() {
         return new(apiBase);
     }
 }
@@ -22,12 +20,10 @@ sealed partial class QQChannelApi
 /// <summary>
 /// 成员Api
 /// </summary>
-public class MemberApi
-{
+public class MemberApi {
     private readonly ApiBase _apiBase;
 
-    public MemberApi(ApiBase apiBase)
-    {
+    public MemberApi(ApiBase apiBase) {
         _apiBase = apiBase;
     }
 
@@ -35,15 +31,13 @@ public class MemberApi
     /// 获取某个成员信息
     /// </summary>
     /// <returns>成员信息/returns>
-    public async Task<Member> GetInfoAsync(string guild_id, string user_id)
-    {
+    public async Task<Member> GetInfoAsync(string guild_id, string user_id) {
         RawGetMemberInfoApi rawGetMemberInfoApi;
 
-        var precessedInfo = ApiFactory.Process(rawGetMemberInfoApi, new Dictionary<ParamType, string>()
-            {
-                {ParamType.guild_id,guild_id },
-                {ParamType.user_id,user_id }
-            });
+        var precessedInfo = ApiFactory.Process(rawGetMemberInfoApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id},
+            {ParamType.user_id, user_id}
+        });
 
         var requestData = await _apiBase.RequestAsync(precessedInfo).ConfigureAwait(false);
         return requestData.ToObject<Member>();
@@ -57,30 +51,25 @@ public class MemberApi
     /// <param name="limit">分页大小，1-400，默认是1</param>
     /// <returns>元组 (成员集合，成员数量)</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
-    public async Task<List<Member>> GetMembersAsync(string guild_id,string after = "0", UInt32 limit = 1)
-    {
-        if(CommonState.PrivateBot is false)
-        {
+    public async Task<List<Member>> GetMembersAsync(string guild_id, string after = "0", UInt32 limit = 1) {
+        if (CommonState.PrivateBot is false) {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
-        if (limit > 400)
-        {
+        if (limit > 400) {
             limit = 400;
         }
 
         RawGetChannelMembersApi rawGetChannelMembersApi;
 
-        var processedInfo = ApiFactory.Process(rawGetChannelMembersApi, new Dictionary<ParamType, string>()
-        {
-            {ParamType.guild_id,guild_id}
+        var processedInfo = ApiFactory.Process(rawGetChannelMembersApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guild_id}
         });
 
         var requestData = await _apiBase
-            .WithQueryParam(new Dictionary<string,object>()
-            {
+            .WithQueryParam(new Dictionary<string, object>() {
                 {"after", after},
-                {"limit",limit }
+                {"limit", limit}
             })
             .RequestAsync(processedInfo);
 
@@ -88,8 +77,7 @@ public class MemberApi
 
         List<Member> members = new();
 
-        foreach (var info in jArray)
-        {
+        foreach (var info in jArray) {
             members.Add(info.ToObject<Member>());
         }
 
@@ -99,39 +87,59 @@ public class MemberApi
     /// <summary>
     /// 删除指定频道成员 (私域可用)
     /// </summary>
-    /// <param name="guild_id"></param>
-    /// <param name="user_id"></param>
+    /// <param name="guildId"></param>
+    /// <param name="userId"></param>
+    /// <param name="addBlackList"></param>
+    /// <param name="deleteHistoryMsgDays"></param>
     /// <returns></returns>
-    public async Task<bool> DeleteMemberAsync(string guild_id,string user_id)
-    {
-        if (CommonState.PrivateBot is false)
-        {
+    public async Task<bool> DeleteMemberAsync(string guildId, string userId) {
+        if (CommonState.PrivateBot is false) {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
         RawDeleteChannelMemberApi rawDeleteChannelMemberApi;
 
-        var processedInfo = ApiFactory.Process(rawDeleteChannelMemberApi, new Dictionary<ParamType, string>()
-        {
-            {ParamType.guild_id,guild_id },
-            {ParamType.user_id,user_id }
+        var processedInfo = ApiFactory.Process(rawDeleteChannelMemberApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId},
+            {ParamType.user_id, userId}
         });
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData is null;
     }
-    
-        /// <summary>
+
+    public async Task<bool> DeleteMemberAsync(string guildId, string userId, bool addBlackList,
+        int deleteHistoryMsgDays) {
+        if (CommonState.PrivateBot is false) {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        RawDeleteChannelMemberApi rawDeleteChannelMemberApi;
+
+        var processedInfo = ApiFactory.Process(rawDeleteChannelMemberApi, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId},
+            {ParamType.user_id, userId}
+        });
+
+        var requestData = await _apiBase.WithContentData(
+            new {
+                add_blacklist = addBlackList,
+                delete_history_msg_days = deleteHistoryMsgDays
+            }
+        ).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        return requestData is null;
+    }
+
+    /// <summary>
     /// 获取频道内所有成员信息 (私域可用)
     /// </summary>
     /// <param name="guild_id">主频道GuildID</param> 
     /// <returns>成员集合</returns>
     /// <exception cref="Exceptions.BotNotIsPrivateException"></exception>
-    public async Task<List<Member>> GetAllMembersAsync(string guild_id)
-    {
-        if(CommonState.PrivateBot is false)
-        {
+    public async Task<List<Member>> GetAllMembersAsync(string guild_id) {
+        if (CommonState.PrivateBot is false) {
             throw new Exceptions.BotNotIsPrivateException();
         }
 
@@ -141,15 +149,15 @@ public class MemberApi
 
         while (true) {
             var batch = await GetMembersAsync(guild_id, after, 400);
-            
+
             if (!batch.Any())
                 break;
-            
+
             ret.AddRange(batch);
 
-            after = batch.Last().User.Id; 
+            after = batch.Last().User.Id;
         }
-        
-        return ret; 
+
+        return ret;
     }
 }
