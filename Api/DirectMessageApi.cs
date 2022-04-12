@@ -97,7 +97,7 @@ public class DirectMessageApi {
     /// <param name="url">报备后的地址</param>
     /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
-    public async Task<Message> SendTextAndImageMessageAsync(string guildId, string content, string url,
+    public async Task<Message> SendImageAndTextMessageAsync(string guildId, string url, string content,
         string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
