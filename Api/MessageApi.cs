@@ -9,6 +9,13 @@ using QQChannelFramework.Models.MessageModels;
 
 namespace QQChannelFramework.Api;
 
+public enum MessagesPagerType {
+    Around,
+    Before,
+    After,
+    Latest
+}
+
 sealed partial class QQChannelApi {
     public MessageApi GetMessageApi() {
         return new(apiBase);
@@ -31,7 +38,8 @@ public class MessageApi {
     /// <param name="passiveReference">被动消息回复ID</param>
     /// <returns></returns>
     public async Task<Message> SendMessageAsync(string channelId, string content = null, string image = null,
-        JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false, MessageMarkdown markdown = null,
+        JObject embed = null, JObject ark = null, string referenceMessageId = null, bool ignoreGetMessageError = false,
+        MessageMarkdown markdown = null,
         string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
@@ -77,7 +85,34 @@ public class MessageApi {
 
         return message;
     }
-    
+
+    /// <summary>
+    /// 拉取消息列表 
+    /// </summary>
+    /// <param name="channelId"></param>
+    /// <param name="type"></param>
+    /// <param name="id"></param>
+    /// <param name="limit"></param>
+    /// <returns></returns>
+    public async Task<List<Message>> GetMessagesAsync(string channelId, MessagesPagerType type, string id, int limit = 20) {
+        RawGetMessagesApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.channel_id, channelId}
+        });
+
+        var obj = new Dictionary<string, object>() {
+            {type.ToString().ToLower(), id},
+            {"limit", limit}
+        };
+
+        var requestData = await _apiBase.WithQueryParam(obj).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        List<Message> messages = requestData.ToObject<List<Message>>();
+
+        return messages;
+    }
+
     /// <summary>
     /// 发送Markdown消息
     /// </summary>
@@ -85,7 +120,8 @@ public class MessageApi {
     /// <param name="rawMarkdown">Markdown字符串</param>
     /// <param name="passiveReference">被动消息回复ID</param>
     /// <returns></returns>
-    public async Task<Message> SendMarkdownMessageAsync(string channelId, string rawMarkdown, string passiveReference = "") {
+    public async Task<Message> SendMarkdownMessageAsync(string channelId, string rawMarkdown,
+        string passiveReference = "") {
         return await SendMessageAsync(channelId, markdown: new MessageMarkdown {Content = rawMarkdown},
             passiveReference: passiveReference);
     }
@@ -117,7 +153,8 @@ public class MessageApi {
     /// <param name="embedTemplate">embed模版数据</param>
     /// <param name="passiveReference">要回复的消息ID (为空视为主动推送)</param>
     /// <returns></returns>
-    public async Task<Message> SendEmbedMessageAsync(string channelId, JObject embedTemplate, string passiveReference = "") {
+    public async Task<Message> SendEmbedMessageAsync(string channelId, JObject embedTemplate,
+        string passiveReference = "") {
         RawSendMessageApi rawSendMessageApi;
 
         var processedInfo = ApiFactory.Process(rawSendMessageApi, new Dictionary<ParamType, string>() {
@@ -126,7 +163,8 @@ public class MessageApi {
 
         var embedMessage = new {msg_id = passiveReference, embed = embedTemplate};
 
-        var requestData = await _apiBase.WithContentData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData =
+            await _apiBase.WithContentData(embedMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
     }
@@ -146,7 +184,8 @@ public class MessageApi {
 
         var imageMessage = new {image = imageUrl, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithContentData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData =
+            await _apiBase.WithContentData(imageMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -214,6 +253,7 @@ public class MessageApi {
             {ParamType.message_id, messageId}
         });
 
-        await _apiBase.WithQueryParam(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}}).RequestAsync(processedInfo).ConfigureAwait(false);
+        await _apiBase.WithQueryParam(new Dictionary<string, object> {{"hidetip", hideTip.ToString().ToLower()}})
+            .RequestAsync(processedInfo).ConfigureAwait(false);
     }
 }
