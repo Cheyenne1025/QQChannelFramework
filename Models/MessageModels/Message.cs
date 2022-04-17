@@ -99,5 +99,5 @@ public class Message {
     /// 引用消息对象
     /// </summary>
     [JsonProperty("message_reference")]
-    public MessageReaction MessageReference { get; set; }
+    public MessageReference MessageReference { get; set; }
 }
