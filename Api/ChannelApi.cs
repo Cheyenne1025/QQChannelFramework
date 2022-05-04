@@ -160,6 +160,33 @@ public class ChannelApi {
         return requestData.ToObject<Channel>();
     }
     
+    
+    /// <summary>
+    /// 更新子频道信息 (私域可用)
+    /// </summary>
+    /// <param name="channel">子频道</param> 
+    /// <returns></returns>
+    public async Task<Channel> UpdateChannelNameAsync(string channelId, string name) {
+        if (CommonState.PrivateBot is false) {
+            throw new Exceptions.BotNotIsPrivateException();
+        }
+
+        RawUpdateChannelApi rawUpdateChannelApi;
+
+        var processedInfo = ApiFactory.Process(rawUpdateChannelApi, new Dictionary<ParamType, string>() {
+            {ParamType.channel_id, channelId}
+        });
+
+        var requestData = await _apiBase
+            .WithContentData(new Dictionary<string, object>() {
+                {"name", name},
+            })
+            .RequestAsync(processedInfo)
+            .ConfigureAwait(false);
+
+        return requestData.ToObject<Channel>();
+    }
+    
     /// <summary>
     /// 更新子频道信息 (私域可用)
     /// </summary>
