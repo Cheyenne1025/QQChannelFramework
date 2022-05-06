@@ -6,6 +6,10 @@
 <br>
 <br>
 
+### MyBot 工程模板
+快捷使用MyBot初始化您的机器人工程  
+[查看](https://github.com/cnSchwarzer/GuildBotTemplate)
+
 ![MYBOT_TD](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-09.png)
 ### 🔖 完整 SDK 调用注释
   - 框架内每一个对外方法都有详细注释，方便开发者在调用时不用重复查阅文档即可获得所需信息
@@ -47,7 +51,6 @@ ChannelBot 将会基于用户需求，持续提供简单并强大的功能
 
 ![MYBOT_YL](https://mybot-1251253734.cos.ap-shanghai.myqcloud.com/mybot_md_banner/MyBOT%20Banner-10.png)
 ```
-若框架前景良好计划在未来的更新中逐步摆脱依赖
 🚨 Newtonsoft.Json 13.0.1版本 - 解析Json
 ```
 
