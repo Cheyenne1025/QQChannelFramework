@@ -96,6 +96,12 @@ public class Message {
     public string SequenceInChannel { get; set; }
     
     /// <summary>
+    /// 用于私信场景下识别真实的来源频道id
+    /// </summary>
+    [JsonProperty("src_guild_id")]
+    public string SourceGuildId { get; set; }
+    
+    /// <summary>
     /// 引用消息对象
     /// </summary>
     [JsonProperty("message_reference")]

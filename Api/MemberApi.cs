@@ -122,7 +122,7 @@ public class MemberApi {
             {ParamType.user_id, userId}
         });
 
-        var requestData = await _apiBase.WithContentData(
+        var requestData = await _apiBase.WithJsonContentData(
             new {
                 add_blacklist = addBlackList,
                 delete_history_msg_days = deleteHistoryMsgDays

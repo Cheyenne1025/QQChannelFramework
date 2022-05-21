@@ -38,7 +38,7 @@ public class AnnounceApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new {
+            .WithJsonContentData(new {
                 message_id = messageId,
                 channel_id = channelId
             })
@@ -64,7 +64,7 @@ public class AnnounceApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new {
+            .WithJsonContentData(new {
                 announces_type = announcesType,
                 recommend_channels = recommendChannels
             })

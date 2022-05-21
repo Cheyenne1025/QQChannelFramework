@@ -118,7 +118,7 @@ public class ForumApi
             }
         });
 
-        var requestData = await _apiBase.WithContentData(new Dictionary<string, object>()
+        var requestData = await _apiBase.WithJsonContentData(new Dictionary<string, object>()
         {
             ["title"] = title, ["content"] = contentData.Content, ["format"] = contentData.Type
         }).RequestAsync(processedInfo).ConfigureAwait(false);

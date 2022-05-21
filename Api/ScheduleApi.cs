@@ -116,7 +116,7 @@ public class ScheduleApi {
         }
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"schedule", newSchedule}
             })
             .RequestAsync(processedInfo);
@@ -140,7 +140,7 @@ public class ScheduleApi {
         }); 
 
         var requestData = await _apiBase
-            .WithContentData(new {
+            .WithJsonContentData(new {
                 schedule = newSchedule
             })
             .RequestAsync(processedInfo);

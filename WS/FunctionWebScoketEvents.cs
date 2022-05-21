@@ -18,12 +18,17 @@ partial class FunctionWebSocket
     public delegate void MessageReactionDelegate(MessageReaction messageReactionInfo);
     public delegate void AuditDelegate(MessageAudited audit);
     public delegate void AudioDelegate(AudioAction audioAction);
-    public delegate void ForumThreadDelegate(Models.Forum.Thread thread);
-    public delegate void ForumPostDelegate(Models.Forum.Post post);
-    public delegate void ForumReplyDelegate(Models.Forum.Reply reply);
-    public delegate void FourmAuditDelegate(Models.Forum.AuditResult auditResult);
-    
+    public delegate void ForumThreadDelegate(Thread thread);
+    public delegate void ForumPostDelegate(Post post);
+    public delegate void ForumReplyDelegate(Reply reply);
+    public delegate void FourmAuditDelegate(AuditResult auditResult);
 
+
+    /// <summary>
+    /// <para>触发时机: </para>
+    /// <para>随消息到达的EventId，可用作发送消被动息</para>
+    /// </summary>
+    public event Action<string> OnEventId;
     /// <summary>
     /// <para>触发时机: </para>
     /// <para>机器人被加入到某个频道的时候</para>

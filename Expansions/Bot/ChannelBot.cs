@@ -11,6 +11,7 @@ using QQChannelFramework.Models;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
+using QQChannelFramework.Tools;
 using QQChannelFramework.WS;
 
 namespace QQChannelFramework.Expansions.Bot;
@@ -111,7 +112,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
 
         // Websocket断线重连
         ConnectBreak += async () => {
-            Debug.WriteLine("MyBot Websocket 断线重连"); 
+            BotLog.Log("MyBot Websocket 断线重连"); 
             await Reconnect();
         };
     }
@@ -129,12 +130,12 @@ public sealed partial class ChannelBot : FunctionWebSocket {
             try {
                 await Task.Delay(TimeSpan.FromSeconds(3));
                 await OnlineAsync().ConfigureAwait(false);
-                Debug.WriteLine("MyBot Websocket 重连完成");
+                BotLog.Log("MyBot Websocket 重连完成");
 
                 return;
             } catch (Exception ex) {
-                Debug.WriteLine("MyBot Websocket 重连失败，3秒后重试");
-                Debug.WriteLine(ex);
+                BotLog.Log("MyBot Websocket 重连失败，3秒后重试");
+                BotLog.Log(ex);
             }
         }
     }

@@ -76,7 +76,7 @@ public class GuildPermissionApi
         });
 
         var info = await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 ["channel_id"] = channelId,
                 ["api_identify"] = identifyInfo,

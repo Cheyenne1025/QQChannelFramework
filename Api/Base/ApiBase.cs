@@ -57,8 +57,19 @@ public class ApiBase {
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public ApiBase WithContentData(object obj) { 
+    public ApiBase WithJsonContentData(object obj) { 
         _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+        return this;
+    }
+
+    /// <summary>
+    /// 携带body数据
+    /// </summary> 
+    /// <param name="form"></param>
+    /// <returns></returns>
+    public ApiBase WithMultipartContentData(MultipartFormDataContent form) {
+        _content = form;
 
         return this;
     }

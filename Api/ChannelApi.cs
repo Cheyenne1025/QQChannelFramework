@@ -86,7 +86,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"name", newChannel.Name},
                 {"type", (int) newChannel.Type},
                 {"sub_type", (int) newChannel.SubType},
@@ -120,7 +120,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"name", channel.Name},
                 {"type", (int) channel.Type},
                 {"position", channel.Position},
@@ -151,7 +151,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"private_type", (int) privateType},
             })
             .RequestAsync(processedInfo)
@@ -178,7 +178,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"name", name},
             })
             .RequestAsync(processedInfo)
@@ -204,7 +204,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"private_type", (int) privateType},
                 {"private_user_ids", privateUserIds},
             })
@@ -231,7 +231,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"speak_permission", (int) speakPermission}
             })
             .RequestAsync(processedInfo)
@@ -257,7 +257,7 @@ public class ChannelApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"position", position},
                 {"parent_id", parent}
             })

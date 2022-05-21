@@ -36,6 +36,6 @@ public class AudioControlApi
             }
         });
 
-        await _apiBase.WithContentData(controlData).RequestAsync(processedInfo).ConfigureAwait(false);
+        await _apiBase.WithJsonContentData(controlData).RequestAsync(processedInfo).ConfigureAwait(false);
     }
 }

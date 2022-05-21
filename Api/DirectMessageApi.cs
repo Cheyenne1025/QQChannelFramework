@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
@@ -36,13 +40,77 @@ public class DirectMessageApi {
 
         var textMessage = new {recipient_id = userId, source_guild_id = sourceGuildId};
 
-        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(raw).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(raw).ConfigureAwait(false);
 
         var dms = requestData.ToObject<DirectMessageSession>();
 
         return dms;
     }
+    
+    /// <summary>
+    /// 发送消息
+    /// </summary>
+    /// <param name="guildId">私聊GuildID</param>
+    /// <param name="content">文字</param>
+    /// <param name="imageUrl">图片链接转存</param>
+    /// <param name="imageFile">直接上传图片</param>
+    /// <param name="embed">模板消息</param>
+    /// <param name="ark">Ark消息</param>
+    /// <param name="referenceMessageId">引用消息</param>
+    /// <param name="passiveMsgId">被动消息回复ID</param>
+    /// <param name="passiveEventId">被动消息事件ID</param>
+    /// <param name="markdown">Markdown</param>
+    /// <returns></returns>
+    public async Task<Message> SendMessageAsync(
+        string guildId,
+        string content = null,
+        string imageUrl = null,
+        (byte[] imageData, string fileName)? imageFile = null,
+        JObject embed = null,
+        JObject ark = null,
+        string referenceMessageId = null,
+        MessageMarkdown markdown = null,
+        string passiveMsgId = null,
+        string passiveEventId = null) {
+        
+        RawDirectSendMessageApi raw;
 
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.guild_id, guildId}
+        });
+
+
+        var form = new MultipartFormDataContent();
+        if (content != null) 
+            form.Add(new StringContent(content, Encoding.UTF8), "content");
+        if (imageUrl != null) 
+            form.Add(new StringContent(imageUrl, Encoding.UTF8), "image");
+        if (imageFile != null)
+            form.Add(new StreamContent(new MemoryStream(imageFile.Value.imageData)), "file_image",
+                imageFile.Value.fileName);
+        if (embed != null) 
+            form.Add(new StringContent(embed.ToString(), Encoding.UTF8), "embed");
+        if (ark != null) 
+            form.Add(new StringContent(ark.ToString(), Encoding.UTF8), "ark");
+        if (referenceMessageId != null)
+            form.Add(
+                new StringContent(
+                    JsonConvert.SerializeObject(new {message_id = referenceMessageId, ignore_get_message_error = true}),
+                    Encoding.UTF8), "message_reference");
+        if (markdown != null)
+            form.Add(new StringContent(JsonConvert.SerializeObject(markdown), Encoding.UTF8), "markdown");
+        if (passiveMsgId != null) 
+            form.Add(new StringContent(passiveMsgId, Encoding.UTF8), "msg_id");
+        if (passiveEventId != null) 
+            form.Add(new StringContent(passiveEventId, Encoding.UTF8), "event_id");
+
+        var requestData = await _apiBase.WithMultipartContentData(form).RequestAsync(processedInfo).ConfigureAwait(false);
+
+        Message message = requestData.ToObject<Message>();
+
+        return message;
+    }
+ 
     /// <summary>
     /// 发送消息
     /// </summary>
@@ -59,7 +127,7 @@ public class DirectMessageApi {
 
         var textMessage = new {content = content, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -82,7 +150,7 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -107,7 +175,7 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, content = content, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -127,7 +195,7 @@ public class DirectMessageApi {
             {ParamType.guild_id, guildId}
         });
 
-        var requestData = await _apiBase.WithContentData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
@@ -141,7 +209,8 @@ public class DirectMessageApi {
     /// <param name="passiveReference">回复的消息ID</param>
     /// <param name="embedTemplate">embed模版数据</param> 
     /// <returns></returns>
-    public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate, string passiveReference = "") {
+    public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate,
+        string passiveReference = "") {
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -150,7 +219,7 @@ public class DirectMessageApi {
 
         var msg = new {msg_id = passiveReference, embed = embedTemplate};
 
-        var requestData = await _apiBase.WithContentData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(msg).RequestAsync(processedInfo).ConfigureAwait(false);
 
         return requestData.ToObject<Message>();
     }

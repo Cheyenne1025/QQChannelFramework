@@ -36,7 +36,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 {
                     mute_end_timstamp == default ? "mute_seconds" : "mute_end_timestamp", mute_end_timstamp == default
@@ -61,7 +61,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 {"mute_seconds", "0"}, {"mute_end_timestamp", "0"}
             })
@@ -101,7 +101,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 {
                     mute_end_timstamp == default ? "mute_seconds" : "mute_end_timestamp", mute_end_timstamp == default
@@ -127,7 +127,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 {"mute_seconds", "0"}, {"mute_end_timestamp", "0"}
             })
@@ -169,7 +169,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 [mute_end_timstamp == default ? "mute_seconds" : "mute_end_timestamp"] = mute_end_timstamp == default
                     ? mute_seconds
@@ -218,7 +218,7 @@ public class MuteApi
         });
 
         await _apiBase
-            .WithContentData(new Dictionary<string, object>()
+            .WithJsonContentData(new Dictionary<string, object>()
             {
                 ["mute_seconds"] = "0", ["mute_end_timestamp"] = "0", ["user_ids"] = userIds
             })

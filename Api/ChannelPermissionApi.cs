@@ -89,7 +89,7 @@ namespace QQChannelFramework.Api
             });
 
             var requestData = await _apiBase
-                .WithContentData(new Dictionary<string, object>()
+                .WithJsonContentData(new Dictionary<string, object>()
                 {
                     {"add",add is not ChannelPermissionType.None ? Convert.ToString((int)add,2):"" },
                     {"remove",remove is not ChannelPermissionType.None ?  Convert.ToString((int)remove,2):""}
@@ -118,7 +118,7 @@ namespace QQChannelFramework.Api
             });
 
             var requestData = await _apiBase
-                .WithContentData(new Dictionary<string, object>()
+                .WithJsonContentData(new Dictionary<string, object>()
                 {
                     {"add",add is not ChannelPermissionType.None ? Convert.ToString((int)add,2):"" },
                     {"remove",remove is not ChannelPermissionType.None ?  Convert.ToString((int)remove,2):""}

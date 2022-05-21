@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using QQChannelFramework.Models;
 using QQChannelFramework.Models.ParamModels;
 using QQChannelFramework.Models.Types;
+using QQChannelFramework.Tools;
 
 namespace QQChannelFramework.WS;
 
@@ -71,7 +72,7 @@ public class BaseWebSocket {
         try {
             await CloseAsync();
         } catch (Exception ex) {
-            Debug.WriteLine(ex);
+            BotLog.Log(ex);
         }
 
         try {
@@ -119,10 +120,10 @@ public class BaseWebSocket {
                     OnReceived?.Invoke(JToken.Parse(data));
                 }
             } else { 
-                Debug.WriteLine($"BotWs close handshake {result.CloseStatus} {result.CloseStatusDescription}"); 
+                BotLog.Log($"BotWs close handshake {result.CloseStatus} {result.CloseStatusDescription}"); 
             }
         } catch (TaskCanceledException x) {
-            Debug.WriteLine(x);
+            BotLog.Log(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
         } finally {
@@ -131,7 +132,7 @@ public class BaseWebSocket {
                 if (webSocket.State == WebSocketState.Open) {
                     BeginReceive();
                 } else {
-                    Debug.WriteLine($"{DateTime.Now} Connection break post receive check.");
+                    BotLog.Log($"{DateTime.Now} Connection break post receive check.");
                     ConnectBreak?.Invoke();
                 }
             }
@@ -150,7 +151,7 @@ public class BaseWebSocket {
 
         if (!_websocketCancellationTokenSource.IsCancellationRequested &&
             webSocket.State is not WebSocketState.Open) {
-            Debug.WriteLine($"{DateTime.Now} Connection break before send check.");
+            BotLog.Log($"{DateTime.Now} Connection break before send check.");
             ConnectBreak?.Invoke();
             return;
         }
@@ -162,14 +163,14 @@ public class BaseWebSocket {
                 .ConfigureAwait(false);
             OnSend?.Invoke(); 
         } catch (TaskCanceledException x) {
-            Debug.WriteLine(x);
+            BotLog.Log(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
         } finally {
             // 被取消则不触发事件
             if (!_websocketCancellationTokenSource.IsCancellationRequested) {
                 if (webSocket.State != WebSocketState.Open) {
-                    Debug.WriteLine($"{DateTime.Now} Connection break post send check.");
+                    BotLog.Log($"{DateTime.Now} Connection break post send check.");
                     ConnectBreak?.Invoke();
                 }
             }
@@ -180,14 +181,14 @@ public class BaseWebSocket {
     /// 关闭连接
     /// </summary>
     public async ValueTask CloseAsync() {
-        Debug.WriteLine($"{DateTime.Now} BotWs close, ws is null? {webSocket is null}.");
+        BotLog.Log($"{DateTime.Now} BotWs close, ws is null? {webSocket is null}.");
         if (webSocket is not null) {  
             try {
                 _websocketCancellationTokenSource.Cancel();
                 webSocket.Dispose();
                 _websocketCancellationTokenSource.Dispose();
             } catch (Exception ex) {
-                Debug.WriteLine(ex);
+                BotLog.Log(ex);
             }
 
             _websocketCancellationTokenSource = null;

@@ -72,7 +72,7 @@ public class ChannelRoleApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"name", roleInfo.Name},
                 {"color", string.IsNullOrWhiteSpace(roleInfo.Color) ? null : Tools.ConvertHelper.GetHex(roleInfo.Color)},
                 {"hoist", roleInfo.Hoist.HasValue ? roleInfo.Hoist.Value ? 1 : 0 : null}
@@ -98,7 +98,7 @@ public class ChannelRoleApi {
         });
 
         var requestData = await _apiBase
-            .WithContentData(new Dictionary<string, object>() {
+            .WithJsonContentData(new Dictionary<string, object>() {
                 {"name", roleInfo.Name},
                 {"color", string.IsNullOrWhiteSpace(roleInfo.Color) ? null : Tools.ConvertHelper.GetHex(roleInfo.Color)},
                 {"hoist", roleInfo.Hoist.HasValue ? roleInfo.Hoist.Value ? 1 : 0 : null}
@@ -149,7 +149,7 @@ public class ChannelRoleApi {
         JToken requestData = null;
 
         requestData = await _apiBase
-            .WithContentData(new {channel = new {id = channelId}})
+            .WithJsonContentData(new {channel = new {id = channelId}})
             .RequestAsync(processedInfo)
             .ConfigureAwait(false);
 
@@ -182,7 +182,7 @@ public class ChannelRoleApi {
         JToken requestData = null;
 
         requestData = await _apiBase
-            .WithContentData(new {channel = new {id = channelId}})
+            .WithJsonContentData(new {channel = new {id = channelId}})
             .RequestAsync(processedInfo)
             .ConfigureAwait(false);
 

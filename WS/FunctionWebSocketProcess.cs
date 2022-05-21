@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using ChannelModels.Returns;
 using ChannelModels.Types;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.Forum;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
+using QQChannelFramework.Tools;
 
 namespace QQChannelFramework.WS;
 
@@ -23,9 +25,13 @@ partial class FunctionWebSocket {
         switch (opCode) {
             case OpCode.Dispatch:
 
-                var t = data["t"].ToString();
-
+                var t = data["t"].ToString(); 
                 _nowS = data["s"].ToString();
+                
+                if (data.Contains("id")) {
+                    var id = data["id"].Value<string>();
+                    OnEventId?.Invoke(id);
+                }
 
                 if (Enum.TryParse<GuildEvents>(t, out var e)) {
                     switch (e) {
@@ -194,8 +200,7 @@ partial class FunctionWebSocket {
                             break;
 
                         default:
-                            Debug.WriteLine($"Unexpected event {t}");
-                            Debug.WriteLine(data["d"]);
+                            BotLog.Log($"Unexpected event {t}"); 
                             break;
                     }
                 }
