@@ -46,7 +46,7 @@ public class DirectMessageApi {
 
         return dms;
     }
-    
+
     /// <summary>
     /// 发送消息
     /// </summary>
@@ -65,32 +65,29 @@ public class DirectMessageApi {
         string guildId,
         string content = null,
         string imageUrl = null,
-        (byte[] imageData, string fileName)? imageFile = null,
+        byte[] imageData = null,
         JObject embed = null,
         JObject ark = null,
         string referenceMessageId = null,
         MessageMarkdown markdown = null,
         string passiveMsgId = null,
         string passiveEventId = null) {
-        
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
             {ParamType.guild_id, guildId}
         });
 
-
         var form = new MultipartFormDataContent();
-        if (content != null) 
+        if (content != null)
             form.Add(new StringContent(content, Encoding.UTF8), "content");
-        if (imageUrl != null) 
+        if (imageUrl != null)
             form.Add(new StringContent(imageUrl, Encoding.UTF8), "image");
-        if (imageFile != null)
-            form.Add(new StreamContent(new MemoryStream(imageFile.Value.imageData)), "file_image",
-                imageFile.Value.fileName);
-        if (embed != null) 
+        if (imageData != null)
+            form.Add(new StreamContent(new MemoryStream(imageData)), "file_image", "file_image");
+        if (embed != null)
             form.Add(new StringContent(embed.ToString(), Encoding.UTF8), "embed");
-        if (ark != null) 
+        if (ark != null)
             form.Add(new StringContent(ark.ToString(), Encoding.UTF8), "ark");
         if (referenceMessageId != null)
             form.Add(
@@ -99,18 +96,19 @@ public class DirectMessageApi {
                     Encoding.UTF8), "message_reference");
         if (markdown != null)
             form.Add(new StringContent(JsonConvert.SerializeObject(markdown), Encoding.UTF8), "markdown");
-        if (passiveMsgId != null) 
+        if (passiveMsgId != null)
             form.Add(new StringContent(passiveMsgId, Encoding.UTF8), "msg_id");
-        if (passiveEventId != null) 
+        if (passiveEventId != null)
             form.Add(new StringContent(passiveEventId, Encoding.UTF8), "event_id");
 
-        var requestData = await _apiBase.WithMultipartContentData(form).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData =
+            await _apiBase.WithMultipartContentData(form).RequestAsync(processedInfo).ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
         return message;
     }
- 
+
     /// <summary>
     /// 发送消息
     /// </summary>
@@ -127,7 +125,8 @@ public class DirectMessageApi {
 
         var textMessage = new {content = content, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo)
+            .ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -150,7 +149,8 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo)
+            .ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -175,7 +175,8 @@ public class DirectMessageApi {
 
         var textMessage = new {image = url, content = content, msg_id = passiveReference};
 
-        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(textMessage).RequestAsync(processedInfo)
+            .ConfigureAwait(false);
 
         var message = requestData.ToObject<Message>();
 
@@ -195,7 +196,8 @@ public class DirectMessageApi {
             {ParamType.guild_id, guildId}
         });
 
-        var requestData = await _apiBase.WithJsonContentData(arkTemplate).RequestAsync(processedInfo).ConfigureAwait(false);
+        var requestData = await _apiBase.WithJsonContentData(arkTemplate).RequestAsync(processedInfo)
+            .ConfigureAwait(false);
 
         Message message = requestData.ToObject<Message>();
 
