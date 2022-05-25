@@ -66,35 +66,40 @@ public class MessageApi {
             {ParamType.channel_id, channelId}
         });
 
-        var form = new MultipartFormDataContent();
-        if (content != null)
-            form.Add(new StringContent(content, Encoding.UTF8), "content");
-        if (imageUrl != null)
-            form.Add(new StringContent(imageUrl, Encoding.UTF8), "image");
-        if (imageData != null)
-            form.Add(new StreamContent(new MemoryStream(imageData)), "file_image", "file_image");
-        if (embed != null)
-            form.Add(new StringContent(embed.ToString(), Encoding.UTF8), "embed");
-        if (ark != null)
-            form.Add(new StringContent(ark.ToString(), Encoding.UTF8), "ark");
-        if (referenceMessageId != null)
-            form.Add(
-                new StringContent(
-                    JsonConvert.SerializeObject(new {message_id = referenceMessageId, ignore_get_message_error = true}),
-                    Encoding.UTF8), "message_reference");
-        if (markdown != null)
-            form.Add(new StringContent(JsonConvert.SerializeObject(markdown), Encoding.UTF8), "markdown");
-        if (passiveMsgId != null)
-            form.Add(new StringContent(passiveMsgId, Encoding.UTF8), "msg_id");
-        if (passiveEventId != null)
-            form.Add(new StringContent(passiveEventId, Encoding.UTF8), "event_id");
+        if (imageData == null) {
+            var m = new {
+                content = content, embed = embed, ark = ark,
+                message_reference = referenceMessageId == null
+                    ? null
+                    : new {message_id = referenceMessageId, ignore_get_message_error = true},
+                image = imageUrl, msg_id = passiveMsgId, event_id = passiveEventId,
+                markdown = markdown
+            };
+            var requestData =
+                await _apiBase.WithJsonContentData(m).RequestAsync(processedInfo).ConfigureAwait(false);
 
-        var requestData =
-            await _apiBase.WithMultipartContentData(form).RequestAsync(processedInfo).ConfigureAwait(false);
+            var message = requestData.ToObject<Message>();
 
-        Message message = requestData.ToObject<Message>();
+            return message;
+        } else {
+            var form = new MultipartFormDataContent();
+            if (content != null)
+                form.Add(new StringContent(content, Encoding.UTF8), "content");
+            if (imageUrl != null)
+                form.Add(new StringContent(imageUrl, Encoding.UTF8), "image"); 
+            form.Add(new StreamContent(new MemoryStream(imageData)), "file_image", "file_image"); 
+            if (passiveMsgId != null)
+                form.Add(new StringContent(passiveMsgId, Encoding.UTF8), "msg_id");
+            if (passiveEventId != null)
+                form.Add(new StringContent(passiveEventId, Encoding.UTF8), "event_id");
 
-        return message;
+            var requestData =
+                await _apiBase.WithMultipartContentData(form).RequestAsync(processedInfo).ConfigureAwait(false);
+
+            var message = requestData.ToObject<Message>();
+
+            return message;
+        }
     }
 
     /// <summary>
