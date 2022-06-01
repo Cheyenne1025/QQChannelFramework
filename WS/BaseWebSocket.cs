@@ -147,7 +147,7 @@ public class BaseWebSocket {
     public async void SendAsync(string jsonData) {
         if (webSocket == null || _websocketCancellationTokenSource == null) {
             return;
-        }
+        } 
 
         if (!_websocketCancellationTokenSource.IsCancellationRequested &&
             webSocket.State is not WebSocketState.Open) {
@@ -161,8 +161,10 @@ public class BaseWebSocket {
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Text, true,
                     _websocketCancellationTokenSource.Token)
                 .ConfigureAwait(false);
-            OnSend?.Invoke(); 
+            OnSend?.Invoke();
         } catch (TaskCanceledException x) {
+            BotLog.Log(x);
+        } catch (IOException x) {
             BotLog.Log(x);
         } catch (Exception ex) {
             OnError?.Invoke(ex);
@@ -184,7 +186,7 @@ public class BaseWebSocket {
         BotLog.Log($"{DateTime.Now} BotWs close, ws is null? {webSocket is null}.");
         if (webSocket is not null) {  
             try {
-                _websocketCancellationTokenSource.Cancel();
+                _websocketCancellationTokenSource.Cancel(); 
                 webSocket.Dispose();
                 _websocketCancellationTokenSource.Dispose();
             } catch (Exception ex) {
