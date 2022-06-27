@@ -22,6 +22,10 @@ public class Emoji {
 
    public Emoji() { }
 
+   /// <summary>
+   /// 必须是Emoji字符
+   /// </summary>
+   /// <param name="emoji"></param>
    public Emoji(char emoji) {
       Type = 2;
       Id = ((int) emoji).ToString();
@@ -38,6 +42,16 @@ public class Emoji {
    }
 
    public static bool operator !=(Emoji lhs, Emoji rhs) {
+      return !(lhs == rhs);
+   }
+   
+   public static bool operator ==(Emoji lhs, char rhs) { 
+      if (ReferenceEquals(lhs, null))
+         return false;
+      return lhs.Type == 2 && lhs.Id == ((int) rhs).ToString();
+   }
+   
+   public static bool operator !=(Emoji lhs, char rhs) {
       return !(lhs == rhs);
    }
 }
