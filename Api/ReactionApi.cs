@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ChannelModels.Returns;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
 using QQChannelFramework.Api.Types;
@@ -55,5 +56,26 @@ public class ReactionApi {
         });
 
         await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 拉取对消息指定表情表态的用户列表
+    /// </summary>
+    /// <returns></returns>
+    public async Task<GetReactionsResult> GetReactionsAsync(string channelId, string messageId, int type, string id, string cookie = "", int limit = 20) {
+        RawGetReactionsApi raw;
+
+        var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
+            {ParamType.channel_id, channelId},
+            {ParamType.message_id, messageId},
+            {ParamType.type, type.ToString()},
+            {ParamType.id, id}
+        });
+
+        var requestData = await _apiBase.WithQueryParam(new Dictionary<string, object> { { "cookie", cookie.ToLower() }, { "limit", limit } })
+            .RequestAsync(processedInfo)
+            .ConfigureAwait(false);
+
+        return requestData.ToObject<GetReactionsResult>();
     }
 }
