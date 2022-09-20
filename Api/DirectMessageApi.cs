@@ -72,6 +72,7 @@ public class DirectMessageApi {
         MessageMarkdown markdown = null,
         string passiveMsgId = null,
         string passiveEventId = null) {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -122,6 +123,7 @@ public class DirectMessageApi {
     /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
     public async Task<Message> SendTextMessageAsync(string guildId, string content, string passiveReference = "") {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -146,6 +148,7 @@ public class DirectMessageApi {
     /// <param name="passiveReference">回复的消息ID</param>
     /// <returns></returns>
     public async Task<Message> SendImageMessageAsync(string guildId, string url, string passiveReference = "") {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -172,6 +175,7 @@ public class DirectMessageApi {
     /// <returns></returns>
     public async Task<Message> SendImageAndTextMessageAsync(string guildId, string url, string content,
         string passiveReference = "") {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -195,6 +199,7 @@ public class DirectMessageApi {
     /// <param name="arkTemplate">Ark</param>
     /// <returns></returns>
     public async Task<Message> SendTemplateMessageAsync(string guildId, JObject arkTemplate) {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -218,6 +223,7 @@ public class DirectMessageApi {
     /// <returns></returns>
     public async Task<Message> SendEmbedMessageAsync(string guildId, JObject embedTemplate,
         string passiveReference = "") {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectSendMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
@@ -239,6 +245,7 @@ public class DirectMessageApi {
     /// <param name="hideTip">隐藏撤回提示</param>
     /// <returns></returns>
     public async ValueTask RetractMessageAsync(string guildId, string messageId, bool hideTip = false) {
+        if (_apiBase._requestMode == RequestMode.SandBox) throw new InvalidOperationException("私信API无法在沙盒模式下使用");
         RawDirectRetractMessageApi raw;
 
         var processedInfo = ApiFactory.Process(raw, new Dictionary<ParamType, string>() {
