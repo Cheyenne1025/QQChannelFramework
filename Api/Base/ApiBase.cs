@@ -1,13 +1,12 @@
-﻿using System.Net.Http;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Types;
-using System.Linq;
+using QQChannelFramework.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using QQChannelFramework.Exceptions;
 
 namespace QQChannelFramework.Api.Base;
 
@@ -229,6 +228,12 @@ public class ApiBase {
     private void InspectionResultCode(in JToken resultData, string traceId) {
         var code = int.Parse(resultData["code"].ToString());
 
-        throw new ErrorResultException(code, resultData["message"].ToString(), traceId);
+        Exception exception = code switch
+        {
+            304023 or 304024 => new MessageAuditException(code, resultData["message"].ToString(), resultData["data"]["message_audit"]["audit_id"].ToString()),
+            _=> new ErrorResultException(code, resultData["message"].ToString(), traceId)
+        };
+
+        throw exception;
     }
 }
