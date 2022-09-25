@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using ChannelModels.Returns;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Api.Base;
 using QQChannelFramework.Api.Raws;
 using QQChannelFramework.Api.Types;
 using QQChannelFramework.Models.MessageModels;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace QQChannelFramework.Api;
 
@@ -275,7 +275,7 @@ public class MessageApi {
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = requestData.ToObject<Message>();
+        Message message = requestData.ToObject<GetMessageResult>().Message;
 
         return message;
     }

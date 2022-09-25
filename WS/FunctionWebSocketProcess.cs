@@ -216,6 +216,13 @@ partial class FunctionWebSocket {
 
                 _identifyData.intents = 0;
 
+                if (!_registeredEvents.Any()) //需要至少订阅一个事件才能正常启动
+                {
+                    //这里应该给用户一点提示的 但是没找到在哪发
+                    AuthenticationError?.Invoke();
+                    await CloseAsync();
+                    break;
+                }
                 foreach (var type in _registeredEvents) {
                     _identifyData.intents += (int) type;
                 }
