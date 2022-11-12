@@ -39,19 +39,8 @@ public class GuildApi
                 {Types.ParamType.guild_id, guild_id }
             });
 
-        var info = await _apiBase.RequestAsync(processedApiInfo).ConfigureAwait(false);
+        var info = await _apiBase.RequestAsync(processedApiInfo).ConfigureAwait(false); 
 
-        Guild guild = new()
-        {
-            Id = info["id"].ToString(),
-            Name = info["name"].ToString(),
-            OwnerId = info["owner_id"].ToString(),
-            Description = info["description"].ToString(),
-            Owner = info["owner"].ToString() is "1" ? true : false,
-            MemberCount = int.Parse(info["member_count"].ToString()),
-            MaxMembers = int.Parse(info["max_members"].ToString())
-        };
-
-        return guild;
+        return info.ToObject<Guild>();
     }
 }

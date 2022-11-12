@@ -19,7 +19,7 @@ partial class FunctionWebSocket {
     /// 处理数据
     /// </summary>
     /// <param name="data"></param>
-    private async void Process(JToken data) {
+    private async void Process(JObject data) {
         var opCode = (OpCode) int.Parse(data["op"].ToString());
 
         switch (opCode) {
@@ -28,7 +28,7 @@ partial class FunctionWebSocket {
                 var t = data["t"].ToString(); 
                 _nowS = data["s"].ToString();
                 
-                if (data.Contains("id")) {
+                if (data.ContainsKey("id")) {
                     var id = data["id"].Value<string>();
                     OnEventId?.Invoke(id);
                 }

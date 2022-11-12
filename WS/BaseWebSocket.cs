@@ -16,7 +16,7 @@ namespace QQChannelFramework.WS;
 public delegate void NormalDelegate();
 public delegate void NoticeDelegate(string message);
 public delegate void ErrorDelegate(Exception ex);
-public delegate void ReceiveDelegate(JToken receiveData);
+public delegate void ReceiveDelegate(JObject receiveData);
 public delegate void CommandTriggerDelegate(CommandInfo commandInfo);
 
 public class BaseWebSocket {
@@ -117,7 +117,7 @@ public class BaseWebSocket {
                 var bytes = ms.ToArray();
                 var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 if (data.Length > 0) { 
-                    OnReceived?.Invoke(JToken.Parse(data));
+                    OnReceived?.Invoke(JObject.Parse(data));
                 }
             } else { 
                 BotLog.Log($"BotWs close handshake {result.CloseStatus} {result.CloseStatusDescription}"); 

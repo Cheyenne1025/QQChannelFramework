@@ -15,6 +15,6 @@ namespace QQChannelFramework.Models.Forum
         /// 段落，一段落一行，段落内无元素的为空行
         /// </summary>
         [Newtonsoft.Json.JsonProperty("paragraphs")]
-        public Paragraph Paragraphs { get; set; }
+        public List<Paragraph> Paragraphs { get; set; }
     }
 }

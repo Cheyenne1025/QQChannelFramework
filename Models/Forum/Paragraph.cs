@@ -14,8 +14,8 @@ namespace QQChannelFramework.Models.Forum
         /// <summary>
         /// 元素列表
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("elem")]
-        public Elem Elem { get; set; }
+        [Newtonsoft.Json.JsonProperty("elems")]
+        public List<Elem> Elems { get; set; }
 
         /// <summary>
         /// 段落属性

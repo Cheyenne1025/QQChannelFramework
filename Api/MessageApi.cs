@@ -58,6 +58,7 @@ public class MessageApi {
         JObject ark = null,
         string referenceMessageId = null,
         MessageMarkdown markdown = null,
+        MessageKeyboard keyboard = null,
         string passiveMsgId = null,
         string passiveEventId = null) {
         RawSendMessageApi rawSendMessageApi;
@@ -68,12 +69,12 @@ public class MessageApi {
 
         if (imageData == null) {
             var m = new {
-                content = content, embed = embed, ark = ark,
+                content, embed, ark,
                 message_reference = referenceMessageId == null
                     ? null
                     : new {message_id = referenceMessageId, ignore_get_message_error = true},
                 image = imageUrl, msg_id = passiveMsgId, event_id = passiveEventId,
-                markdown = markdown
+                markdown, keyboard
             };
             var requestData =
                 await _apiBase.WithJsonContentData(m).RequestAsync(processedInfo).ConfigureAwait(false);
@@ -275,7 +276,7 @@ public class MessageApi {
 
         var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        Message message = requestData.ToObject<Message>();
+        Message message = requestData["message"]!.ToObject<Message>();
 
         return message;
     }
