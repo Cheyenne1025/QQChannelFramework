@@ -40,7 +40,7 @@ public class BaseWebSocket {
     /// <summary>
     /// 收到消息事件
     /// </summary>
-    protected event ReceiveDelegate OnReceived;
+    public event ReceiveDelegate OnRawWebsocketMessageReceived;
 
     /// <summary>
     /// 连接关闭事件 <br/>
@@ -117,7 +117,7 @@ public class BaseWebSocket {
                 var bytes = ms.ToArray();
                 var data = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
                 if (data.Length > 0) { 
-                    OnReceived?.Invoke(JObject.Parse(data));
+                    OnRawWebsocketMessageReceived?.Invoke(JObject.Parse(data));
                 }
             } else { 
                 BotLog.Log($"BotWs close handshake {result.CloseStatus} {result.CloseStatusDescription}"); 

@@ -45,7 +45,7 @@ public partial class FunctionWebSocket : BaseWebSocket
         _identifyData = new();
         _registeredEvents = new();
         _openApiAccessInfo = openApiAccessInfo;
-        OnReceived += Process;
+        OnRawWebsocketMessageReceived += Process;
         heartbeatTimer = new Timer();
 
         heartbeatTimer.Elapsed += HeartbeatTimer_Elapsed;
