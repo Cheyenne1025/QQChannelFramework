@@ -32,33 +32,19 @@ public class WebSocketApi
 
         var requestData = await _apiBase.RequestAsync(rawGetWebSocketUrlApi).ConfigureAwait(false);
 
-        return requestData["url"].ToString();
+        return requestData["url"]!.ToString();
     }
 
     /// <summary>
     /// 获取带分片 WSS 接入点
     /// </summary>
     /// <returns>元组 (分片接入点基础信息，分片会话限制信息)</returns>
-    public async Task<(ShardWssInfo ShardWssInfo, ShardSessionStartLimit ShardSessionStartLimit)> GetShardUrlAsync()
+    public async Task<ShardWssInfo> GetShardUrlAsync()
     {
         RawGetWebSocketShardUrl rawGetWebSocketShardUrl;
 
         var requestData = await _apiBase.RequestAsync(rawGetWebSocketShardUrl).ConfigureAwait(false);
 
-        ShardWssInfo shardWssInfo = new()
-        {
-            Url = requestData["url"].ToString(),
-            Shards = int.Parse(requestData["shards"].ToString())
-        };
-
-        ShardSessionStartLimit shardSessionStartLimit = new()
-        {
-            Total = int.Parse(requestData["session_start_limit"]["total"].ToString()),
-            Remaining = int.Parse(requestData["session_start_limit"]["remaining"].ToString()),
-            ResetAfter = int.Parse(requestData["session_start_limit"]["reset_after"].ToString()),
-            MaxConcurrency = int.Parse(requestData["session_start_limit"]["max_concurrency"].ToString())
-        };
-
-        return (shardWssInfo, shardSessionStartLimit);
+        return requestData.ToObject<ShardWssInfo>();
     }
 }
