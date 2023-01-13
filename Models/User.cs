@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 用户对象

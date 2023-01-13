@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChannelModels.Returns;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models.MessageModels;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Api.Types;
+using MyBot.Models.MessageModels;
+using MyBot.Models.Returns;
 
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public ReactionApi GetReactionApi() {

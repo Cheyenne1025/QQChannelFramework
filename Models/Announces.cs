@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models {
+namespace MyBot.Models {
     public class RecommendChannel {
         [JsonProperty("channel_id")] public string ChannelId;
         [JsonProperty("introduce")] public string Introduce;

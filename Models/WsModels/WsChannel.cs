@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models.WsModels
+namespace MyBot.Models.WsModels
 {
     /// <summary>
     /// WebSocket接收的Channel数据对象

@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MyBot.Api.Types;
+using MyBot.Datas;
+using MyBot.Exceptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace QQChannelFramework.Api.Base;
+namespace MyBot.Api.Base;
 
 public class ApiBase {
     private readonly string _releaseUrl = "https://api.sgroup.qq.com";

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QQChannelFramework.Models;
+using MyBot.Models;
 
-namespace QQChannelFramework.Expansions.Bot;
+namespace MyBot.Expansions.Bot;
 
 sealed partial class ChannelBot
 {

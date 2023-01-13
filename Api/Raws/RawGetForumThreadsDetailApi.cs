@@ -1,6 +1,6 @@
-﻿using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 获取论坛帖子详细

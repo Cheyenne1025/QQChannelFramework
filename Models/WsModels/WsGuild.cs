@@ -1,8 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
-using QQChannelFramework.Tools.JsonConverters;
+﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models.WsModels
+namespace MyBot.Models.WsModels
 {
     /// <summary>
     /// WebSocket接收的Guild数据对象

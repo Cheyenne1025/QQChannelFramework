@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChannelModels.Returns;
+namespace MyBot.Models.Returns;
 
 /// <summary>
 /// 消息审核对象

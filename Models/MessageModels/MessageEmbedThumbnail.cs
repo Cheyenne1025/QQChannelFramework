@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models.MessageModels;
+namespace MyBot.Models.MessageModels;
 
 /// <summary>
 /// 消息内嵌缩略图

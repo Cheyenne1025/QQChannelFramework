@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace QQChannelFramework.Models
+namespace MyBot.Models
 {
     /// <summary>
     /// 指令信息

@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Tools;
+﻿namespace MyBot.Tools;
 
 /// <summary>
 /// 转换辅助类

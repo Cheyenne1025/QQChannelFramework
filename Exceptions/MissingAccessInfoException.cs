@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Exceptions
+﻿namespace MyBot.Exceptions
 {
     public class MissingAccessInfoException : Exception
     {

@@ -1,6 +1,6 @@
-﻿using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws; 
+namespace MyBot.Api.Raws; 
 
 /// <summary>
 /// 删除自己的表情表态

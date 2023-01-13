@@ -1,7 +1,8 @@
-﻿using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Base;
+using MyBot.Api.Types;
+using MyBot.Datas;
 
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 /// <summary>
 /// QQ频道机器人OpenApi

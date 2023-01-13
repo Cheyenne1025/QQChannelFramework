@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.ChannelPermissionModels;
+﻿namespace MyBot.Models.ChannelPermissionModels;
 
 /// <summary>
 /// 接口权限对象

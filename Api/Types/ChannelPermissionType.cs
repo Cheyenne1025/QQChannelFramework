@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Api.Types
+﻿namespace MyBot.Api.Types
 {
     /// <summary>
     /// 子频道权限标识

@@ -1,6 +1,6 @@
-﻿using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 拉取对消息指定表情表态的用户列表

@@ -1,6 +1,6 @@
-﻿using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws; 
+namespace MyBot.Api.Raws; 
 
 public struct RawDirectRetractMessageApi  : Base.IRawApiInfo
 {

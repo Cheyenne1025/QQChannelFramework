@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Api.Types; 
+﻿namespace MyBot.Api.Types; 
 
 public enum Identity {
     Bot

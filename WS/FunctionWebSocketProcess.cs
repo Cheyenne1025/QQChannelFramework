@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using ChannelModels.Returns;
-using ChannelModels.Types;
+﻿using System.Linq;
+using MyBot.Models.AudioModels;
+using MyBot.Models.Forum;
+using MyBot.Models.Returns;
+using MyBot.Models.Types;
+using MyBot.Models.WsModels;
+using MyBot.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QQChannelFramework.Models.AudioModels;
-using QQChannelFramework.Models.Forum;
-using QQChannelFramework.Models.Types;
-using QQChannelFramework.Models.WsModels;
-using QQChannelFramework.Tools;
 
-namespace QQChannelFramework.WS;
+namespace MyBot.WS;
 
 partial class FunctionWebSocket {
     /// <summary>

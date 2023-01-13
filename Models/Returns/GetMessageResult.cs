@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using QQChannelFramework.Models.MessageModels;
+﻿using MyBot.Models.MessageModels;
+using Newtonsoft.Json;
 
-namespace ChannelModels.Returns;
+namespace MyBot.Models.Returns;
 
 /// <summary>
 /// https://bot.q.qq.com/wiki/develop/api/openapi/message/get_message_of_id.html的返回值，实际情况与官方文档不符

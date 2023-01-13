@@ -1,7 +1,6 @@
-﻿using System;
-using QQChannelFramework.Api.Types;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws
+namespace MyBot.Api.Raws
 {
     /// <summary>
     /// 源Api信息 - 获取频道成员列表

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace QQChannelFramework.Tools.TemplateHelper;
+namespace MyBot.Tools.TemplateHelper;
 
 sealed partial class MessageTemplateHelper
 {

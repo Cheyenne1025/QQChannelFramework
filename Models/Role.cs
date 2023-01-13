@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models;
+﻿namespace MyBot.Models;
 
 /// <summary>
 /// 频道身份组对象

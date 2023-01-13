@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Models.WsModels
+﻿namespace MyBot.Models.WsModels
 {
     /// <summary>
     /// 会话信息

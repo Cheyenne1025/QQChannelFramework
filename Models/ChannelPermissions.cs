@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models
+namespace MyBot.Models
 {
     /// <summary>
     /// 子频道权限对象

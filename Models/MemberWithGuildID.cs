@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using QQChannelFramework.Tools.JsonConverters;
+﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 成员信息与所在频道信息对象

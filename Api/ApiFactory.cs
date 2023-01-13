@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using QQChannelFramework.Api.Base;
+using MyBot.Api.Base;
 
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 /// <summary>
 /// Api加工厂

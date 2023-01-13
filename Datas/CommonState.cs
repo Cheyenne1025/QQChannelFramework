@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Datas
+﻿namespace MyBot.Datas
 {
     public static class CommonState
     {

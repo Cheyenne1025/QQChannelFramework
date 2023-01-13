@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MyBot.Models.Types;
+using MyBot.Tools.JsonConverters;
 using Newtonsoft.Json;
-using QQChannelFramework.Models.Types;
-using QQChannelFramework.Tools.JsonConverters;
 
-namespace QQChannelFramework.Models
+namespace MyBot.Models
 {
     /// <summary>
     /// 日程对象

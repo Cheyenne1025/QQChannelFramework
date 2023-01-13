@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Timers;
-using ChannelModels.Types;
+using MyBot.Datas;
+using MyBot.Exceptions;
+using MyBot.Models.Types;
+using MyBot.Models.WsModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using QQChannelFramework.Datas;
-using QQChannelFramework.Exceptions;
-using QQChannelFramework.Models.ParamModels;
-using QQChannelFramework.Models.Types;
-using QQChannelFramework.Models.WsModels;
 
-namespace QQChannelFramework.WS;
+namespace MyBot.WS;
 
 /// <summary>
 /// 功能性WebSocket

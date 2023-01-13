@@ -1,4 +1,4 @@
-﻿namespace ChannelModels.Returns;
+﻿namespace MyBot.Models.Returns;
 
 /// <summary>
 /// 获机器人加入频道

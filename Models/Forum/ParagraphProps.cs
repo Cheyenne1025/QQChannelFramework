@@ -1,11 +1,6 @@
-﻿using QQChannelFramework.Models.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyBot.Models.Types;
 
-namespace QQChannelFramework.Models.Forum
+namespace MyBot.Models.Forum
 {
     /// <summary>
     /// 富文本 - 段落属性

@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models.MessageModels;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Api.Types;
+using MyBot.Models.MessageModels;
 
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public PinsApi GetPinsApi() {

@@ -1,12 +1,4 @@
-﻿using Newtonsoft.Json;
-using QQChannelFramework.Tools.JsonConverters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.Forum
+﻿namespace MyBot.Models.Forum
 {
     /// <summary>
     /// 帖子事件包含的主帖内容相关信息

@@ -1,14 +1,11 @@
-﻿using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Api.Types;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public MuteApi GetMuteApi() {

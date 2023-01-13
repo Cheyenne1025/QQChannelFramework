@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Models.Types
+﻿namespace MyBot.Models.Types
 {
 	/// <summary>
 	/// 表态对象类型

@@ -1,11 +1,6 @@
-﻿using QQChannelFramework.Api.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyBot.Api.Types;
 
-namespace QQChannelFramework.Api.Raws;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 创建频道 API 接口权限授权链接

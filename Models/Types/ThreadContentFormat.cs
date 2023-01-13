@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.Types;
+﻿namespace MyBot.Models.Types;
 
 /// <summary>
 /// 帖子内容格式

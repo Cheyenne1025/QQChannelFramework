@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.ParamModels;
+﻿namespace MyBot.Models.ParamModels;
 
 /// <summary>
 /// 创建频道身份组参数模型 - 标识需要设置/修改哪些字段

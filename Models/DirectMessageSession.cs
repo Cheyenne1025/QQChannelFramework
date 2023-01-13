@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using QQChannelFramework.Tools.JsonConverters;
+﻿using MyBot.Tools.JsonConverters;
+using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 私信会话对象

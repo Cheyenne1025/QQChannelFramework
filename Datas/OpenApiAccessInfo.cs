@@ -1,4 +1,4 @@
-﻿using System;
+﻿namespace MyBot.Datas;
 
 /// <summary>
 /// OpenApi接入信息

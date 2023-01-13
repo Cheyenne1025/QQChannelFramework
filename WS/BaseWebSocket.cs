@@ -1,17 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MyBot.Models;
+using MyBot.Tools;
 using Newtonsoft.Json.Linq;
-using QQChannelFramework.Models;
-using QQChannelFramework.Models.ParamModels;
-using QQChannelFramework.Models.Types;
-using QQChannelFramework.Tools;
 
-namespace QQChannelFramework.WS;
+namespace MyBot.WS;
 
 public delegate void NormalDelegate();
 public delegate void NoticeDelegate(string message);

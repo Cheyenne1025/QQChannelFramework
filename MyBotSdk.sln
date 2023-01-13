@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1700.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QQChannelFramework", "QQChannelFramework.csproj", "{975CA91D-7E1A-4BA0-9901-CE6BD00A0841}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBotSdk", "MyBotSdk.csproj", "{975CA91D-7E1A-4BA0-9901-CE6BD00A0841}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

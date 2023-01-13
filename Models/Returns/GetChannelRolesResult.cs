@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using QQChannelFramework.Models;
 
-namespace ChannelModels.Returns;
+namespace MyBot.Models.Returns;
 
 /// <summary>
 /// 获取的频道身份组列表模型

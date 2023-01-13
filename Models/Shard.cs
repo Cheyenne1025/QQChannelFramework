@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 分片WSS接入点基础信息

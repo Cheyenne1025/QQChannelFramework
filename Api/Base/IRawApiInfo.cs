@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace QQChannelFramework.Api.Base;
+﻿namespace MyBot.Api.Base;
 
 /// <summary>
 /// 源Api信息
