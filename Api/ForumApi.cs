@@ -97,7 +97,7 @@ public class ForumApi
             }
         });
 
-        await _apiBase.RequestAsync(rawDeleteForumThreadsApi).ConfigureAwait(false);
+        await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -268,7 +268,7 @@ public class MessageApi {
 
       var requestData = await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-      Message message = requestData.ToObject<Message>();
+      Message message = requestData["message"]?.ToObject<Message>();
 
       return message;
    }
