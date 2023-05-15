@@ -82,7 +82,7 @@ partial class FunctionWebSocket
 
     /// <summary>
     /// 注册用户发送消息时间 (私域机器人可用)
-    ///  para>当收到用户发送的消息时 (免@机器人)</para>
+    ///  <para>当收到用户发送的消息时 (免@机器人)</para>
     /// </summary>
     /// <returns></returns>
     public FunctionWebSocket RegisterUserMessageEvent()
