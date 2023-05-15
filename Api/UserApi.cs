@@ -8,103 +8,85 @@ using Newtonsoft.Json.Linq;
 
 namespace QQChannelFramework.Api;
 
-sealed partial class QQChannelApi
-{ 
-    public UserApi GetUserApi()
-    { 
-        return new(apiBase);
-    }
+sealed partial class QQChannelApi {
+   public UserApi GetUserApi() {
+      return new(apiBase);
+   }
 }
 
 /// <summary>
 /// 用户Api
 /// </summary>
-public class UserApi
-{
-    readonly ApiBase _apiBase;
+public class UserApi {
+   readonly ApiBase _apiBase;
 
-    public UserApi(ApiBase apiBase)
-    {
-        _apiBase = apiBase;
-    }
+   public UserApi(ApiBase apiBase) {
+      _apiBase = apiBase;
+   }
 
-    /// <summary>
-    /// 获取当前用户信息
-    /// </summary>
-    /// <returns>当前用户信息</returns>
-    public async Task<User> GetCurrentUserAsync()
-    {
-        RawGetCurrentUserApi rawGetCurrentUserApi;
+   /// <summary>
+   /// 获取当前用户信息
+   /// </summary>
+   /// <returns>当前用户信息</returns>
+   public async Task<User> GetCurrentUserAsync() {
+      RawGetCurrentUserApi rawGetCurrentUserApi;
 
-        var requestData = await _apiBase.RequestAsync(rawGetCurrentUserApi).ConfigureAwait(false);
+      var requestData = await _apiBase.RequestAsync(rawGetCurrentUserApi).ConfigureAwait(false);
 
-        var jObj = (JObject)requestData;
+      var jObj = (JObject) requestData;
 
-        User user = new User()
-        {
-            Id = requestData["id"].ToString(),
-            UserName = requestData["username"].ToString(),
-            Avatar = requestData["avatar"].ToString(),
-            UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["union_openid"].ToString() : "",
-            UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["union_user_account"].ToString() : ""
-        };
+      User user = new User() {
+         Id = requestData["id"].ToString(),
+         UserName = requestData["username"].ToString(),
+         Avatar = requestData["avatar"].ToString(),
+         UnionOpenid = jObj.ContainsKey("union_openid") ? requestData["union_openid"].ToString() : "",
+         UnionUserAccount = jObj.ContainsKey("union_user_account") ? requestData["union_user_account"].ToString() : ""
+      };
 
-        return user;
-    }
+      return user;
+   }
 
-    /// <summary>
-    /// 获取当前用户加入的频道列表
-    /// </summary>
-    /// <param name="before">频道guild_id 读此id之前的数据 (之前之后只能选一个)</param>
-    /// <param name="after">频道guild_id 读此id之后的数据 (之前之后只能选一个)</param>
-    /// <param name="limit">每次拉取多少条数据 默认100 最大100</param>
-    /// <returns>用户加入的频道列表</returns>
-    public async Task<List<Guild>> GetJoinedChannelsAsync(string before = "", string after = "", int limit = 100)
-    {
-        if (before is not "" && after is not "")
-        {
-            throw new Exceptions.ParamErrorException("仅能读取此id之前或之后的数据 (before 或 after)");
-        }
+   /// <summary>
+   /// 获取当前用户加入的频道列表
+   /// </summary>
+   /// <param name="before">频道guild_id 读此id之前的数据 (之前之后只能选一个)</param>
+   /// <param name="after">频道guild_id 读此id之后的数据 (之前之后只能选一个)</param>
+   /// <param name="limit">每次拉取多少条数据 默认100 最大100</param>
+   /// <returns>用户加入的频道列表</returns>
+   public async Task<List<Guild>> GetJoinedChannelsAsync(string before = null, string after = "", int limit = 100) {
+      if (limit is < 1 or > 100) {
+         limit = 100;
+      }
 
-        if (limit < 1 || limit > 100)
-        {
-            limit = 100;
-        }
+      RawGetCurrentChannelsJoinedApi rawGetCurrentChannelsJoinedApi;
 
-        RawGetCurrentChannelsJoinedApi rawGetCurrentChannelsJoinedApi;
+      var requestData = await _apiBase.WithQueryParam(new Dictionary<string, object>() {
+         {"before", before},
+         {"after", after},
+         {"limit", limit}
+      }).RequestAsync(rawGetCurrentChannelsJoinedApi).ConfigureAwait(false);
 
-        var requestData = await _apiBase
-            .WithQueryParam(new Dictionary<string, object>()
-            {
-                    {"before",before },
-                    {"after",after },
-                    {"limit",limit }
-            })
-            .RequestAsync(rawGetCurrentChannelsJoinedApi)
-            .ConfigureAwait(false);
+      var channelArray = JArray.Parse(requestData.ToString());
 
-        var channelArray = JArray.Parse(requestData.ToString());
+      return channelArray.Select(channelInfo => channelInfo.ToObject<Guild>()).ToList();
+   }
 
-        return channelArray.Select(channelInfo => channelInfo.ToObject<Guild>()).ToList();
-    }
-    
-    public async Task<List<Guild>> GetAllJoinedChannelsAsync()
-    { 
-        List<Guild> guilds = new();
+   public async Task<List<Guild>> GetAllJoinedChannelsAsync() {
+      List<Guild> guilds = new();
 
-        string after = "";
+      string after = "";
 
-        while (true) {
-            var batch = await GetJoinedChannelsAsync("", after, 100).ConfigureAwait(false);
-            
-            if (!batch.Any())
-                break;
-            
-            guilds.AddRange(batch);
+      while (true) {
+         var batch = await GetJoinedChannelsAsync(null, after, 100).ConfigureAwait(false);
 
-            after = batch.Last().Id; 
-        }
+         if (!batch.Any())
+            break;
 
-        return guilds;
-    }
+         guilds.AddRange(batch);
+
+         after = batch.Last().Id;
+      }
+
+      return guilds;
+   }
 }

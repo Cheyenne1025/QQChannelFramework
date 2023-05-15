@@ -8,7 +8,7 @@
 
 ### MyBot 工程模板
 快捷使用MyBot初始化您的机器人工程  
-[查看](https://github.com/cnSchwarzer/GuildBotTemplate)
+[查看](https://github.com/cnSchwarzer/GuildBotTemplateSlim)
 <br>
 <br>
 

@@ -80,7 +80,7 @@ public class ApiBase {
     /// <returns></returns>
     public ApiBase WithQueryParam(Dictionary<string, object> obj) {
         _queryParam = string.Join('&', obj
-            .Where(a => !string.IsNullOrWhiteSpace(a.Value.ToString()))
+            .Where(a => a.Value != null && !string.IsNullOrWhiteSpace(a.Value.ToString()))
             .Select(a => $"{a.Key}={a.Value}")); 
 
         return this;
