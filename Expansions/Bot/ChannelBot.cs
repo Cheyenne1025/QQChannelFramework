@@ -23,7 +23,7 @@ public sealed partial class ChannelBot : FunctionWebSocket {
     private string _url;
     private QQChannelApi _api;
 
-    public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi.OpenApiAccessInfo) {
+    public ChannelBot(QQChannelApi qqChannelApi) : base(qqChannelApi) {
         _api = qqChannelApi;
         
         CommandInfo _parseCommand(Message message) 

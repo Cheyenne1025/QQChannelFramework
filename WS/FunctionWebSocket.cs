@@ -6,6 +6,7 @@ using System.Timers;
 using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Api;
 using QQChannelFramework.Datas;
 using QQChannelFramework.Exceptions;
 using QQChannelFramework.Models.ParamModels;
@@ -24,8 +25,6 @@ public partial class FunctionWebSocket : BaseWebSocket {
 
    protected SessionInfo _sessionInfo;
 
-   protected IdentifyData _identifyData;
-
    protected HashSet<Intents> _registeredEvents;
 
    protected string _nowS = string.Empty;
@@ -38,18 +37,17 @@ public partial class FunctionWebSocket : BaseWebSocket {
 
    protected bool _enableUserMessageTriggerCommand;
 
-   public FunctionWebSocket(OpenApiAccessInfo openApiAccessInfo) {
+   private int[] _shard;
+
+   public FunctionWebSocket(QQChannelApi api) {
       _sessionInfo = new();
-      _identifyData = new();
+      _shard = api.Shard;
       _registeredEvents = new();
-      _openApiAccessInfo = openApiAccessInfo;
+      _openApiAccessInfo = api.OpenApiAccessInfo;
       OnRawWebsocketMessageReceived += Process;
       heartbeatTimer = new Timer();
 
       heartbeatTimer.Elapsed += HeartbeatTimer_Elapsed;
-
-      _identifyData.token = $"Bot {_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}";
-      _identifyData.shard = new[] { 0, 1 };
    }
 
    /// <summary>
@@ -84,8 +82,7 @@ public partial class FunctionWebSocket : BaseWebSocket {
          load.d = _nowS == string.Empty ? null : _nowS;
 
          SendAsync(JsonConvert.SerializeObject(load));
-      }
-      else {
+      } else {
          heartbeatTimer.Stop();
 
          HeartbeatBreak?.Invoke();

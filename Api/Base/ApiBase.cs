@@ -5,6 +5,7 @@ using QQChannelFramework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using QQChannelFramework.Tools;
@@ -38,22 +39,6 @@ public class ApiBase {
           _openApiAccessInfo.BotToken is null) {
          throw new Exceptions.MissingAccessInfoException();
       }
-
-      Task.Run(() => {
-
-      });
-   }
-
-   /// <summary>
-   /// 使用Bot身份
-   /// </summary>
-   /// <param name="token"></param>
-   /// <returns></returns>
-   public ApiBase UseBotIdentity() {
-      _client.DefaultRequestHeaders.Authorization =
-         new("Bot", $"{_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}");
-
-      return this;
    }
 
    /// <summary>
@@ -140,6 +125,9 @@ public class ApiBase {
       if (!string.IsNullOrWhiteSpace(_queryParam)) {
          _requestUrl = $"{_requestUrl}?{_queryParam}";
       }
+
+      _client.DefaultRequestHeaders.Authorization =
+         new AuthenticationHeaderValue("QQBot", await _openApiAccessInfo.GetAuthorization());
 
       var req = new HttpRequestMessage(method, _requestUrl);
       if (req.Method != HttpMethod.Get)
@@ -241,7 +229,7 @@ public class ApiBase {
 
       Exception exception = code switch {
          304023 or 304024 => new MessageAuditException(code, resultData["message"].ToString(),
-            resultData["data"]["message_audit"]["audit_id"].ToString()),
+            resultData["data"]!["message_audit"]!["audit_id"]!.ToString()),
          _ => new ErrorResultException(code, resultData["message"].ToString(), traceId)
       };
 

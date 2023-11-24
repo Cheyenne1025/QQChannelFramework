@@ -15,256 +15,260 @@ using QQChannelFramework.Tools;
 namespace QQChannelFramework.WS;
 
 partial class FunctionWebSocket {
-    /// <summary>
-    /// 处理数据
-    /// </summary>
-    /// <param name="data"></param>
-    private async void Process(JObject data) {
-        var opCode = (OpCode) int.Parse(data["op"].ToString());
+   /// <summary>
+   /// 处理数据
+   /// </summary>
+   /// <param name="data"></param>
+   private async void Process(JObject data) {
+      var opCode = (OpCode)int.Parse(data["op"].ToString());
 
-        switch (opCode) {
-            case OpCode.Dispatch:
+      switch (opCode) {
+         case OpCode.Dispatch:
 
-                var t = data["t"].ToString(); 
-                _nowS = data["s"].ToString();
-                
-                if (data.ContainsKey("id")) {
-                    var id = data["id"].Value<string>();
-                    OnEventId?.Invoke(id);
-                }
+            var t = data["t"].ToString();
+            _nowS = data["s"].ToString();
 
-                if (Enum.TryParse<GuildEvents>(t, out var e)) {
-                    switch (e) {
-                        case GuildEvents.READY:
+            if (data.ContainsKey("id")) {
+               var id = data["id"].Value<string>();
+               OnEventId?.Invoke(id);
+            }
 
-                            _sessionInfo.Version = data["d"]["version"].ToString();
-                            _sessionInfo.SessionId = data["d"]["session_id"].ToString();
-                            _sessionInfo.BotId = data["d"]["user"]["id"].ToString();
-                            _sessionInfo.Name = data["d"]["user"]["username"].ToString();
+            if (Enum.TryParse<GuildEvents>(t, out var e)) {
+               switch (e) {
+                  case GuildEvents.READY:
 
-                            AuthenticationSuccess?.Invoke();
+                     _sessionInfo.Version = data["d"]["version"].ToString();
+                     _sessionInfo.SessionId = data["d"]["session_id"].ToString();
+                     _sessionInfo.BotId = data["d"]["user"]["id"].ToString();
+                     _sessionInfo.Name = data["d"]["user"]["username"].ToString();
 
-                            break;
+                     AuthenticationSuccess?.Invoke();
 
-                        case GuildEvents.RESUMED:
+                     break;
 
-                            //Resumed?.Invoke();
+                  case GuildEvents.RESUMED:
 
-                            break;
+                     //Resumed?.Invoke();
 
-                        case GuildEvents.GUILD_CREATE:
+                     break;
 
-                            BotAreAddedToTheGuild?.Invoke(data["d"].ToObject<WsGuild>());
+                  case GuildEvents.GUILD_CREATE:
 
-                            break;
+                     BotAreAddedToTheGuild?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        case GuildEvents.GUILD_UPDATE:
+                     break;
 
-                            GuildInfoChange?.Invoke(data["d"].ToObject<WsGuild>());
+                  case GuildEvents.GUILD_UPDATE:
 
-                            break;
+                     GuildInfoChange?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        case GuildEvents.GUILD_DELETE:
+                     break;
 
-                            BotBeRemoved?.Invoke(data["d"].ToObject<WsGuild>());
+                  case GuildEvents.GUILD_DELETE:
 
-                            break;
+                     BotBeRemoved?.Invoke(data["d"].ToObject<WsGuild>());
 
-                        case GuildEvents.CHANNEL_CREATE:
+                     break;
 
-                            ChannelCreated?.Invoke(data["d"].ToObject<WsChannel>());
+                  case GuildEvents.CHANNEL_CREATE:
 
-                            break;
+                     ChannelCreated?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        case GuildEvents.CHANNEL_UPDATE:
+                     break;
 
-                            ChannelInfoChange?.Invoke(data["d"].ToObject<WsChannel>());
+                  case GuildEvents.CHANNEL_UPDATE:
 
-                            break;
+                     ChannelInfoChange?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        case GuildEvents.CHANNEL_DELETE:
+                     break;
 
-                            ChannelBeRemoved?.Invoke(data["d"].ToObject<WsChannel>());
+                  case GuildEvents.CHANNEL_DELETE:
 
-                            break;
+                     ChannelBeRemoved?.Invoke(data["d"].ToObject<WsChannel>());
 
-                        case GuildEvents.GUILD_MEMBER_ADD:
+                     break;
 
-                            NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                  case GuildEvents.GUILD_MEMBER_ADD:
 
-                            break;
+                     NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                        case GuildEvents.GUILD_MEMBER_UPDATE:
+                     break;
 
-                            MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                  case GuildEvents.GUILD_MEMBER_UPDATE:
 
-                            break;
+                     MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                        case GuildEvents.GUILD_MEMBER_REMOVE:
+                     break;
 
-                            MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                  case GuildEvents.GUILD_MEMBER_REMOVE:
 
-                            break;
+                     MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
 
-                        case GuildEvents.AT_MESSAGE_CREATE:
+                     break;
 
-                            ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                  case GuildEvents.AT_MESSAGE_CREATE:
 
-                            break;
+                     ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        case GuildEvents.MESSAGE_CREATE:
+                     break;
 
-                            ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                  case GuildEvents.MESSAGE_CREATE:
 
-                            break;
+                     ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        case GuildEvents.MESSAGE_DELETE:
+                     break;
 
-                            UserRetractMessage?.Invoke(data["d"].ToObject<Models.MessageModels.RetractMessage>());
+                  case GuildEvents.MESSAGE_DELETE:
 
-                            break;
+                     UserRetractMessage?.Invoke(data["d"].ToObject<Models.MessageModels.RetractMessage>());
 
-                        case GuildEvents.DIRECT_MESSAGE_CREATE:
+                     break;
 
-                            ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                  case GuildEvents.DIRECT_MESSAGE_CREATE:
 
-                            break;
+                     ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
 
-                        case GuildEvents.MESSAGE_REACTION_ADD:
+                     break;
 
-                            MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
+                  case GuildEvents.MESSAGE_REACTION_ADD:
 
-                            break;
+                     MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
 
-                        case GuildEvents.MESSAGE_REACTION_REMOVE:
+                     break;
 
-                            MessageReactionIsRemoved?.Invoke(data["d"]
-                                .ToObject<Models.MessageModels.MessageReaction>());
+                  case GuildEvents.MESSAGE_REACTION_REMOVE:
 
-                            break;
+                     MessageReactionIsRemoved?.Invoke(data["d"]
+                        .ToObject<Models.MessageModels.MessageReaction>());
 
-                        case GuildEvents.MESSAGE_AUDIT_PASS:
-                            MessageAuditPass?.Invoke(data["d"].ToObject<MessageAudited>());
-                            break;
+                     break;
 
-                        case GuildEvents.MESSAGE_AUDIT_REJECT:
-                            MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
-                            break;
+                  case GuildEvents.MESSAGE_AUDIT_PASS:
+                     MessageAuditPass?.Invoke(data["d"].ToObject<MessageAudited>());
+                     break;
 
-                        case GuildEvents.AUDIO_START:
-                            AudioStart?.Invoke(data["d"].ToObject<AudioAction>());
-                            break;
+                  case GuildEvents.MESSAGE_AUDIT_REJECT:
+                     MessageAuditReject?.Invoke(data["d"].ToObject<MessageAudited>());
+                     break;
 
-                        case GuildEvents.AUDIO_FINISH:
-                            AudioFinish?.Invoke(data["d"].ToObject<AudioAction>());
-                            break;
+                  case GuildEvents.AUDIO_START:
+                     AudioStart?.Invoke(data["d"].ToObject<AudioAction>());
+                     break;
 
-                        case GuildEvents.AUDIO_ON_MIC:
-                            BotTopMic?.Invoke(data["d"].ToObject<AudioAction>());
-                            break;
+                  case GuildEvents.AUDIO_FINISH:
+                     AudioFinish?.Invoke(data["d"].ToObject<AudioAction>());
+                     break;
 
-                        case GuildEvents.AUDIO_OFF_MIC:
-                            BotOffMic?.Invoke(data["d"].ToObject<AudioAction>());
-                            break;
+                  case GuildEvents.AUDIO_ON_MIC:
+                     BotTopMic?.Invoke(data["d"].ToObject<AudioAction>());
+                     break;
 
-                        case GuildEvents.FORUM_THREAD_CREATE:
-                            ForumThreadAreCreated?.Invoke(data["d"].ToObject<Thread>());
-                            break;
+                  case GuildEvents.AUDIO_OFF_MIC:
+                     BotOffMic?.Invoke(data["d"].ToObject<AudioAction>());
+                     break;
 
-                        case GuildEvents.FORUM_THREAD_UPDATE:
-                            ForumThreadWasUpdated?.Invoke(data["d"].ToObject<Thread>());
-                            break;
+                  case GuildEvents.FORUM_THREAD_CREATE:
+                     ForumThreadAreCreated?.Invoke(data["d"].ToObject<Thread>());
+                     break;
 
-                        case GuildEvents.FORUM_THREAD_DELETE:
-                            ForumThreadDeleted?.Invoke(data["d"].ToObject<Thread>());
-                            break;
+                  case GuildEvents.FORUM_THREAD_UPDATE:
+                     ForumThreadWasUpdated?.Invoke(data["d"].ToObject<Thread>());
+                     break;
 
-                        case GuildEvents.FORUM_POST_CREATE:
-                            ForumPostAreCreated?.Invoke(data["d"].ToObject<Post>());
-                            break;
+                  case GuildEvents.FORUM_THREAD_DELETE:
+                     ForumThreadDeleted?.Invoke(data["d"].ToObject<Thread>());
+                     break;
 
-                        case GuildEvents.FORUM_POST_DELETE:
-                            ForumPostDeleted?.Invoke(data["d"].ToObject<Post>());
-                            break;
+                  case GuildEvents.FORUM_POST_CREATE:
+                     ForumPostAreCreated?.Invoke(data["d"].ToObject<Post>());
+                     break;
 
-                        case GuildEvents.FORUM_REPLY_CREATE:
-                            ForumReplyAreCreated?.Invoke(data["d"].ToObject<Reply>());
-                            break;
+                  case GuildEvents.FORUM_POST_DELETE:
+                     ForumPostDeleted?.Invoke(data["d"].ToObject<Post>());
+                     break;
 
-                        case GuildEvents.FORUM_REPLY_DELETE:
-                            ForumReplyDeleted?.Invoke(data["d"].ToObject<Reply>());
-                            break;
+                  case GuildEvents.FORUM_REPLY_CREATE:
+                     ForumReplyAreCreated?.Invoke(data["d"].ToObject<Reply>());
+                     break;
 
-                        case GuildEvents.FORUM_PUBLISH_AUDIT_RESULT:
-                            ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
-                            break;
+                  case GuildEvents.FORUM_REPLY_DELETE:
+                     ForumReplyDeleted?.Invoke(data["d"].ToObject<Reply>());
+                     break;
 
-                        default:
-                            BotLog.Log($"Unexpected event {t}"); 
-                            break;
-                    }
-                }
+                  case GuildEvents.FORUM_PUBLISH_AUDIT_RESULT:
+                     ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
+                     break;
 
-                OnDispatch?.Invoke(data);
+                  default:
+                     BotLog.Log($"Unexpected event {t}");
+                     break;
+               }
+            }
 
-                break;
+            OnDispatch?.Invoke(data);
 
-            case OpCode.Hello:
+            break;
 
-                heartbeatTimer.Interval = int.Parse(data["d"]["heartbeat_interval"].ToString());
-                heartbeatTimer.Start();
+         case OpCode.Hello:
 
-                _identifyData.intents = 0;
+            heartbeatTimer.Interval = int.Parse(data["d"]["heartbeat_interval"].ToString());
+            heartbeatTimer.Start();
 
-                if (!_registeredEvents.Any()) //需要至少订阅一个事件才能正常启动
-                {
-                    //这里应该给用户一点提示的 但是没找到在哪发
-                    AuthenticationError?.Invoke();
-                    await CloseAsync();
-                    break;
-                }
-                foreach (var type in _registeredEvents) {
-                    _identifyData.intents += (int) type;
-                }
+            var _identifyData = new IdentifyData {
+               intents = 0,
+               token = $"QQBot {await _openApiAccessInfo.GetAuthorization()}",
+               shard = _shard
+            };
 
-                Load load = new();
-                load.op = (int) OpCode.Identify;
-                load.d = _identifyData;
+            if (!_registeredEvents.Any()) //需要至少订阅一个事件才能正常启动
+            {
+               //这里应该给用户一点提示的 但是没找到在哪发
+               AuthenticationError?.Invoke();
+               await CloseAsync();
+               break;
+            }
+            foreach (var type in _registeredEvents) {
+               _identifyData.intents += (int)type;
+            }
 
-                SendAsync(JsonConvert.SerializeObject(load));
+            Load load = new();
+            load.op = (int)OpCode.Identify;
+            load.d = _identifyData;
 
-                break;
+            SendAsync(JsonConvert.SerializeObject(load));
 
-            case OpCode.InvalidSession:
+            break;
 
-                AuthenticationError?.Invoke();
+         case OpCode.InvalidSession:
 
-                await CloseAsync();
+            AuthenticationError?.Invoke();
 
-                break;
+            await CloseAsync();
 
-            case OpCode.HeartbeatACK:
+            break;
 
-                _heartbeating = true;
+         case OpCode.HeartbeatACK:
 
-                HeartbeatSendSuccess?.Invoke();
+            _heartbeating = true;
 
-                break;
+            HeartbeatSendSuccess?.Invoke();
 
-            case OpCode.Reconnect:
+            break;
 
-                Reconnecting?.Invoke();
+         case OpCode.Reconnect:
 
-                await CloseAsync();
-                await ConnectAsync(_url);
+            Reconnecting?.Invoke();
 
-                break;
+            await CloseAsync();
+            await ConnectAsync(_url);
 
-            case OpCode.Heartbeat:
+            break;
 
-                // 官方还未启用
+         case OpCode.Heartbeat:
 
-                break;
-        }
-    }
+            // 官方还未启用
+
+            break;
+      }
+   }
 }
