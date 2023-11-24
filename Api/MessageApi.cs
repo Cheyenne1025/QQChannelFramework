@@ -34,7 +34,7 @@ public class MessageApi {
    public MessageApi(ApiBase apiBase) {
       _apiBase = apiBase;
    }
-
+    
    /// <summary>
    /// 发送消息
    /// </summary>

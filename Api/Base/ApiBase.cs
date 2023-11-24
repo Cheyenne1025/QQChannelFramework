@@ -7,233 +7,244 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using QQChannelFramework.Tools;
 
 namespace QQChannelFramework.Api.Base;
 
 public class ApiBase {
-    private readonly string _releaseUrl = "https://api.sgroup.qq.com";
+   private readonly string _releaseUrl = "https://api.sgroup.qq.com";
 
-    private readonly string _sandBoxUrl = "https://sandbox.api.sgroup.qq.com";
+   private readonly string _sandBoxUrl = "https://sandbox.api.sgroup.qq.com";
 
-    private readonly OpenApiAccessInfo _openApiAccessInfo;
+   private readonly OpenApiAccessInfo _openApiAccessInfo;
 
-    internal RequestMode _requestMode = RequestMode.Release;
+   internal RequestMode _requestMode = RequestMode.Release;
 
-    private static HttpClient _client;
+   private static HttpClient _client;
 
-    private string _queryParam;
+   private string _queryParam;
 
-    private HttpContent _content;
+   private HttpContent _content;
 
-    public ApiBase(OpenApiAccessInfo openApiAccessInfo) {
-        _openApiAccessInfo = openApiAccessInfo;
+   public ApiBase(OpenApiAccessInfo openApiAccessInfo) {
+      _openApiAccessInfo = openApiAccessInfo;
 
-        if (_client is null) {
-            _client = new HttpClient();
-            _client.Timeout = TimeSpan.FromSeconds(10);
-        }
+      if (_client is null) {
+         _client = new HttpClient();
+         _client.Timeout = TimeSpan.FromSeconds(10);
+      }
 
-        if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null ||
-            _openApiAccessInfo.BotToken is null) {
-            throw new Exceptions.MissingAccessInfoException();
-        }
-    }
+      if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null ||
+          _openApiAccessInfo.BotToken is null) {
+         throw new Exceptions.MissingAccessInfoException();
+      }
 
-    /// <summary>
-    /// 使用Bot身份
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    public ApiBase UseBotIdentity() {
-        _client.DefaultRequestHeaders.Authorization =
-            new("Bot", $"{_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}");
+      Task.Run(() => {
 
-        return this;
-    }
+      });
+   }
 
-    /// <summary>
-    /// 携带body数据
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public ApiBase WithJsonContentData(object obj) { 
-        _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+   /// <summary>
+   /// 使用Bot身份
+   /// </summary>
+   /// <param name="token"></param>
+   /// <returns></returns>
+   public ApiBase UseBotIdentity() {
+      _client.DefaultRequestHeaders.Authorization =
+         new("Bot", $"{_openApiAccessInfo.BotAppId}.{_openApiAccessInfo.BotToken}");
 
-        return this;
-    }
+      return this;
+   }
 
-    /// <summary>
-    /// 携带body数据
-    /// </summary> 
-    /// <param name="form"></param>
-    /// <returns></returns>
-    public ApiBase WithMultipartContentData(MultipartFormDataContent form) {
-        _content = form;
+   /// <summary>
+   /// 携带body数据
+   /// </summary>
+   /// <param name="obj"></param>
+   /// <returns></returns>
+   public ApiBase WithJsonContentData(object obj) {
+      _content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
-        return this;
-    }
-    
-    /// <summary>
-    /// 携带query参数
-    /// </summary>
-    /// <param name="obj">字典</param>
-    /// <returns></returns>
-    public ApiBase WithQueryParam(Dictionary<string, object> obj) {
-        _queryParam = string.Join('&', obj
-            .Where(a => a.Value != null && !string.IsNullOrWhiteSpace(a.Value.ToString()))
-            .Select(a => $"{a.Key}={a.Value}")); 
+      return this;
+   }
 
-        return this;
-    }
-    
-    /// <summary>
-    /// 携带query参数
-    /// </summary>
-    /// <param name="obj">匿名对象</param>
-    /// <returns></returns>
-    public ApiBase WithQueryParam(object obj) {
-        var propertyInfos = obj.GetType().GetProperties();
-        _queryParam = string.Join('&', propertyInfos
-            .Select(a => (a.Name, a.GetValue(obj)))
-            .Where(a => !string.IsNullOrWhiteSpace(a.Item2?.ToString()))); 
+   /// <summary>
+   /// 携带body数据
+   /// </summary> 
+   /// <param name="form"></param>
+   /// <returns></returns>
+   public ApiBase WithMultipartContentData(MultipartFormDataContent form) {
+      _content = form;
 
-        return this;
-    }
+      return this;
+   }
 
-    /// <summary>
-    /// 使用正式模式 (默认)
-    /// </summary>
-    /// <returns></returns>
-    public ApiBase UseReleaseMode() {
-        _requestMode = RequestMode.Release;
+   /// <summary>
+   /// 携带query参数
+   /// </summary>
+   /// <param name="obj">字典</param>
+   /// <returns></returns>
+   public ApiBase WithQueryParam(Dictionary<string, object> obj) {
+      _queryParam = string.Join('&', obj
+         .Where(a => a.Value != null && !string.IsNullOrWhiteSpace(a.Value.ToString()))
+         .Select(a => $"{a.Key}={a.Value}"));
 
-        return this;
-    }
+      return this;
+   }
 
-    /// <summary>
-    /// 使用沙箱模式
-    /// </summary>
-    /// <returns></returns>
-    public ApiBase UseSandBoxMode() {
-        _requestMode = RequestMode.SandBox;
+   /// <summary>
+   /// 携带query参数
+   /// </summary>
+   /// <param name="obj">匿名对象</param>
+   /// <returns></returns>
+   public ApiBase WithQueryParam(object obj) {
+      var propertyInfos = obj.GetType().GetProperties();
+      _queryParam = string.Join('&', propertyInfos
+         .Select(a => (a.Name, a.GetValue(obj)))
+         .Where(a => !string.IsNullOrWhiteSpace(a.Item2?.ToString())));
 
-        return this;
-    }
+      return this;
+   }
 
-    private async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo) { 
+   /// <summary>
+   /// 使用正式模式 (默认)
+   /// </summary>
+   /// <returns></returns>
+   public ApiBase UseReleaseMode() {
+      _requestMode = RequestMode.Release;
 
-        string _requestUrl = _requestMode == RequestMode.Release ? _releaseUrl : _sandBoxUrl;
+      return this;
+   }
 
-        _requestUrl = $"{_requestUrl}{api}";
+   /// <summary>
+   /// 使用沙箱模式
+   /// </summary>
+   /// <returns></returns>
+   public ApiBase UseSandBoxMode() {
+      _requestMode = RequestMode.SandBox;
 
-        HttpResponseMessage responseMessage = null; 
+      return this;
+   }
 
-        if (!string.IsNullOrWhiteSpace(_queryParam)) {
-            _requestUrl = $"{_requestUrl}?{_queryParam}";
-        }  
-        
-        var req = new HttpRequestMessage(rawInfo.Method.ToHttpMethod(), _requestUrl);
-        if (req.Method != HttpMethod.Get)
-            req.Content = _content;
-        responseMessage = await _client.SendAsync(req).ConfigureAwait(false);
-          
-        var traceId = "Missing";
-        if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {
-            traceId = val.FirstOrDefault();
-        }
+   public async Task<JToken> RequestAsync(string api, IRawApiInfo rawInfo) {
+      return await RequestAsync(api, rawInfo.Method.ToHttpMethod());
+   }
 
-        // 检查Http状态码
-        InspectionHttpCode(responseMessage, traceId);
+   public async Task<JToken> RequestAsync(string api, HttpMethod method) {
 
-        // 状态码为204时无Content,无须读取
-        if (responseMessage.StatusCode == (System.Net.HttpStatusCode) 204) {
-            return null;
-        }
+      string _requestUrl = _requestMode == RequestMode.Release ? _releaseUrl : _sandBoxUrl;
 
-        var responseData = await responseMessage.Content.ReadAsStringAsync();
+      _requestUrl = $"{_requestUrl}{api}";
 
-        var jsonObject = JToken.Parse(responseData);
+      HttpResponseMessage responseMessage = null;
 
-        _queryParam = null;
-        _content = null;
+      if (!string.IsNullOrWhiteSpace(_queryParam)) {
+         _requestUrl = $"{_requestUrl}?{_queryParam}";
+      }
 
-        if (jsonObject.ToString().StartsWith('[')) {
-            return jsonObject;
-        }
+      var req = new HttpRequestMessage(method, _requestUrl);
+      if (req.Method != HttpMethod.Get)
+         req.Content = _content;
+      responseMessage = await _client.SendAsync(req).ConfigureAwait(false);
 
-        bool isError = false;
+      var traceId = "Missing";
+      if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {
+         traceId = val.FirstOrDefault();
+      }
 
-        try {
-            var test = jsonObject["code"];
+      // 检查Http状态码
+      InspectionHttpCode(responseMessage, traceId);
 
-            if (test is not null) {
-                isError = true;
-            }
-        } catch { }
+      // 状态码为204时无Content,无须读取
+      if (responseMessage.StatusCode == (System.Net.HttpStatusCode)204) {
+         return null;
+      }
 
-        if (isError) {
-            // 检查返回结果
-            InspectionResultCode(jsonObject, traceId);
-        }
+      var responseData = await responseMessage.Content.ReadAsStringAsync();
 
-        return jsonObject;
-    }
+      var jsonObject = JToken.Parse(responseData);
 
-    /// <summary>
-    /// 使用源Api信息进行异步请求
-    /// </summary>
-    /// <param name="apiInfo"></param>
-    /// <returns></returns>
-    public async Task<JToken> RequestAsync(IRawApiInfo apiInfo) {
-        return await RequestAsync(apiInfo.Url, apiInfo);
-    }
+      _queryParam = null;
+      _content = null;
 
-    /// <summary>
-    /// 使用处理过的Api信息进行异步请求
-    /// </summary>
-    /// <param name="apiInfo"></param>
-    /// <returns></returns>
-    public async Task<JToken> RequestAsync(ProcessedApiInfo apiInfo) {
-        return await RequestAsync(apiInfo.Url, apiInfo.RawInfo);
-    }
+      if (responseData.StartsWith('[')) {
+         return jsonObject;
+      }
 
-    /// <summary>
-    /// 检查HttpCode
-    /// </summary>
-    /// <param name="httpResponseMessage"></param>
-    private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage, string traceId) {
-        if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK) {
-            return;
-        }
+      bool isError = false;
 
-        switch (httpResponseMessage.StatusCode) {
-            case System.Net.HttpStatusCode.Unauthorized:
+      try {
+         var test = jsonObject["code"];
 
-                throw new HttpApiException(new AccessInfoErrorException(), traceId);
+         if (test is not null) {
+            isError = true;
+         }
+      } catch (Exception e) {
+         BotLog.Log(e);
+      }
 
-            case System.Net.HttpStatusCode.TooManyRequests:
+      if (isError) {
+         // 检查返回结果
+         InspectionResultCode(jsonObject, traceId);
+      }
 
-                throw new HttpApiException(new RequestRateTooHighException(), traceId);
+      return jsonObject;
+   }
 
-            case System.Net.HttpStatusCode.NotFound:
+   /// <summary>
+   /// 使用源Api信息进行异步请求
+   /// </summary>
+   /// <param name="apiInfo"></param>
+   /// <returns></returns>
+   public async Task<JToken> RequestAsync(IRawApiInfo apiInfo) {
+      return await RequestAsync(apiInfo.Url, apiInfo);
+   }
 
-                throw new HttpApiException(new ApiNotExistException(), traceId);
-        }
-    }
+   /// <summary>
+   /// 使用处理过的Api信息进行异步请求
+   /// </summary>
+   /// <param name="apiInfo"></param>
+   /// <returns></returns>
+   public async Task<JToken> RequestAsync(ProcessedApiInfo apiInfo) {
+      return await RequestAsync(apiInfo.Url, apiInfo.RawInfo);
+   }
 
-    /// <summary>
-    /// 检查请求结果Code
-    /// </summary>
-    /// <param name="resultData"></param>
-    private void InspectionResultCode(in JToken resultData, string traceId) {
-        var code = int.Parse(resultData["code"].ToString());
+   /// <summary>
+   /// 检查HttpCode
+   /// </summary>
+   /// <param name="httpResponseMessage"></param>
+   private void InspectionHttpCode(in HttpResponseMessage httpResponseMessage, string traceId) {
+      if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK) {
+         return;
+      }
 
-        Exception exception = code switch
-        {
-            304023 or 304024 => new MessageAuditException(code, resultData["message"].ToString(), resultData["data"]["message_audit"]["audit_id"].ToString()),
-            _=> new ErrorResultException(code, resultData["message"].ToString(), traceId)
-        };
+      switch (httpResponseMessage.StatusCode) {
+         case System.Net.HttpStatusCode.Unauthorized:
 
-        throw exception;
-    }
+            throw new HttpApiException(new AccessInfoErrorException(), traceId);
+
+         case System.Net.HttpStatusCode.TooManyRequests:
+
+            throw new HttpApiException(new RequestRateTooHighException(), traceId);
+
+         case System.Net.HttpStatusCode.NotFound:
+
+            throw new HttpApiException(new ApiNotExistException(), traceId);
+      }
+   }
+
+   /// <summary>
+   /// 检查请求结果Code
+   /// </summary>
+   /// <param name="resultData"></param>
+   private void InspectionResultCode(in JToken resultData, string traceId) {
+      var code = int.Parse(resultData["code"].ToString());
+
+      Exception exception = code switch {
+         304023 or 304024 => new MessageAuditException(code, resultData["message"].ToString(),
+            resultData["data"]["message_audit"]["audit_id"].ToString()),
+         _ => new ErrorResultException(code, resultData["message"].ToString(), traceId)
+      };
+
+      throw exception;
+   }
 }

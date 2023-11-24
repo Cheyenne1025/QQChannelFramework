@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <Description>基于 .NET 6 的QQ频道机器人开发框架
 开发文档: https://www.yuque.com/chianne1025/mybot</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -24,10 +23,17 @@
     <FileVersion>1.5.0.0</FileVersion>
     <AssemblyName>MyBot</AssemblyName>
     <RootNamespace>MyBot</RootNamespace>
+    <LangVersion>12</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>4</WarningLevel> 
+    <NoWarn>1701;1702;1591</NoWarn> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Apis\" />
