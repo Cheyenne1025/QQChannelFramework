@@ -44,7 +44,8 @@ public class ChatMessageApi {
       _apiBase = apiBase;
    }
 
-   private async Task<ChatMessage> SendMessageAsync(string openId, string type, string content = null, ChatMessageType msgType = ChatMessageType.Text,
+   private async Task<ChatMessageResp> SendMessageAsync(string openId, string type, string content = null,
+      ChatMessageType msgType = ChatMessageType.Text,
       MessageMarkdown markdown = null, MessageKeyboard keyboard = null, ChatMessageMedia media = null, JObject ark = null,
       string passiveMsgId = null, int msgSeq = 1) {
 
@@ -63,11 +64,11 @@ public class ChatMessageApi {
       };
       var requestData = await _apiBase.WithJsonContentData(m).RequestAsync(url, method).ConfigureAwait(false);
 
-      var message = requestData.ToObject<ChatMessage>();
+      var message = requestData.ToObject<ChatMessageResp>();
       return message;
    }
 
-   private async Task<ChatMedia> SendMediaAsync(string openId, string type, ChatMediaType mediaType = ChatMediaType.Image,
+   private async Task<ChatMediaResp> SendMediaAsync(string openId, string type, ChatMediaType mediaType = ChatMediaType.Image,
       string resourceUrl = null, bool send = false) {
 
       var url = $"/v2/{type}/{openId}/files";
@@ -80,7 +81,7 @@ public class ChatMessageApi {
       };
       var requestData = await _apiBase.WithJsonContentData(m).RequestAsync(url, method).ConfigureAwait(false);
 
-      var message = requestData.ToObject<ChatMedia>();
+      var message = requestData.ToObject<ChatMediaResp>();
       return message;
    }
 
@@ -88,7 +89,7 @@ public class ChatMessageApi {
    /// 发送单聊消息
    /// </summary> 
    /// <returns></returns> 
-   private async Task<ChatMessage> SendUserMessageAsync(string openId, string content = null, ChatMessageType msgType = ChatMessageType.Text,
+   public async Task<ChatMessageResp> SendUserMessageAsync(string openId, string content = null, ChatMessageType msgType = ChatMessageType.Text,
       MessageMarkdown markdown = null, MessageKeyboard keyboard = null, ChatMessageMedia media = null, JObject ark = null,
       string passiveMsgId = null, int msgSeq = 1) {
       return await SendMessageAsync(openId, "users", content, msgType, markdown, keyboard, media, ark, passiveMsgId, msgSeq);
@@ -98,7 +99,7 @@ public class ChatMessageApi {
    /// 发送群聊消息
    /// </summary> 
    /// <returns></returns> 
-   private async Task<ChatMessage> SendGroupMessageAsync(string openId, string content = null, ChatMessageType msgType = ChatMessageType.Text,
+   public async Task<ChatMessageResp> SendGroupMessageAsync(string openId, string content = null, ChatMessageType msgType = ChatMessageType.Text,
       MessageMarkdown markdown = null, MessageKeyboard keyboard = null, ChatMessageMedia media = null, JObject ark = null,
       string passiveMsgId = null, int msgSeq = 1) {
       return await SendMessageAsync(openId, "groups", content, msgType, markdown, keyboard, media, ark, passiveMsgId, msgSeq);
@@ -108,7 +109,7 @@ public class ChatMessageApi {
    /// 发送单聊媒体
    /// </summary> 
    /// <returns></returns> 
-   private async Task<ChatMedia> SendUserMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
+   public async Task<ChatMediaResp> SendUserMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
       string resourceUrl = null, bool send = false) {
       return await SendMediaAsync(openId, "users", mediaType, resourceUrl, send);
    }
@@ -117,7 +118,7 @@ public class ChatMessageApi {
    /// 发送群聊媒体
    /// </summary> 
    /// <returns></returns> 
-   private async Task<ChatMedia> SendGroupMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
+   public async Task<ChatMediaResp> SendGroupMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
       string resourceUrl = null, bool send = false) {
       return await SendMediaAsync(openId, "groups", mediaType, resourceUrl, send);
    }

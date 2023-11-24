@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.Forum;
+using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
 using QQChannelFramework.Tools;
@@ -199,10 +200,16 @@ partial class FunctionWebSocket {
                      ForumPublishAuditResultReceived?.Invoke(data["d"].ToObject<AuditResult>());
                      break;
 
-                  default:
-                     BotLog.Log($"Unexpected event {t}");
+                  case GuildEvents.GROUP_AT_MESSAGE_CREATE:
+                     ReceivedChatGroupMessage?.Invoke(data["d"].ToObject<ChatMessage>());
+                     break;
+
+                  case GuildEvents.C2C_MESSAGE_CREATE:
+                     ReceivedChatUserMessage?.Invoke(data["d"].ToObject<ChatMessage>());
                      break;
                }
+            } else {
+               BotLog.Log($"未知事件 {t} {data}");
             }
 
             OnDispatch?.Invoke(data);

@@ -128,5 +128,45 @@ public enum GuildEvents
     /// <summary>
     /// 帖子审核事件
     /// </summary>
-    FORUM_PUBLISH_AUDIT_RESULT
+    FORUM_PUBLISH_AUDIT_RESULT,
+    /// <summary>
+    /// 机器人被添加到群聊
+    /// </summary>
+    GROUP_ADD_ROBOT,
+    /// <summary>
+    /// 机器人被移出群聊
+    /// </summary>
+    GROUP_DEL_ROBOT,
+    /// <summary>
+    /// 群管理员主动在机器人资料页操作关闭通知
+    /// </summary>
+    GROUP_MSG_REJECT,
+    /// <summary>
+    /// 群管理员主动在机器人资料页操作开启通知
+    /// </summary>
+    GROUP_MSG_RECEIVE,
+    /// <summary>
+    /// 机器人被添加好友
+    /// </summary>
+    FRIEND_ADD,
+    /// <summary>
+    /// 机器人被移除好友
+    /// </summary>
+    FRIEND_DEL,
+    /// <summary>
+    /// 机器人被拒收消息
+    /// </summary>
+    C2C_MSG_REJECT,
+    /// <summary>
+    /// 机器人被接收消息
+    /// </summary>
+    C2C_MSG_RECEIVE,
+    /// <summary>
+    /// 私聊
+    /// </summary>
+    C2C_MESSAGE_CREATE,
+    /// <summary>
+    /// 群聊被@
+    /// </summary>
+    GROUP_AT_MESSAGE_CREATE
 }
