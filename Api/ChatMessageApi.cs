@@ -21,6 +21,13 @@ public enum ChatMessageType {
    Media = 7
 }
 
+public enum ChatMediaType {
+   Image = 1,
+   Video = 2,
+   Voice = 3,
+   File = 4
+}
+
 sealed partial class QQChannelApi {
    public ChatMessageApi GetChatMessageApi() {
       return new(apiBase);
@@ -60,6 +67,23 @@ public class ChatMessageApi {
       return message;
    }
 
+   private async Task<ChatMedia> SendMediaAsync(string openId, string type, ChatMediaType mediaType = ChatMediaType.Image,
+      string resourceUrl = null, bool send = false) {
+
+      var url = $"/v2/{type}/{openId}/files";
+      var method = HttpMethod.Post;
+
+      var m = new {
+         file_type = (int)mediaType,
+         url = resourceUrl,
+         srv_send_msg = send
+      };
+      var requestData = await _apiBase.WithJsonContentData(m).RequestAsync(url, method).ConfigureAwait(false);
+
+      var message = requestData.ToObject<ChatMedia>();
+      return message;
+   }
+
    /// <summary>
    /// 发送单聊消息
    /// </summary> 
@@ -78,5 +102,23 @@ public class ChatMessageApi {
       MessageMarkdown markdown = null, MessageKeyboard keyboard = null, ChatMessageMedia media = null, JObject ark = null,
       string passiveMsgId = null, int msgSeq = 1) {
       return await SendMessageAsync(openId, "groups", content, msgType, markdown, keyboard, media, ark, passiveMsgId, msgSeq);
+   }
+
+   /// <summary>
+   /// 发送单聊媒体
+   /// </summary> 
+   /// <returns></returns> 
+   private async Task<ChatMedia> SendUserMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
+      string resourceUrl = null, bool send = false) {
+      return await SendMediaAsync(openId, "users", mediaType, resourceUrl, send);
+   }
+
+   /// <summary>
+   /// 发送群聊媒体
+   /// </summary> 
+   /// <returns></returns> 
+   private async Task<ChatMedia> SendGroupMediaAsync(string openId, ChatMediaType mediaType = ChatMediaType.Image,
+      string resourceUrl = null, bool send = false) {
+      return await SendMediaAsync(openId, "groups", mediaType, resourceUrl, send);
    }
 }

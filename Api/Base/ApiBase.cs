@@ -21,24 +21,13 @@ public class ApiBase {
 
    internal RequestMode _requestMode = RequestMode.Release;
 
-   private static HttpClient _client;
-
    private string _queryParam;
 
    private HttpContent _content;
 
    public ApiBase(OpenApiAccessInfo openApiAccessInfo) {
       _openApiAccessInfo = openApiAccessInfo;
-
-      if (_client is null) {
-         _client = new HttpClient();
-         _client.Timeout = TimeSpan.FromSeconds(10);
-      }
-
-      if (_openApiAccessInfo.BotAppId is null || _openApiAccessInfo.BotSecret is null ||
-          _openApiAccessInfo.BotToken is null) {
-         throw new Exceptions.MissingAccessInfoException();
-      }
+      _openApiAccessInfo.Validate();
    }
 
    /// <summary>
@@ -126,13 +115,15 @@ public class ApiBase {
          _requestUrl = $"{_requestUrl}?{_queryParam}";
       }
 
-      _client.DefaultRequestHeaders.Authorization =
-         new AuthenticationHeaderValue("QQBot", await _openApiAccessInfo.GetAuthorization());
+      using var client = new HttpClient();
+      client.Timeout = TimeSpan.FromSeconds(10);
+      client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"QQBot {await _openApiAccessInfo.GetAuthorization()}");
+      client.DefaultRequestHeaders.TryAddWithoutValidation("X-Union-Appid", _openApiAccessInfo.BotAppId);
 
       var req = new HttpRequestMessage(method, _requestUrl);
       if (req.Method != HttpMethod.Get)
          req.Content = _content;
-      responseMessage = await _client.SendAsync(req).ConfigureAwait(false);
+      responseMessage = await client.SendAsync(req).ConfigureAwait(false);
 
       var traceId = "Missing";
       if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {

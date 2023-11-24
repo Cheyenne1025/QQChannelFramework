@@ -44,7 +44,7 @@ public enum Intents : int {
    /// <para>包含: </para>
    /// <para>单聊消息</para> 
    /// </summary>
-   GroupAndCustomer = 1 << 25,
+   Chat = 1 << 25,
    /// <summary>
    /// 互动事件
    /// <para>包含: </para>

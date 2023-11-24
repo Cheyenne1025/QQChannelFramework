@@ -211,7 +211,7 @@ partial class FunctionWebSocket {
 
          case OpCode.Hello:
 
-            heartbeatTimer.Interval = int.Parse(data["d"]["heartbeat_interval"].ToString());
+            heartbeatTimer.Interval = int.Parse(data["d"]!["heartbeat_interval"]!.ToString());
             heartbeatTimer.Start();
 
             var _identifyData = new IdentifyData {

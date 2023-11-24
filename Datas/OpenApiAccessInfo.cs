@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using QQChannelFramework.Tools;
 
 /// <summary>
 /// OpenApi接入信息
+/// https://q.qq.com/qqbot/#/developer/developer-setting
 /// </summary>
 public class OpenApiAccessInfo {
    /// <summary>
@@ -39,6 +41,14 @@ public class OpenApiAccessInfo {
       _refreshToken = new TimerTask(async () => {
          await GetAuthorization();
       }, TimeSpan.FromSeconds(20));
+   }
+
+   internal void Validate() {
+      if (string.IsNullOrWhiteSpace(BotQQ) || string.IsNullOrWhiteSpace(BotSecret) ||
+          string.IsNullOrWhiteSpace(BotToken) ||
+          string.IsNullOrWhiteSpace(BotAppId)) {
+         throw new InvalidOperationException("缺少鉴权信息，请参考 https://q.qq.com/qqbot/#/developer/developer-setting 初始化所有字段");
+      }
    }
 
    private TimerTask _refreshToken;

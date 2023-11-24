@@ -67,8 +67,8 @@ partial class FunctionWebSocket {
    /// 注册单聊/群聊事件 
    /// </summary>
    /// <returns></returns>
-   public FunctionWebSocket RegisterGroupAndCustomerEvent() {
-      _registeredEvents.Add(Intents.GroupAndCustomer);
+   public FunctionWebSocket RegisterChatEvent() {
+      _registeredEvents.Add(Intents.Chat);
 
       return this;
    }

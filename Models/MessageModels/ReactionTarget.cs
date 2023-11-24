@@ -16,11 +16,12 @@ public class ReactionTarget
     [JsonConverter(typeof( ReactionTargetTypeConverter ))]
     public ReactionTargetType Type { get; set; }
 }
+
 class ReactionTargetTypeConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        throw new NotImplementedException();
+        throw new InvalidOperationException();
     }
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
@@ -51,6 +52,6 @@ class ReactionTargetTypeConverter : JsonConverter
     }
     public override bool CanConvert(Type objectType)
     {
-        throw new NotImplementedException();
+        throw new InvalidOperationException();
     }
 }

@@ -6,7 +6,14 @@ namespace QQChannelFramework.Api;
 /// <summary>
 /// QQ频道机器人OpenApi
 /// </summary>
-public sealed partial class QQChannelApi(OpenApiAccessInfo openApiAccessInfo) {
+public sealed partial class QQChannelApi {
+   /// <summary>
+   /// QQ频道机器人OpenApi
+   /// </summary>
+   public QQChannelApi(OpenApiAccessInfo openApiAccessInfo) {
+      OpenApiAccessInfo = openApiAccessInfo;
+      openApiAccessInfo.Validate();
+   }
 
    private ApiBase apiBase {
       get {
@@ -25,7 +32,7 @@ public sealed partial class QQChannelApi(OpenApiAccessInfo openApiAccessInfo) {
       }
    }
 
-   public OpenApiAccessInfo OpenApiAccessInfo { get; private set; } = openApiAccessInfo;
+   public OpenApiAccessInfo OpenApiAccessInfo { get; private set; }
 
    /// <summary>
    /// 正式/沙箱模式
