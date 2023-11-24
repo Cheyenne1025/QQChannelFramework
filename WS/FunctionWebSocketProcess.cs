@@ -207,6 +207,32 @@ partial class FunctionWebSocket {
                   case GuildEvents.C2C_MESSAGE_CREATE:
                      ReceivedChatUserMessage?.Invoke(data["d"].ToObject<ChatMessage>());
                      break;
+
+                  case GuildEvents.GROUP_ADD_ROBOT:
+                     ChatGroupAdded?.Invoke(data["d"].ToObject<ChatMessageGroupEvent>());
+                     break;
+                  case GuildEvents.GROUP_DEL_ROBOT:
+                     ChatGroupRemoved?.Invoke(data["d"].ToObject<ChatMessageGroupEvent>());
+                     break;
+                  case GuildEvents.GROUP_MSG_REJECT:
+                     ChatGroupMessageReject?.Invoke(data["d"].ToObject<ChatMessageGroupEvent>());
+                     break;
+                  case GuildEvents.GROUP_MSG_RECEIVE:
+                     ChatGroupMessageReceive?.Invoke(data["d"].ToObject<ChatMessageGroupEvent>());
+                     break;
+
+                  case GuildEvents.FRIEND_ADD:
+                     ChatUserAdded?.Invoke(data["d"].ToObject<ChatMessageUserEvent>());
+                     break;
+                  case GuildEvents.FRIEND_DEL:
+                     ChatUserRemoved?.Invoke(data["d"].ToObject<ChatMessageUserEvent>());
+                     break;
+                  case GuildEvents.C2C_MSG_REJECT:
+                     ChatUserMessageReject?.Invoke(data["d"].ToObject<ChatMessageUserEvent>());
+                     break;
+                  case GuildEvents.C2C_MSG_RECEIVE:
+                     ChatUserMessageReceive?.Invoke(data["d"].ToObject<ChatMessageUserEvent>());
+                     break;
                }
             } else {
                BotLog.Log($"未知事件 {t} {data}");

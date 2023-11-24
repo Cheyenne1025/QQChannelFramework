@@ -22,6 +22,8 @@ partial class FunctionWebSocket {
    public delegate void ForumReplyDelegate(Reply reply);
    public delegate void FourmAuditDelegate(AuditResult auditResult);
    public delegate void ChatMessageDelegate(ChatMessage message);
+   public delegate void ChatMessageUserEventDelegate(ChatMessageUserEvent message);
+   public delegate void ChatMessageGroupEventDelegate(ChatMessageGroupEvent message);
 
    /// <summary>
    /// <para>触发时机: </para>
@@ -230,6 +232,7 @@ partial class FunctionWebSocket {
    /// 用户撤回消息时
    /// </summary>
    public event RetractMessageDelegate UserRetractMessage;
+
    /// <summary>
    /// 群聊消息
    /// </summary>
@@ -238,4 +241,38 @@ partial class FunctionWebSocket {
    /// 单聊消息
    /// </summary>
    public event ChatMessageDelegate ReceivedChatUserMessage;
+
+   /// <summary>
+   /// 加好友
+   /// </summary>
+   public event ChatMessageUserEventDelegate ChatUserAdded;
+   /// <summary>
+   /// 删好友
+   /// </summary>
+   public event ChatMessageUserEventDelegate ChatUserRemoved;
+   /// <summary>
+   /// 私聊关闭接收
+   /// </summary>
+   public event ChatMessageUserEventDelegate ChatUserMessageReject;
+   /// <summary>
+   /// 私聊打开接收
+   /// </summary>
+   public event ChatMessageUserEventDelegate ChatUserMessageReceive;
+
+   /// <summary>
+   /// 加群
+   /// </summary>
+   public event ChatMessageGroupEventDelegate ChatGroupAdded;
+   /// <summary>
+   /// 踢出群
+   /// </summary>
+   public event ChatMessageGroupEventDelegate ChatGroupRemoved;
+   /// <summary>
+   /// 群关闭接收
+   /// </summary>
+   public event ChatMessageGroupEventDelegate ChatGroupMessageReject;
+   /// <summary>
+   /// 群打开接收
+   /// </summary>
+   public event ChatMessageGroupEventDelegate ChatGroupMessageReceive;
 }

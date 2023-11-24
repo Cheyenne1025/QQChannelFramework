@@ -69,3 +69,19 @@ public class ChatMessage {
    [JsonProperty("attachments")]
    public List<ChatMessageAttachment> Attachments { get; set; }
 }
+
+public class ChatMessageGroupEvent {
+   [JsonProperty("group_openid")]
+   public string GroupOpenId { get; set; }
+   [JsonProperty("op_member_openid")]
+   public string OperateMemberId { get; set; }
+   [JsonProperty("timestamp")]
+   public long Timestamp { get; set; }
+}
+
+public class ChatMessageUserEvent {
+   [JsonProperty("openid")]
+   public string OpenId { get; set; }
+   [JsonProperty("timestamp")]
+   public long Timestamp { get; set; }
+}
