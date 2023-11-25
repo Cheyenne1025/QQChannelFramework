@@ -13,9 +13,9 @@ using QQChannelFramework.Tools;
 namespace QQChannelFramework.Api.Base;
 
 public class ApiBase {
-   private readonly string _releaseUrl = "https://api.sgroup.qq.com";
+   private const string ReleaseUrl = "https://api.sgroup.qq.com";
 
-   private readonly string _sandBoxUrl = "https://sandbox.api.sgroup.qq.com";
+   private const string SandBoxUrl = "https://sandbox.api.sgroup.qq.com";
 
    private readonly OpenApiAccessInfo _openApiAccessInfo;
 
@@ -25,13 +25,13 @@ public class ApiBase {
 
    private HttpContent _content;
 
-   private static HttpClient _client;
+   private static readonly HttpClient Client;
 
    static ApiBase() {
-      _client = new HttpClient(new SocketsHttpHandler() {
+      Client = new HttpClient(new SocketsHttpHandler() {
          PooledConnectionLifetime = TimeSpan.FromMinutes(30)
       });
-      _client.Timeout = TimeSpan.FromSeconds(10);
+      Client.Timeout = TimeSpan.FromSeconds(10);
    }
 
    public ApiBase(OpenApiAccessInfo openApiAccessInfo) {
@@ -114,7 +114,7 @@ public class ApiBase {
 
    public async Task<JToken> RequestAsync(string api, HttpMethod method) {
 
-      string _requestUrl = _requestMode == RequestMode.Release ? _releaseUrl : _sandBoxUrl;
+      string _requestUrl = _requestMode == RequestMode.Release ? ReleaseUrl : SandBoxUrl;
 
       _requestUrl = $"{_requestUrl}{api}";
 
@@ -130,7 +130,7 @@ public class ApiBase {
 
       if (req.Method != HttpMethod.Get)
          req.Content = _content;
-      responseMessage = await _client.SendAsync(req).ConfigureAwait(false);
+      responseMessage = await Client.SendAsync(req).ConfigureAwait(false);
 
       var traceId = "Missing";
       if (responseMessage.Headers.TryGetValues("X-Tps-Trace-Id", out var val)) {
