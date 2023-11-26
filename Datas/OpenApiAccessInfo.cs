@@ -40,7 +40,7 @@ public class OpenApiAccessInfo {
    public OpenApiAccessInfo() {
       _refreshToken = new TimerTask(async () => {
          await GetAuthorization();
-      }, TimeSpan.FromSeconds(20));
+      }, TimeSpan.FromSeconds(10));
    }
 
    internal void Validate() {
@@ -58,13 +58,11 @@ public class OpenApiAccessInfo {
 
    public async Task<string> GetAuthorization() {
       using var _ = await _refreshLock.LockAsync();
-      if (DateTime.Now.AddSeconds(60) >= _refreshExpire && _auth != null) {
-         BotLog.Log($"使用 Bot 鉴权 {_auth}");
+      if (DateTime.Now.AddSeconds(30) >= _refreshExpire && _auth != null) {
          return _auth;
       }
 
       try {
-         BotLog.Log($"刷新 Bot 鉴权");
          using var http = new HttpClient();
          var resp = await http.PostAsync("https://bots.qq.com/app/getAppAccessToken", new StringContent(JsonConvert.SerializeObject(new {
             appId = BotAppId,
@@ -76,7 +74,7 @@ public class OpenApiAccessInfo {
 
          var expire = json["expires_in"]!.Value<int>();
          _refreshExpire = DateTime.Now.AddSeconds(expire);
-         BotLog.Log($"使用 Bot 鉴权 {_auth}");
+         BotLog.Log($"刷新 Bot 鉴权 {_auth}");
          return _auth;
       } catch (Exception ex) {
          BotLog.Log(ex);
