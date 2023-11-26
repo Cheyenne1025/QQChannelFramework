@@ -58,7 +58,7 @@ public class OpenApiAccessInfo {
 
    public async Task<string> GetAuthorization() {
       using var _ = await _refreshLock.LockAsync();
-      if (DateTime.Now.AddSeconds(30) >= _refreshExpire && _auth != null) {
+      if (DateTime.Now.AddSeconds(40) < _refreshExpire && !string.IsNullOrWhiteSpace(_auth)) {
          return _auth;
       }
 
@@ -72,9 +72,10 @@ public class OpenApiAccessInfo {
          var json = JObject.Parse(await resp.Content.ReadAsStringAsync());
          _auth = json["access_token"]!.Value<string>();
 
-         var expire = json["expires_in"]!.Value<int>();
+         var expire = int.Parse(json["expires_in"]!.Value<string>());
          _refreshExpire = DateTime.Now.AddSeconds(expire);
-         BotLog.Log($"刷新 Bot 鉴权 {_auth}");
+
+         BotLog.Log($"刷新 Bot 鉴权 {_auth} {expire} {_refreshExpire}");
          return _auth;
       } catch (Exception ex) {
          BotLog.Log(ex);
