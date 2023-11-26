@@ -247,7 +247,8 @@ partial class FunctionWebSocket {
             heartbeatTimer.Interval = int.Parse(data["d"]!["heartbeat_interval"]!.ToString());
             heartbeatTimer.Start();
 
-            var _identifyData = new IdentifyData {
+            // 目前用新的令牌鉴权会失败
+            _identifyData ??= new IdentifyData {
                intents = 0,
                token = $"QQBot {await _openApiAccessInfo.GetAuthorization()}",
                shard = _shard
@@ -264,9 +265,10 @@ partial class FunctionWebSocket {
                _identifyData.intents += (int)type;
             }
 
-            Load load = new();
-            load.op = (int)OpCode.Identify;
-            load.d = _identifyData;
+            Load load = new() {
+               op = (int)OpCode.Identify,
+               d = _identifyData
+            };
 
             SendAsync(JsonConvert.SerializeObject(load));
 

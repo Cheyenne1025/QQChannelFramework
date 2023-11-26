@@ -39,11 +39,13 @@ public partial class FunctionWebSocket : BaseWebSocket {
 
    private int[] _shard;
 
+   private IdentifyData _identifyData;
+
    public FunctionWebSocket(QQChannelApi api) {
       _sessionInfo = new();
       _shard = api.Shard;
-      _registeredEvents = new();
       _openApiAccessInfo = api.OpenApiAccessInfo;
+      _registeredEvents = new();
       OnRawWebsocketMessageReceived += Process;
       heartbeatTimer = new Timer();
 

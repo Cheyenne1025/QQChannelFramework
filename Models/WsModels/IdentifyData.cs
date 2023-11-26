@@ -6,7 +6,7 @@ namespace QQChannelFramework.Models.WsModels
     /// <summary>
     /// WebSocket鉴权信息
     /// </summary>
-    public struct IdentifyData
+    public class IdentifyData
     {
         public string token { get; set; }
 
