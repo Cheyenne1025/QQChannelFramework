@@ -70,6 +70,10 @@ public enum GuildEvents
     /// </summary>
     AT_MESSAGE_CREATE,
     /// <summary>
+    /// 公域消息撤回
+    /// </summary>
+    PUBLIC_MESSAGE_DELETE,
+    /// <summary>
     /// 重连事件补发完毕
     /// </summary>
     RESUMED,

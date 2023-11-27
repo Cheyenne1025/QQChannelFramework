@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using ChannelModels.Returns;
-using ChannelModels.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QQChannelFramework.Models;
 using QQChannelFramework.Models.AudioModels;
 using QQChannelFramework.Models.Forum;
 using QQChannelFramework.Models.MessageModels;
 using QQChannelFramework.Models.Types;
 using QQChannelFramework.Models.WsModels;
 using QQChannelFramework.Tools;
-
 namespace QQChannelFramework.WS;
 
 partial class FunctionWebSocket {
@@ -91,56 +87,58 @@ partial class FunctionWebSocket {
 
                   case GuildEvents.GUILD_MEMBER_ADD:
 
-                     NewMemberJoin?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                     NewMemberJoin?.Invoke(data["d"].ToObject<MemberWithGuildID>());
 
                      break;
 
                   case GuildEvents.GUILD_MEMBER_UPDATE:
 
-                     MemberInfoChange?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                     MemberInfoChange?.Invoke(data["d"].ToObject<MemberWithGuildID>());
 
                      break;
 
                   case GuildEvents.GUILD_MEMBER_REMOVE:
 
-                     MemberLeaveGuild?.Invoke(data["d"].ToObject<Models.MemberWithGuildID>());
+                     MemberLeaveGuild?.Invoke(data["d"].ToObject<MemberWithGuildID>());
 
                      break;
 
                   case GuildEvents.AT_MESSAGE_CREATE:
 
-                     ReceivedAtMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                     ReceivedAtMessage?.Invoke(data["d"].ToObject<Message>());
 
                      break;
 
                   case GuildEvents.MESSAGE_CREATE:
 
-                     ReceivedUserMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                     ReceivedUserMessage?.Invoke(data["d"].ToObject<Message>());
 
                      break;
 
                   case GuildEvents.MESSAGE_DELETE:
+                     UserRetractMessage?.Invoke(data["d"].ToObject<RetractMessage>());
+                     break;
 
-                     UserRetractMessage?.Invoke(data["d"].ToObject<Models.MessageModels.RetractMessage>());
-
+                  case GuildEvents.PUBLIC_MESSAGE_DELETE:
+                     UserRetractMessage?.Invoke(data["d"].ToObject<RetractMessage>());
                      break;
 
                   case GuildEvents.DIRECT_MESSAGE_CREATE:
 
-                     ReceivedDirectMessage?.Invoke(data["d"].ToObject<Models.MessageModels.Message>());
+                     ReceivedDirectMessage?.Invoke(data["d"].ToObject<Message>());
 
                      break;
 
                   case GuildEvents.MESSAGE_REACTION_ADD:
 
-                     MessageReactionIsAdded?.Invoke(data["d"].ToObject<Models.MessageModels.MessageReaction>());
+                     MessageReactionIsAdded?.Invoke(data["d"].ToObject<MessageReaction>());
 
                      break;
 
                   case GuildEvents.MESSAGE_REACTION_REMOVE:
 
                      MessageReactionIsRemoved?.Invoke(data["d"]
-                        .ToObject<Models.MessageModels.MessageReaction>());
+                        .ToObject<MessageReaction>());
 
                      break;
 
@@ -248,7 +246,7 @@ partial class FunctionWebSocket {
             heartbeatTimer.Start();
 
             // 目前用新的令牌鉴权会失败
-            _identifyData ??= new IdentifyData {
+            var identifyData = new IdentifyData {
                intents = 0,
                token = $"QQBot {await _openApiAccessInfo.GetAuthorization()}",
                shard = _shard
@@ -262,12 +260,12 @@ partial class FunctionWebSocket {
                break;
             }
             foreach (var type in _registeredEvents) {
-               _identifyData.intents += (int)type;
+               identifyData.intents += (int)type;
             }
 
             Load load = new() {
                op = (int)OpCode.Identify,
-               d = _identifyData
+               d = identifyData
             };
 
             SendAsync(JsonConvert.SerializeObject(load));
