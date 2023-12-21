@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MyBot.Api.Base;
 using MyBot.Api.Raws;
 using MyBot.Api.Types;
+using MyBot.Models.MessageModels;
 namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
@@ -27,7 +28,7 @@ public class MessageSettingApi
     /// </summary>
     /// <param name="guildID">主频道ID</param>
     /// <returns></returns>
-    public async ValueTask<MessageSettingApi> GetSetting(string guildID)
+    public async ValueTask<MessageSetting> GetSetting(string guildID)
     {
         RawGetMessageSettingInfoApi rawGetMessageSettingInfoApi;
 
@@ -38,6 +39,6 @@ public class MessageSettingApi
 
         var requestData =  await _apiBase.RequestAsync(processedInfo).ConfigureAwait(false);
 
-        return requestData.ToObject<MessageSettingApi>();
+        return requestData.ToObject<MessageSetting>();
     }
 }
