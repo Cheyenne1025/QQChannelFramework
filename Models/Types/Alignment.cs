@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.Types
+﻿namespace MyBot.Models.Types
 {
     public enum Alignment : int
     {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.Forum
+﻿namespace MyBot.Models.Forum
 {
     /// <summary>
     /// 该事件在话题频道内新发表主题或删除时生产事件中包含该对象

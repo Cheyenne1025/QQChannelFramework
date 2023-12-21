@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Api.Types;
+﻿namespace MyBot.Api.Types;
 
 /// <summary>
 /// 请求模式

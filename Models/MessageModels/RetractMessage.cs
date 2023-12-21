@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using Newtonsoft.Json;
-
-namespace QQChannelFramework.Models.MessageModels;
+﻿using Newtonsoft.Json;
+namespace MyBot.Models.MessageModels;
 
 /// <summary>
 /// 撤回消息模型

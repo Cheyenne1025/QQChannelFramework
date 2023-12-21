@@ -1,7 +1,5 @@
-﻿using System;
-using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws
 {
     /// <summary>
     /// 源Api信息 - 改指定子频道的权限

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MajsoulBot.Utils;
 using MyBot.Tools;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QQChannelFramework.Tools;
+
+namespace MyBot.Datas;
 
 /// <summary>
 /// OpenApi接入信息

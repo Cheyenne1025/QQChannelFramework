@@ -1,4 +1,4 @@
-﻿namespace ChannelModels.Types;
+﻿namespace MyBot.Models.Types;
 
 /// <summary>
 /// 播放状态

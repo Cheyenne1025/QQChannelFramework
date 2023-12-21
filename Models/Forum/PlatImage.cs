@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.Forum
+﻿namespace MyBot.Models.Forum
 {
     /// <summary>
     /// 富文本 - 平台图片属性

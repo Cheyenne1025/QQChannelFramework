@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models.AudioModels;
-
-namespace QQChannelFramework.Api;
+using MyBot.Api.Base;
+using MyBot.Api.Types;
+using MyBot.Models.AudioModels;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public AudioControlApi GetAudioControlApi() {

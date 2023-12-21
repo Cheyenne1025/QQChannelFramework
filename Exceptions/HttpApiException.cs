@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Exceptions; 
+﻿namespace MyBot.Exceptions; 
 
 public class HttpApiException : Exception {
     

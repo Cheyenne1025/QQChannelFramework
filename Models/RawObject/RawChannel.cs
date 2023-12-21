@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.RawObject;
+﻿namespace MyBot.Models.RawObject;
 
 /// <summary>
 /// 源对象 - 子频道对象

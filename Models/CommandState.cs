@@ -1,5 +1,4 @@
-﻿using System;
-namespace QQChannelFramework.Models
+﻿namespace MyBot.Models
 {
     /// <summary>
     /// 指令状态

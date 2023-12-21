@@ -1,8 +1,6 @@
-﻿using System;
-using QQChannelFramework.Datas;
-using QQChannelFramework.Models.Types;
-
-namespace QQChannelFramework.WS;
+﻿using MyBot.Datas;
+using MyBot.Models.Types;
+namespace MyBot.WS;
 
 partial class FunctionWebSocket {
    /// <summary>

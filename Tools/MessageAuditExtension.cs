@@ -1,10 +1,10 @@
-﻿using QQChannelFramework.Api;
-using QQChannelFramework.Exceptions;
-using QQChannelFramework.Expansions.Bot;
-using QQChannelFramework.Models.MessageModels;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Tools;
+﻿using System.Threading.Tasks;
+using MyBot.Api;
+using MyBot.Exceptions;
+using MyBot.Expansions.Bot;
+using MyBot.Models.MessageModels;
+using MyBot.Models.Returns;
+namespace MyBot.Tools;
 public static class MessageAuditExtension
 {
     /// <summary>
@@ -25,7 +25,7 @@ public static class MessageAuditExtension
             var tcs = new TaskCompletionSource();
             WS.FunctionWebSocket.AuditDelegate eh = null!;
             Message message = default!;
-            eh = async (ChannelModels.Returns.MessageAudited audit) =>
+            eh = async (MessageAudited audit) =>
             {
                 if (audit.AuditId != e.AuditId) return;
                 bot.MessageAuditPass -= eh;

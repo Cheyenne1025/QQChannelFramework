@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace QQChannelFramework.Models.WsModels
+﻿namespace MyBot.Models.WsModels
 {
     /// <summary>
     /// WebSocket鉴权信息

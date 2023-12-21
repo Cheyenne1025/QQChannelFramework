@@ -1,6 +1,5 @@
-﻿using QQChannelFramework.WS;
-
-namespace QQChannelFramework.Expansions.Bot;
+﻿using MyBot.WS;
+namespace MyBot.Expansions.Bot;
 
 sealed partial class ChannelBot
 {

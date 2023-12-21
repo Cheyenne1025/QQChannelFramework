@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models.Forum;
-using QQChannelFramework.Tools;
-
-namespace QQChannelFramework.Api;
+using MyBot.Api.Base;
+using MyBot.Api.Types;
+using MyBot.Models.Forum;
+using MyBot.Models.Forum.Contents;
+using MyBot.Tools;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public ForumApi GetForumApi() {

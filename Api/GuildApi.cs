@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChannelModels;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Models;
-
-namespace QQChannelFramework.Api;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Models;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi
 { 

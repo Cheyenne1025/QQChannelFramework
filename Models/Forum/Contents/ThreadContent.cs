@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.Forum;
+﻿namespace MyBot.Models.Forum.Contents;
 
 /// <summary>
 /// 抽象帖子内容

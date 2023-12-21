@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ChannelModels.Types;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Api.Types;
+using MyBot.Datas;
+using MyBot.Models;
+using MyBot.Models.Types;
 using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Datas;
-using QQChannelFramework.Models;
-using QQChannelFramework.Models.Types;
-
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
     public ChannelApi GetChannelApi() {

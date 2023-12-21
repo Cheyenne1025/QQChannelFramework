@@ -1,14 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Models.ChannelPermissionModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
-namespace QQChannelFramework.Api;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Models.ChannelPermissionModels;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi
 {

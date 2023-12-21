@@ -1,6 +1,5 @@
-﻿using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws; 
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws; 
 
 public struct RawDirectSendMessageApi  : Base.IRawApiInfo
 {

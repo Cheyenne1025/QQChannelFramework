@@ -1,12 +1,10 @@
-﻿using System;
-using ChannelModels.Returns;
-using QQChannelFramework.Models;
-using QQChannelFramework.Models.AudioModels;
-using QQChannelFramework.Models.Forum;
-using QQChannelFramework.Models.MessageModels;
-using QQChannelFramework.Models.WsModels;
-
-namespace QQChannelFramework.WS;
+﻿using MyBot.Models;
+using MyBot.Models.AudioModels;
+using MyBot.Models.Forum;
+using MyBot.Models.MessageModels;
+using MyBot.Models.Returns;
+using MyBot.Models.WsModels;
+namespace MyBot.WS;
 
 partial class FunctionWebSocket {
    public delegate void GuildDelegate(WsGuild guild);

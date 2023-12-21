@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using QQChannelFramework.Models;
-
-namespace ChannelModels.Returns;
+namespace MyBot.Models.Returns;
 
 /// <summary>
 /// 拉取消息指定表情表态的用户列表

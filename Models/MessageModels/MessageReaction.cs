@@ -1,7 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace QQChannelFramework.Models.MessageModels;
+﻿using Newtonsoft.Json;
+namespace MyBot.Models.MessageModels;
 
 /// <summary>
 /// 表情态对象

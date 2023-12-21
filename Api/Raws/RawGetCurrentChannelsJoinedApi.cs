@@ -1,6 +1,5 @@
-﻿using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws;
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 获取当前用户频道列表

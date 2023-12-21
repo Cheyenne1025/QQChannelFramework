@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-
-namespace QQChannelFramework.Models.MessageModels;
+namespace MyBot.Models.MessageModels;
 
 public class MessageArkKv
 {

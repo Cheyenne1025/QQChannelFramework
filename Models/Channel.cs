@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using ChannelModels.Types;
+using MyBot.Models.Types;
 using Newtonsoft.Json;
-using QQChannelFramework.Models.Types;
-
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 子频道对象

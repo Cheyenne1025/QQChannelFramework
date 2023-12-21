@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-namespace MajsoulBot.Utils;
+namespace MyBot.Tools;
 
 public class AsyncLock {
    private readonly Task<IDisposable> _releaserTask;

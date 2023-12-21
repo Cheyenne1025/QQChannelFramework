@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
-
-namespace QQChannelFramework.Api.Types;
+namespace MyBot.Api.Types;
 
 public enum MethodType {
     GET,

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using MyBot.Models.Types;
 using Newtonsoft.Json;
-using QQChannelFramework.Models.Types;
-
-namespace QQChannelFramework.Models.MessageModels;
+namespace MyBot.Models.MessageModels;
 
 /// <summary>
 /// 表态对象

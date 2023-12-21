@@ -1,11 +1,5 @@
-﻿using ChannelModels.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.AudioModels
+﻿using MyBot.Models.Types;
+namespace MyBot.Models.AudioModels
 {
     public class AudioControl
     {

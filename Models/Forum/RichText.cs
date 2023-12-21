@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Models.Forum
+﻿using System.Collections.Generic;
+namespace MyBot.Models.Forum
 {
     /// <summary>
     /// 富文本内容

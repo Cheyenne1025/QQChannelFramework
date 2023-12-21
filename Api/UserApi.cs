@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Models;
-using QQChannelFramework.Api.Raws;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using MyBot.Api.Base;
+using MyBot.Api.Raws;
+using MyBot.Models;
 using Newtonsoft.Json.Linq;
-
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 sealed partial class QQChannelApi {
    public UserApi GetUserApi() {

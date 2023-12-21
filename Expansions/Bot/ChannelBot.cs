@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using QQChannelFramework.Api;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models;
-using QQChannelFramework.Models.MessageModels;
-using QQChannelFramework.Models.Types;
-using QQChannelFramework.Models.WsModels;
-using QQChannelFramework.Tools;
-using QQChannelFramework.WS;
-
-namespace QQChannelFramework.Expansions.Bot;
+using MyBot.Api;
+using MyBot.Models;
+using MyBot.Models.MessageModels;
+using MyBot.Tools;
+using MyBot.WS;
+namespace MyBot.Expansions.Bot;
 
 /// <summary>
 /// QQ频道机器人

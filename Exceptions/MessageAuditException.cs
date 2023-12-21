@@ -1,6 +1,4 @@
-﻿using QQChannelFramework.Expansions.Bot;
-using System.Threading.Tasks;
-namespace QQChannelFramework.Exceptions;
+﻿namespace MyBot.Exceptions;
 
 /// <summary>
 /// 主动消息触发审核时返回的异常

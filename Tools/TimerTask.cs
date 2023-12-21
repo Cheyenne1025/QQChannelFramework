@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using QQChannelFramework.Tools;
 namespace MyBot.Tools {
    public class TimerTask : IDisposable {
       private Task _loop;

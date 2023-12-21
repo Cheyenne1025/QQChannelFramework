@@ -1,7 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace QQChannelFramework.Tools.JsonConverters
+﻿using Newtonsoft.Json;
+namespace MyBot.Tools.JsonConverters
 {
     internal class EnumToStringConverter<TEnumType> : Newtonsoft.Json.JsonConverter
     {

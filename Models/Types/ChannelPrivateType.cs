@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.Types; 
+﻿namespace MyBot.Models.Types; 
 
 public enum ChannelPrivateType {
     Public,

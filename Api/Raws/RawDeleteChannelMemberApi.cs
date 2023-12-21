@@ -1,7 +1,5 @@
-﻿using System;
-using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws
 {
     /// <summary>
     /// 源Api信息 - 删除频道成员

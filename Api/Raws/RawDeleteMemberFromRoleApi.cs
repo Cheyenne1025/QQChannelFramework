@@ -1,6 +1,5 @@
-﻿using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws;
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 从身份组中删除成员

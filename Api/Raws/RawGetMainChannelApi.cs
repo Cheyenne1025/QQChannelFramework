@@ -1,7 +1,6 @@
-﻿using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Types;
-
-namespace QQChannelFramework.Api.Raws;
+﻿using MyBot.Api.Base;
+using MyBot.Api.Types;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 获取主频道信息

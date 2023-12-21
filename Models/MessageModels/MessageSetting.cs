@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Newtonsoft.Json;
-
-namespace QQChannelFramework.Models.MessageModels;
+namespace MyBot.Models.MessageModels;
 
 /// <summary>
 /// 频道消息频率设置对象

@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Api.Base;
+﻿namespace MyBot.Api.Base;
 
 /// <summary>
 /// 已加工的Api信息

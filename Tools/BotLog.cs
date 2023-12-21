@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace QQChannelFramework.Tools;
+﻿namespace MyBot.Tools;
 
 /// <summary>
 /// 

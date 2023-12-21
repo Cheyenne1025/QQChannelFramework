@@ -1,11 +1,5 @@
-﻿using QQChannelFramework.Api.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QQChannelFramework.Api.Raws;
+﻿using MyBot.Api.Types;
+namespace MyBot.Api.Raws;
 
 /// <summary>
 /// 源Api信息 - 撤回消息

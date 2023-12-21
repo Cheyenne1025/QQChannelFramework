@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using QQChannelFramework.Tools;
-
-namespace QQChannelFramework.Api.Base;
+using MyBot.Api.Types;
+using MyBot.Datas;
+using MyBot.Exceptions;
+using MyBot.Tools;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+namespace MyBot.Api.Base;
 
 public class ApiBase {
    private const string ReleaseUrl = "https://api.sgroup.qq.com";
@@ -29,7 +28,7 @@ public class ApiBase {
 
    static ApiBase() {
       Client = new HttpClient(new SocketsHttpHandler() {
-         PooledConnectionLifetime = TimeSpan.FromMinutes(30)
+         PooledConnectionLifetime = TimeSpan.FromMinutes(120)
       });
       Client.Timeout = TimeSpan.FromSeconds(10);
    }

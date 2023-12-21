@@ -1,16 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using MyBot.Api.Base;
+using MyBot.Models.MessageModels;
 using Newtonsoft.Json.Linq;
-using QQChannelFramework.Api.Base;
-using QQChannelFramework.Api.Raws;
-using QQChannelFramework.Api.Types;
-using QQChannelFramework.Models.MessageModels;
-
-namespace QQChannelFramework.Api;
+namespace MyBot.Api;
 
 public enum ChatMessageType {
    Text = 0,

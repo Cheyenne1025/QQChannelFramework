@@ -1,4 +1,4 @@
-﻿namespace QQChannelFramework.Models.Forum.Contents;
+﻿namespace MyBot.Models.Forum.Contents;
 
 /// <summary>
 /// 论坛帖子内容 - Html内容

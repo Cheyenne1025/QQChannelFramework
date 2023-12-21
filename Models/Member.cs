@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using ChannelModels.Types;
+using MyBot.Tools.JsonConverters;
 using Newtonsoft.Json;
-using QQChannelFramework.Tools.JsonConverters;
-
-namespace QQChannelFramework.Models;
+namespace MyBot.Models;
 
 /// <summary>
 /// 成员对象
