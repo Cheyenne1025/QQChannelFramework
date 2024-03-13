@@ -5,7 +5,7 @@
 开发文档: https://www.yuque.com/chianne1025/mybot</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>MyBot</PackageId>
-    <PackageVersion>1.7.0</PackageVersion>
+    <PackageVersion>1.8.0</PackageVersion>
     <Title>MyBot</Title>
     <Authors>Chianne1025, cnSchwarzer</Authors>
     <Copyright>MyBot Team</Copyright>
@@ -19,8 +19,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile> 
     <Nullable>disable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <FileVersion>1.7.0.0</FileVersion>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
     <AssemblyName>MyBot</AssemblyName>
     <RootNamespace>MyBot</RootNamespace>
     <LangVersion>12</LangVersion>
