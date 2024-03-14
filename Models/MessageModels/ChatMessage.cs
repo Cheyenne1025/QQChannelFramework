@@ -9,7 +9,7 @@ public class ChatMessageResp {
    [JsonProperty("id")]
    public string Id { get; set; }
    [JsonProperty("timestamp")]
-   public int Timestamp { get; set; }
+   public DateTime Timestamp { get; set; }
 }
 
 /// <summary>
