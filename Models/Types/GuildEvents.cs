@@ -172,5 +172,9 @@ public enum GuildEvents
     /// <summary>
     /// 群聊被@
     /// </summary>
-    GROUP_AT_MESSAGE_CREATE
+    GROUP_AT_MESSAGE_CREATE,
+    /// <summary>
+    /// 主动订阅
+    /// </summary>
+    SUBSCRIBE_MESSAGE_STATUS
 }

@@ -22,6 +22,7 @@ partial class FunctionWebSocket {
    public delegate void ChatMessageDelegate(ChatMessage message);
    public delegate void ChatMessageUserEventDelegate(ChatMessageUserEvent message);
    public delegate void ChatMessageGroupEventDelegate(ChatMessageGroupEvent message);
+   public delegate void SubscribeMessageStatus(SubscribeMessageEvent subscribe);
 
    /// <summary>
    /// <para>触发时机: </para>
@@ -273,4 +274,9 @@ partial class FunctionWebSocket {
    /// 群打开接收
    /// </summary>
    public event ChatMessageGroupEventDelegate ChatGroupMessageReceive;
+
+   /// <summary>
+   /// 主动订阅消息事件
+   /// </summary>
+   public event SubscribeMessageStatus SubscribeMessageReceive;
 }

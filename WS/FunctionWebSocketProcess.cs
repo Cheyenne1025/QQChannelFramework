@@ -34,10 +34,10 @@ partial class FunctionWebSocket {
                switch (e) {
                   case GuildEvents.READY:
 
-                     _sessionInfo.Version = data["d"]["version"].ToString();
-                     _sessionInfo.SessionId = data["d"]["session_id"].ToString();
-                     _sessionInfo.BotId = data["d"]["user"]["id"].ToString();
-                     _sessionInfo.Name = data["d"]["user"]["username"].ToString();
+                     _sessionInfo.Version = data["d"]?["version"]?.ToString();
+                     _sessionInfo.SessionId = data["d"]?["session_id"]?.ToString();
+                     _sessionInfo.BotId = data["d"]?["user"]?["id"]?.ToString();
+                     _sessionInfo.Name = data["d"]?["user"]?["username"]?.ToString();
 
                      AuthenticationSuccess?.Invoke();
 
@@ -230,6 +230,10 @@ partial class FunctionWebSocket {
                      break;
                   case GuildEvents.C2C_MSG_RECEIVE:
                      ChatUserMessageReceive?.Invoke(data["d"].ToObject<ChatMessageUserEvent>());
+                     break;
+                  
+                  case GuildEvents.SUBSCRIBE_MESSAGE_STATUS:
+                     SubscribeMessageReceive?.Invoke(data["d"].ToObject<SubscribeMessageEvent>());
                      break;
                }
             } else {
