@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace MyBot.Models.MessageModels;
 
 /// <summary>
-/// 群聊 / 单聊消息
+/// 单聊/群聊消息响应结果。
 /// </summary>
 public class ChatMessageResp {
    [JsonProperty("id")]
@@ -13,7 +13,7 @@ public class ChatMessageResp {
 }
 
 /// <summary>
-/// 群聊 / 单聊消息媒体
+/// 单聊/群聊富媒体消息响应结果。
 /// </summary>
 public class ChatMediaResp {
    [JsonProperty("file_info")]
@@ -25,7 +25,7 @@ public class ChatMediaResp {
 }
 
 /// <summary>
-/// 群聊 / 单聊消息媒体发送
+/// 单聊/群聊富媒体消息的发送文件信息。
 /// </summary>
 public class ChatMessageMedia {
    [JsonProperty("file_info")]
